@@ -8,10 +8,10 @@
     tools:context="com.example.phoenixtree.view.ParticipateActivity"
     tools:showIn="@layout/app_bar_participate">
 
-    <TextView
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:id="@+id/participate_frame"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

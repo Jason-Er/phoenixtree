@@ -3,6 +3,8 @@ package com.example.phoenixtree.view;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -42,6 +44,16 @@ public class ParticipateActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // attach fragment to main layout
+        ParticipateFragment participateFragment = (ParticipateFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.participate_frame);
+
+        if (participateFragment == null) {
+            participateFragment = new ParticipateFragment();
+
+            addFragment(R.id.participate_frame, participateFragment);
+        }
     }
 
     @Override
@@ -99,5 +111,11 @@ public class ParticipateActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void addFragment(int containerViewId, Fragment fragment) {
+        final FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(containerViewId, fragment);
+        fragmentTransaction.commit();
     }
 }
