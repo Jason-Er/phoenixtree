@@ -3,8 +3,6 @@ package com.example.phoenixtree.view;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.util.Common;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,8 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         if (participateFragment == null) {
             participateFragment = new ParticipateFragment();
-
-            addFragment(R.id.participate_frame, participateFragment);
+            Common.addFragment(R.id.participate_frame, participateFragment, this);
         }
     }
 
@@ -113,9 +111,4 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void addFragment(int containerViewId, Fragment fragment) {
-        final FragmentTransaction fragmentTransaction = this.getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment);
-        fragmentTransaction.commit();
-    }
 }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.util.Common;
 import com.example.phoenixtree.viewmodel.ParticipateViewModel;
 
 /**
@@ -31,7 +32,14 @@ public class ParticipateFragment extends LifecycleFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_participate, container, false);
+        View root = inflater.inflate(R.layout.fragment_participate, container, false);
+        SceneFragment sceneFragment = (SceneFragment) getActivity().getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_participate_frame);
+        if (sceneFragment == null) {
+            sceneFragment = new SceneFragment();
+            Common.addFragment(R.id.participate_frame, sceneFragment, getActivity());
+        }
+        return root;
     }
 
 }
