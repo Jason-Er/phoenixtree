@@ -18,12 +18,12 @@ import com.example.phoenixtree.viewmodel.ParticipateViewModel;
  */
 public class ParticipateFragment extends LifecycleFragment {
 
-//    private ParticipateViewModel viewModel;
+    private ParticipateViewModel viewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        viewModel = ViewModelProviders.of(this).get(ParticipateViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(ParticipateViewModel.class);
 
     }
 
