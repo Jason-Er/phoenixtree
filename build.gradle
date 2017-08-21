@@ -15,9 +15,14 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url 'https://dl.google.com/dl/android/maven2/' }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    arch_version = '1.0.0-alpha5'
 }
