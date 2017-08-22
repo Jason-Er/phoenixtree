@@ -42,7 +42,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return dataset == null? 0 : dataset.getRoles().size();
+        return dataset == null? 2 : dataset.getRoles().size();
     }
 
 }

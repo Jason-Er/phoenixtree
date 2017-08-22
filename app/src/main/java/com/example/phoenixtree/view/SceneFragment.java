@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.util.SceneAdapter;
+import com.example.phoenixtree.util.SceneLayoutManager;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
 
 /**
@@ -52,7 +53,7 @@ public class SceneFragment extends LifecycleFragment {
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_scene, container, false);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getContext());
+        layoutManager = new SceneLayoutManager();// new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SceneAdapter(null);
         recyclerView.setAdapter(adapter);
