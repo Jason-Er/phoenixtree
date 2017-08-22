@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import com.example.phoenixtree.Model.Role;
 import com.example.phoenixtree.R;
 
-import java.util.Optional;
-
 /**
  * Created by ej on 8/22/2017.
  */
@@ -44,7 +42,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return dataset == null? 0 : dataset.length;
+        return dataset == null? 2 : dataset.length;
     }
 
 }

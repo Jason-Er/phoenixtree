@@ -13,12 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.Model.Scene;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.util.SceneAdapter;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
-
-import java.util.Optional;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,12 +39,10 @@ public class SceneFragment extends LifecycleFragment {
         super.onActivityCreated(savedInstanceState);
         String userId = "1"; // getArguments().getString(UID_KEY);
         sceneViewModel = ViewModelProviders.of(this).get(SceneViewModel.class);
-        /*
-        sceneViewModel.init(userId);
+        sceneViewModel.load(userId);
         sceneViewModel.getScene().observe(this, scene -> {
             // update UI
         });
-        */
     }
 
     @Override
