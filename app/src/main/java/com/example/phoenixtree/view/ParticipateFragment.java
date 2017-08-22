@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.phoenixtree.viewmodel.ParticipateViewModel;
  */
 public class ParticipateFragment extends LifecycleFragment {
 
+    final private static String TAG = ParticipateFragment.class.getName();
     private ParticipateViewModel viewModel;
 
     @Override
@@ -31,6 +33,7 @@ public class ParticipateFragment extends LifecycleFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "ParticipateFragment onCreateView");
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_participate, container, false);
         SceneFragment sceneFragment = (SceneFragment) getActivity().getSupportFragmentManager()
