@@ -40,7 +40,7 @@ public class SceneFragment extends LifecycleFragment {
         String userId = "1"; // getArguments().getString(UID_KEY);
         sceneViewModel = ViewModelProviders.of(this).get(SceneViewModel.class);
         sceneViewModel.load(userId);
-        sceneViewModel.getScene().observe(this, scene -> {
+        sceneViewModel.getKeyframe().observe(this, keyframe -> {
             // update UI
         });
     }

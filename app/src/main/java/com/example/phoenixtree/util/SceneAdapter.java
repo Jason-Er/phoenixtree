@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.Model.Role;
+import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.R;
 
 /**
@@ -13,7 +13,7 @@ import com.example.phoenixtree.R;
  */
 
 public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.ViewHolder>{
-    private Role[] dataset;
+    private Keyframe dataset;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -23,7 +23,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.ViewHolder>{
         }
     }
 
-    public SceneAdapter(Role[] dataset) {
+    public SceneAdapter(Keyframe dataset) {
         this.dataset = dataset;
     }
 
@@ -42,7 +42,7 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
-        return dataset == null? 2 : dataset.length;
+        return dataset == null? 0 : dataset.getRoles().size();
     }
 
 }
