@@ -1,5 +1,6 @@
 package com.example.phoenixtree.Model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -8,15 +9,15 @@ import java.util.Set;
  */
 
 public class Keyframe {
-    private Set<Role> roles;
-    private Map mapLines;
-    private Map mapPositons;
+    private List<Role> roles;
+    private Map<Role, String> mapLines;
+    private Map<Role, Position3D> mapPositons;
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
