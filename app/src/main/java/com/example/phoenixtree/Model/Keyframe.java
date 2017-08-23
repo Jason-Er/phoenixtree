@@ -9,6 +9,7 @@ import java.util.Set;
  */
 
 public class Keyframe {
+    private Stage stage;
     private List<Role> roles;
     private Map<Role, String> mapLines;
     private Map<Role, Position3D> mapPositons;
@@ -35,5 +36,13 @@ public class Keyframe {
 
     public void setMapPositon(Map mapPositons) {
         this.mapPositons = mapPositons;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

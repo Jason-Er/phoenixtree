@@ -36,6 +36,7 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
             return;
         }
         detachAndScrapAttachedViews(recycler);
+
         // layout according to position
         int offsetY = 0;
         for(int i=0; i< getItemCount(); i++) {

@@ -1,5 +1,6 @@
 package com.example.phoenixtree.util;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,53 +12,142 @@ import com.example.phoenixtree.Model.Position3D;
 import com.example.phoenixtree.Model.Role;
 import com.example.phoenixtree.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by ej on 8/22/2017.
  */
 
-public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.ViewHolder>{
-    private Keyframe dataset;
+public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    private Keyframe keyframe;
+    private List<ItemViewInfo> dataset;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView viewX;
-        TextView viewY;
-        TextView viewZ;
+    class RoleLine {
+        private Role role;
+        private String string;
 
-        public ViewHolder(View v) {
+        public RoleLine(Role role, String string) {
+            this.role = role;
+            this.string = string;
+        }
+    }
+
+    class ItemViewInfo {
+        private SceneViewType sceneViewType;
+        private Object object;
+
+        public ItemViewInfo(SceneViewType sceneViewType, Object object) {
+            this.sceneViewType = sceneViewType;
+            this.object = object;
+        }
+
+        public Object getObject() {
+            return object;
+        }
+
+        int getType() {
+            return sceneViewType.ordinal();
+        }
+    }
+
+    class RoleViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.role_view_position_x) TextView viewX;
+        @BindView(R.id.role_view_position_y) TextView viewY;
+        @BindView(R.id.role_view_position_z) TextView viewZ;
+
+        public RoleViewHolder(View v) {
             super(v);
-            viewX = (TextView)v.findViewById(R.id.role_view_position_x);
-            viewY = (TextView)v.findViewById(R.id.role_view_position_y);
-            viewZ = (TextView)v.findViewById(R.id.role_view_position_z);
+            ButterKnife.bind(this, v);
         }
 
     }
 
-    public SceneAdapter(Keyframe dataset) {
-        this.dataset = dataset;
+    class StageViewHolder extends RecyclerView.ViewHolder {
+
+        public StageViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
+        }
+    }
+
+    class LineViewHolder extends RecyclerView.ViewHolder {
+
+        public LineViewHolder(View v) {
+            super(v);
+            ButterKnife.bind(this, v);
+        }
+    }
+
+    public SceneAdapter(@NonNull Keyframe keyframe) {
+        this.keyframe = keyframe;
+        dataset = new ArrayList<>();
+        dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.getStage()));
+        for(Role role: keyframe.getRoles()) {
+            dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
+        }
+
+        Iterator<Map.Entry<Role, String>> entries = keyframe.getMapLines().entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<Role, String> entry = entries.next();
+            dataset.add(new ItemViewInfo(SceneViewType.LINE, new RoleLine(entry.getKey(), entry.getValue())));
+        }
+
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.role_view, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        RecyclerView.ViewHolder vh = null;
+        View v;
+        switch (SceneViewType.values()[viewType]) {
+            case STAGE:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.role_view, parent, false);
+                vh = new StageViewHolder(v);
+                break;
+            case ROLE:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.role_view, parent, false);
+                vh = new RoleViewHolder(v);
+                break;
+            case LINE:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.role_view, parent, false);
+                vh = new LineViewHolder(v);
+                break;
+        }
+
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        if(dataset != null) {
-            Role role = dataset.getRoles().get(position);
-            Position3D position3D = (Position3D)dataset.getMapPositon().get(role);
-            holder.viewX.setText(String.valueOf(position3D.getX()));
-            holder.viewY.setText(String.valueOf(position3D.getY()));
-            holder.viewZ.setText(String.valueOf(position3D.getZ()));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof StageViewHolder) {
+
+        } else if (holder instanceof RoleViewHolder) {
+            Role role = (Role) dataset.get(position).getObject();
+            Position3D position3D = (Position3D)keyframe.getMapPositon().get(role);
+            ((RoleViewHolder) holder).viewX.setText(String.valueOf(position3D.getX()));
+            ((RoleViewHolder) holder).viewY.setText(String.valueOf(position3D.getY()));
+            ((RoleViewHolder) holder).viewZ.setText(String.valueOf(position3D.getZ()));
+        } else if (holder instanceof LineViewHolder) {
+
         }
     }
 
     @Override
     public int getItemCount() {
-        return dataset == null? 0 : dataset.getRoles().size();
+        return dataset == null? 0 : dataset.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return dataset.get(position).getType();
+    }
 }
