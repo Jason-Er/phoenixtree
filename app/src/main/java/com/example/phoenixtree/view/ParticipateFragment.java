@@ -40,7 +40,7 @@ public class ParticipateFragment extends LifecycleFragment {
                 .findFragmentById(R.id.fragment_participate_frame);
         if (sceneFragment == null) {
             sceneFragment = new SceneFragment();
-            Common.addFragment(R.id.participate_frame, sceneFragment, getActivity());
+            Common.addFragment(R.id.fragment_participate_frame, sceneFragment, getActivity());
         }
         return root;
     }

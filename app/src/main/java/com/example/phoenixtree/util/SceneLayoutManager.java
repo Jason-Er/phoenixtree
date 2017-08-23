@@ -35,6 +35,5 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
             layoutDecorated(view, 0, offsetY, width, offsetY + height);
             offsetY += height;
         }
-        super.onLayoutChildren(recycler, state);
     }
 }
