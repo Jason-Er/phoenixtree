@@ -1,12 +1,12 @@
 package com.example.phoenixtree.util;
 
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.phoenixtree.Model.Position3D;
 import com.example.phoenixtree.R;
 
 /**
@@ -15,7 +15,8 @@ import com.example.phoenixtree.R;
 
 public class SceneLayoutManager extends RecyclerView.LayoutManager{
 
-    final static String TAG = SceneLayoutManager.class.getName();
+    final private static float STAGE_RATIO = 16f / 9f;
+    final private static String TAG = SceneLayoutManager.class.getName();
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -66,13 +67,32 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         measureChildWithMargins(view, 0, 0);
 
         int width = getDecoratedMeasuredWidth(view);
-        int height = width * 9 / 16;//getDecoratedMeasuredHeight(view);
+        int height = getDecoratedMeasuredHeight(view);
 
-        ViewGroup.LayoutParams lp = view.getLayoutParams();
-        lp.height = width * 9 / 16;
-        view.setLayoutParams(lp);
+        layoutDecorated(view, 0, 0, width, height);
+        /*
+        int width = getDecoratedMeasuredWidth(view);
+        int height = (int) (width / STAGE_RATIO);//getDecoratedMeasuredHeight(view);
+        int parentHeight = ((View)view.getParent()).getHeight();
 
-        layoutDecorated(view, 0, 0, width, 0 + height);
+        if(view.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                && height > parentHeight ) {
+
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            lp.width = (int) (parentHeight * STAGE_RATIO);
+            view.setLayoutParams(lp);
+
+            layoutDecorated(view, (int)(width - parentHeight * STAGE_RATIO) / 2, 0, (int)(width + parentHeight * STAGE_RATIO) / 2, parentHeight);
+
+        } else {
+
+            ViewGroup.LayoutParams lp = view.getLayoutParams();
+            lp.height = height;
+            view.setLayoutParams(lp);
+
+            layoutDecorated(view, 0, (parentHeight - height)/2, width, (parentHeight + height)/2);
+        }
+        */
     }
 
     private void layoutRoleItemView(View view) {
@@ -89,7 +109,7 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         int width = getDecoratedMeasuredWidth(view);
         int height = getDecoratedMeasuredHeight(view);
 
-        layoutDecorated(view, 0, 0, width, 0 + height);
+        layoutDecorated(view, width, height, width*2, height*2);
 
     }
 
