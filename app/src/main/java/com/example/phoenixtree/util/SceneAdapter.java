@@ -2,6 +2,7 @@ package com.example.phoenixtree.util;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
  */
 
 public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    private final String TAG = SceneAdapter.class.getName();
     private Keyframe keyframe;
     private List<ItemViewInfo> dataset;
 
@@ -108,7 +110,7 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         switch (SceneViewType.values()[viewType]) {
             case STAGE:
                 v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.role_view, parent, false);
+                        .inflate(R.layout.stage_view, parent, false);
                 vh = new StageViewHolder(v);
                 break;
             case ROLE:
@@ -118,7 +120,7 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                 break;
             case LINE:
                 v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.role_view, parent, false);
+                        .inflate(R.layout.line_view, parent, false);
                 vh = new LineViewHolder(v);
                 break;
         }
@@ -129,15 +131,16 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StageViewHolder) {
-
+            Log.i(TAG, "onBindViewHolder instanceof StageViewHolder");
         } else if (holder instanceof RoleViewHolder) {
+            Log.i(TAG, "onBindViewHolder instanceof RoleViewHolder");
             Role role = (Role) dataset.get(position).getObject();
             Position3D position3D = (Position3D)keyframe.getMapPositon().get(role);
             ((RoleViewHolder) holder).viewX.setText(String.valueOf(position3D.getX()));
             ((RoleViewHolder) holder).viewY.setText(String.valueOf(position3D.getY()));
             ((RoleViewHolder) holder).viewZ.setText(String.valueOf(position3D.getZ()));
         } else if (holder instanceof LineViewHolder) {
-
+            Log.i(TAG, "onBindViewHolder instanceof LineViewHolder");
         }
     }
 
