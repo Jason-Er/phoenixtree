@@ -3,6 +3,7 @@ package com.example.phoenixtree.util;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.phoenixtree.Model.Position3D;
@@ -38,34 +39,61 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         detachAndScrapAttachedViews(recycler);
 
         // layout according to position
-        int offsetY = 0;
+        layoutItemView(recycler);
+    }
+
+    private void layoutItemView(RecyclerView.Recycler recycler) {
         for(int i=0; i< getItemCount(); i++) {
             View view = recycler.getViewForPosition(i);
             int viewType = getItemViewType(view);
+            addView(view);
             switch (SceneViewType.values()[viewType]) {
                 case STAGE:
+                    layoutStageItemView(view);
                     break;
                 case ROLE:
-                    TextView textView = (TextView)view.findViewById(R.id.role_view_position_x);
-                    float x = Float.parseFloat(textView.getText().toString());
-                    textView = (TextView)view.findViewById(R.id.role_view_position_y);
-                    float y = Float.parseFloat(textView.getText().toString());
-                    textView = (TextView)view.findViewById(R.id.role_view_position_z);
-                    float z = Float.parseFloat(textView.getText().toString());
+                    layoutRoleItemView(view);
                     break;
                 case LINE:
+                    layoutLineItemView(view);
                     break;
             }
-
-            addView(view);
-
-            measureChildWithMargins(view, 0, 0);
-
-            int width = getDecoratedMeasuredWidth(view);
-            int height = getDecoratedMeasuredHeight(view);
-
-            layoutDecorated(view, 0, offsetY, width, offsetY + height);
-            offsetY += height;
         }
+    }
+
+    private void layoutStageItemView(View view) {
+
+        measureChildWithMargins(view, 0, 0);
+
+        int width = getDecoratedMeasuredWidth(view);
+        int height = width * 9 / 16;//getDecoratedMeasuredHeight(view);
+
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        lp.height = width * 9 / 16;
+        view.setLayoutParams(lp);
+
+        layoutDecorated(view, 0, 0, width, 0 + height);
+    }
+
+    private void layoutRoleItemView(View view) {
+
+        TextView textView = (TextView)view.findViewById(R.id.role_view_position_x);
+        float x = Float.parseFloat(textView.getText().toString());
+        textView = (TextView)view.findViewById(R.id.role_view_position_y);
+        float y = Float.parseFloat(textView.getText().toString());
+        textView = (TextView)view.findViewById(R.id.role_view_position_z);
+        float z = Float.parseFloat(textView.getText().toString());
+
+        measureChildWithMargins(view, 0, 0);
+
+        int width = getDecoratedMeasuredWidth(view);
+        int height = getDecoratedMeasuredHeight(view);
+
+        layoutDecorated(view, 0, 0, width, 0 + height);
+
+    }
+
+    private void layoutLineItemView(View view) {
+
     }
 }
