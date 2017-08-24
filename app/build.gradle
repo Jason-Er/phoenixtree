@@ -48,6 +48,8 @@ dependencies {
 
     compile "com.jakewharton:butterknife:$butter_knife_version"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butter_knife_version"
+
+    compile 'com.android.support:percent:25.3.1'
 }
 
 
