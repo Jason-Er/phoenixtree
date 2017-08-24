@@ -41,14 +41,22 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         int offsetY = 0;
         for(int i=0; i< getItemCount(); i++) {
             View view = recycler.getViewForPosition(i);
-            /*
-            TextView textView = (TextView)view.findViewById(R.id.role_view_position_x);
-            float x = Float.parseFloat(textView.getText().toString());
-            textView = (TextView)view.findViewById(R.id.role_view_position_y);
-            float y = Float.parseFloat(textView.getText().toString());
-            textView = (TextView)view.findViewById(R.id.role_view_position_z);
-            float z = Float.parseFloat(textView.getText().toString());
-            */
+            int viewType = getItemViewType(view);
+            switch (SceneViewType.values()[viewType]) {
+                case STAGE:
+                    break;
+                case ROLE:
+                    TextView textView = (TextView)view.findViewById(R.id.role_view_position_x);
+                    float x = Float.parseFloat(textView.getText().toString());
+                    textView = (TextView)view.findViewById(R.id.role_view_position_y);
+                    float y = Float.parseFloat(textView.getText().toString());
+                    textView = (TextView)view.findViewById(R.id.role_view_position_z);
+                    float z = Float.parseFloat(textView.getText().toString());
+                    break;
+                case LINE:
+                    break;
+            }
+
             addView(view);
 
             measureChildWithMargins(view, 0, 0);
