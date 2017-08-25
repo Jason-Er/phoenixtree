@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.util.Fake;
 import com.example.phoenixtree.util.SceneAdapter;
 import com.example.phoenixtree.util.SceneLayoutManager;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
@@ -55,7 +57,8 @@ public class SceneFragment extends LifecycleFragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new SceneLayoutManager();// new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new SceneAdapter(null);
+        Keyframe keyframe = Fake.propagateKeyframe(); // TODO: 8/23/2017 for test only must be removed later
+        adapter = new SceneAdapter(keyframe);
         recyclerView.setAdapter(adapter);
         return recyclerView;
     }
