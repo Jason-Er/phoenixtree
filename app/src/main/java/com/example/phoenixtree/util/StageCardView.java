@@ -11,20 +11,20 @@ import com.example.phoenixtree.R;
  * Created by ej on 8/25/2017.
  */
 
-public class FixedAspectRatioCardView extends CardView {
+public class StageCardView extends CardView {
 
     private float ratio;
 
-    public FixedAspectRatioCardView(Context context) {
+    public StageCardView(Context context) {
         super(context);
     }
 
-    public FixedAspectRatioCardView(Context context, AttributeSet attrs) {
+    public StageCardView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public FixedAspectRatioCardView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public StageCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
@@ -32,10 +32,10 @@ public class FixedAspectRatioCardView extends CardView {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
-                R.styleable.FixedAspectRatioCardView,
+                R.styleable.StageCardView,
                 0, 0);
         try {
-            ratio = a.getFloat(R.styleable.FixedAspectRatioCardView_ratio, 0);
+            ratio = a.getFloat(R.styleable.StageCardView_ratio, 0);
         } finally {
             a.recycle();
         }
