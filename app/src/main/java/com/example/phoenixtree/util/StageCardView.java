@@ -2,6 +2,7 @@ package com.example.phoenixtree.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.RectF;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 
@@ -14,7 +15,7 @@ import com.example.phoenixtree.R;
 public class StageCardView extends CardView {
 
     private float ratio;
-
+    private RectF stageSurfaceSize;
     public StageCardView(Context context) {
         super(context);
     }
@@ -65,5 +66,13 @@ public class StageCardView extends CardView {
         super.onMeasure(
                 MeasureSpec.makeMeasureSpec(finalWidth, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(finalHeight, MeasureSpec.EXACTLY));
+    }
+
+    public RectF getStageSurfaceSize() {
+        return stageSurfaceSize;
+    }
+
+    public void setStageSurfaceSize(RectF stageSurfaceSize) {
+        this.stageSurfaceSize = stageSurfaceSize;
     }
 }

@@ -13,10 +13,5 @@
         android:layout_height="wrap_content"
         android:text="1.0"
         />
-    <TextView
-        android:id="@+id/line_view_role"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1.0"
-        android:visibility="invisible" />
+
 </android.support.v7.widget.CardView>

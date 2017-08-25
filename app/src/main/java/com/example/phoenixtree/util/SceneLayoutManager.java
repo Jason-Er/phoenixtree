@@ -1,6 +1,8 @@
 package com.example.phoenixtree.util;
 
 import android.content.res.Configuration;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -43,25 +45,42 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
     }
 
     private void layoutItemView(RecyclerView.Recycler recycler) {
+        Rect stageViewRect = new Rect();
+        RectF stageSurfaceRect = new RectF();
         for(int i=0; i< getItemCount(); i++) {
             View view = recycler.getViewForPosition(i);
             int viewType = getItemViewType(view);
-            addView(view);
             switch (SceneViewType.values()[viewType]) {
                 case STAGE:
-                    layoutStageItemView(view);
+                    stageSurfaceRect = ((StageCardView) view).getStageSurfaceSize();
+                    addView(view);
+                    stageViewRect = layoutStageItemView(view);
                     break;
                 case ROLE:
+                    calcViewSize(stageViewRect, stageSurfaceRect, (RoleCardView) view);
+                    addView(view);
                     layoutRoleItemView(view);
                     break;
                 case LINE:
+                    addView(view);
                     layoutLineItemView(view);
                     break;
             }
         }
     }
 
-    private void layoutStageItemView(View view) {
+    private void calcViewSize(Rect stageViewRect, RectF stageSurfaceRect, RoleCardView view) {
+        int width = stageViewRect.width();
+        float surfaceWidth = stageSurfaceRect.width();
+        float scale = width / surfaceWidth ;
+        RectF roleFigure = view.getRoleFigure();
+        int roleWidth = (int)(roleFigure.width() * scale);
+        int roleHeight = (int)(roleFigure.height() * scale);
+        view.setRealHeight(roleHeight);
+        view.setRealWidth(roleWidth);
+    }
+
+    private Rect layoutStageItemView(View view) {
 
         measureChildWithMargins(view, 0, 0);
 
@@ -73,23 +92,19 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
 
         layoutDecorated(view, (parentWidth-width)/2, (parentHeight-height)/2, (parentWidth+width)/2, (parentHeight+height)/2);
 
+        return new Rect(0,0,width, height);
     }
 
     private void layoutRoleItemView(View view) {
 
-        TextView textView = (TextView)view.findViewById(R.id.role_view_position_x);
-        float x = Float.parseFloat(textView.getText().toString());
-        textView = (TextView)view.findViewById(R.id.role_view_position_y);
-        float y = Float.parseFloat(textView.getText().toString());
-        textView = (TextView)view.findViewById(R.id.role_view_position_z);
-        float z = Float.parseFloat(textView.getText().toString());
+        float[] vertices = ((RoleCardView)view).getVertices();
 
         measureChildWithMargins(view, 0, 0);
 
         int width = getDecoratedMeasuredWidth(view);
         int height = getDecoratedMeasuredHeight(view);
 
-        layoutDecorated(view, width, height, width*2, height*2);
+        layoutDecorated(view, 0, 0, width, height);
 
     }
 

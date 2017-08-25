@@ -6,20 +6,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.Model.Position3D;
 import com.example.phoenixtree.Model.Role;
+import com.example.phoenixtree.Model.Stage;
 import com.example.phoenixtree.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -60,21 +58,25 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     class RoleViewHolder extends RecyclerView.ViewHolder {
+        RoleCardView view;
+        /*
         @BindView(R.id.role_view_position_x) TextView viewX;
         @BindView(R.id.role_view_position_y) TextView viewY;
         @BindView(R.id.role_view_position_z) TextView viewZ;
-
+        */
         public RoleViewHolder(View v) {
             super(v);
-            ButterKnife.bind(this, v);
+            view = (RoleCardView)v;
+            // ButterKnife.bind(this, v);
         }
 
     }
 
     class StageViewHolder extends RecyclerView.ViewHolder {
-
+        StageCardView view;
         public StageViewHolder(View v) {
             super(v);
+            view = (StageCardView)v;
             ButterKnife.bind(this, v);
         }
     }
@@ -132,13 +134,14 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StageViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof StageViewHolder");
+            Stage stage = (Stage) dataset.get(position).getObject();
+            ((StageViewHolder) holder).view.setStageSurfaceSize(stage.getStageSurfaceSize());
         } else if (holder instanceof RoleViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof RoleViewHolder");
             Role role = (Role) dataset.get(position).getObject();
             Position3D position3D = (Position3D)keyframe.getMapPositon().get(role);
-            ((RoleViewHolder) holder).viewX.setText(String.valueOf(position3D.getX()));
-            ((RoleViewHolder) holder).viewY.setText(String.valueOf(position3D.getY()));
-            ((RoleViewHolder) holder).viewZ.setText(String.valueOf(position3D.getZ()));
+            ((RoleViewHolder) holder).view.setVertices(new float[]{position3D.getX(),position3D.getY(),position3D.getZ()});
+            ((RoleViewHolder) holder).view.setRoleFigure(role.getRoleFigure());
         } else if (holder instanceof LineViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof LineViewHolder");
         }

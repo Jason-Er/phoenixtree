@@ -1,6 +1,7 @@
 package com.example.phoenixtree.util;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 
@@ -10,9 +11,11 @@ import android.util.AttributeSet;
 
 public class RoleCardView extends CardView {
 
-    // private float[] vertices = new float[3];
     private int realHeight;
     private int realWidth;
+
+    private RectF roleFigure;
+    private float[] vertices;
 
     public RoleCardView(Context context) {
         super(context);
@@ -25,7 +28,7 @@ public class RoleCardView extends CardView {
     public RoleCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-/*
+
     public float[] getVertices() {
         return vertices;
     }
@@ -33,7 +36,15 @@ public class RoleCardView extends CardView {
     public void setVertices(float[] vertices) {
         this.vertices = vertices;
     }
-*/
+
+    public RectF getRoleFigure() {
+        return roleFigure;
+    }
+
+    public void setRoleFigure(RectF roleFigure) {
+        this.roleFigure = roleFigure;
+    }
+
     public int getRealHeight() {
         return realHeight;
     }
