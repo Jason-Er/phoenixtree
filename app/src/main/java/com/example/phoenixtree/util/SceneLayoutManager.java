@@ -15,7 +15,6 @@ import com.example.phoenixtree.R;
 
 public class SceneLayoutManager extends RecyclerView.LayoutManager{
 
-    final private static float STAGE_RATIO = 16f / 9f;
     final private static String TAG = SceneLayoutManager.class.getName();
 
     @Override
@@ -69,30 +68,11 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         int width = getDecoratedMeasuredWidth(view);
         int height = getDecoratedMeasuredHeight(view);
 
-        layoutDecorated(view, 0, 0, width, height);
-        /*
-        int width = getDecoratedMeasuredWidth(view);
-        int height = (int) (width / STAGE_RATIO);//getDecoratedMeasuredHeight(view);
+        int parentWidth = ((View)view.getParent()).getWidth();
         int parentHeight = ((View)view.getParent()).getHeight();
 
-        if(view.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
-                && height > parentHeight ) {
+        layoutDecorated(view, (parentWidth-width)/2, (parentHeight-height)/2, (parentWidth+width)/2, (parentHeight+height)/2);
 
-            ViewGroup.LayoutParams lp = view.getLayoutParams();
-            lp.width = (int) (parentHeight * STAGE_RATIO);
-            view.setLayoutParams(lp);
-
-            layoutDecorated(view, (int)(width - parentHeight * STAGE_RATIO) / 2, 0, (int)(width + parentHeight * STAGE_RATIO) / 2, parentHeight);
-
-        } else {
-
-            ViewGroup.LayoutParams lp = view.getLayoutParams();
-            lp.height = height;
-            view.setLayoutParams(lp);
-
-            layoutDecorated(view, 0, (parentHeight - height)/2, width, (parentHeight + height)/2);
-        }
-        */
     }
 
     private void layoutRoleItemView(View view) {
