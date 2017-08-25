@@ -1,15 +1,10 @@
 package com.example.phoenixtree.util;
 
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.example.phoenixtree.R;
 
 /**
  * Created by ej on 8/22/2017.
@@ -57,9 +52,9 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
                     stageViewRect = layoutStageItemView(view);
                     break;
                 case ROLE:
-                    calcViewSize(stageViewRect, stageSurfaceRect, (RoleCardView) view);
+                    calcRoleViewSize(stageViewRect, stageSurfaceRect, (RoleCardView) view);
                     addView(view);
-                    layoutRoleItemView(view);
+                    layoutRoleItemView(view, stageViewRect);
                     break;
                 case LINE:
                     addView(view);
@@ -69,7 +64,7 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         }
     }
 
-    private void calcViewSize(Rect stageViewRect, RectF stageSurfaceRect, RoleCardView view) {
+    private void calcRoleViewSize(Rect stageViewRect, RectF stageSurfaceRect, RoleCardView view) {
         int width = stageViewRect.width();
         float surfaceWidth = stageSurfaceRect.width();
         float scale = width / surfaceWidth ;
@@ -78,6 +73,15 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         int roleHeight = (int)(roleFigure.height() * scale);
         view.setRealHeight(roleHeight);
         view.setRealWidth(roleWidth);
+    }
+
+    private Rect calcRoleViewPosition(float[] vertices, Rect roleSize, Rect stageView) {
+        Rect roleViewPositon = new Rect();
+        roleViewPositon.left = stageView.left + (stageView.width() - roleSize.width())/2;
+        roleViewPositon.top = stageView.top + (stageView.height() - roleSize.height())/2;
+        roleViewPositon.right = stageView.left + (stageView.width() + roleSize.width())/2;
+        roleViewPositon.bottom = stageView.top + (stageView.height() + roleSize.height())/2;
+        return roleViewPositon;
     }
 
     private Rect layoutStageItemView(View view) {
@@ -92,10 +96,10 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
 
         layoutDecorated(view, (parentWidth-width)/2, (parentHeight-height)/2, (parentWidth+width)/2, (parentHeight+height)/2);
 
-        return new Rect(0,0,width, height);
+        return new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
     }
 
-    private void layoutRoleItemView(View view) {
+    private void layoutRoleItemView(View view, Rect stageView) {
 
         float[] vertices = ((RoleCardView)view).getVertices();
 
@@ -104,7 +108,8 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         int width = getDecoratedMeasuredWidth(view);
         int height = getDecoratedMeasuredHeight(view);
 
-        layoutDecorated(view, 0, 0, width, height);
+        Rect rect = calcRoleViewPosition(vertices, new Rect(0,0,width,height), stageView);
+        layoutDecorated(view, rect.left, rect.top, rect.right, rect.bottom);
 
     }
 
