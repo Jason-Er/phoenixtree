@@ -23,8 +23,15 @@ public class Fake {
     static public Keyframe propagateKeyframe() {
         Keyframe keyframe = new Keyframe();
 
+        float[] stageVerties = {
+                -8f, 8f,0f,1f,
+                -8f,-8f,0f,1f,
+                 8f,-8f,0f,1f,
+                8f,8f,0f,1f,
+                8f,8f,10f,1f,
+                -8f,8f,10f,1f};
         Stage stage = new Stage();
-        stage.setStageSurfaceSize(new RectF(0f,0f,609.60f,487.68f));
+        stage.setStageVertices(stageVerties);
         keyframe.setStage(stage);
 
         List<Role> roles = new ArrayList<>();

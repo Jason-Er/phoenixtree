@@ -135,7 +135,7 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         if (holder instanceof StageViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof StageViewHolder");
             Stage stage = (Stage) dataset.get(position).getObject();
-            ((StageViewHolder) holder).view.setStageSurfaceSize(stage.getStageSurfaceSize());
+            ((StageViewHolder) holder).view.setStageVertices(stage.getStageVertices());
         } else if (holder instanceof RoleViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof RoleViewHolder");
             Role role = (Role) dataset.get(position).getObject();

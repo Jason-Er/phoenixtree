@@ -1,7 +1,6 @@
 package com.example.phoenixtree.Model;
 
 import android.graphics.Bitmap;
-import android.graphics.RectF;
 
 /**
  * Created by ej on 8/23/2017.
@@ -12,13 +11,13 @@ public class Stage {
     Bitmap setting;
     Bitmap surrouding;
 
-    RectF stageSurfaceSize;
+    float[] stageVertices;
 
-    public RectF getStageSurfaceSize() {
-        return stageSurfaceSize;
+    public float[] getStageVertices() {
+        return stageVertices;
     }
 
-    public void setStageSurfaceSize(RectF stageSurfaceSize) {
-        this.stageSurfaceSize = stageSurfaceSize;
+    public void setStageVertices(float[] stageVertices) {
+        this.stageVertices = stageVertices;
     }
 }

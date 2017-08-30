@@ -39,15 +39,31 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         // layout according to position
         layoutItemView(recycler);
     }
+    private float[] VPMatrix = {
+            1.6875f,
+            0.0f,
+            0.0f,
+            0.0f,
+            0.0f,
+            0.23138356f,
+            1.2185816f,
+            0.99702126f,
+            0.0f,
+            2.9910638f,
+                    -0.094267376f,
+                    -0.07712785f,
+            0.0f,
+                    -8.262117f,
+            13.207706f,
+            16.26085f};
     private Rect stageViewRect = new Rect();
-    private RectF stageSurfaceRect = new RectF();
     private void layoutItemView(RecyclerView.Recycler recycler) {
         for(int i=0; i< getItemCount(); i++) {
             View view = recycler.getViewForPosition(i);
             int viewType = getItemViewType(view);
             switch (SceneViewType.values()[viewType]) {
                 case STAGE:
-                    stageSurfaceRect = ((StageCardView) view).getStageSurfaceSize();
+                    float[] stageVertices =  ((StageCardView) view).getStageVertices();
                     addView(view);
                     stageViewRect = layoutStageItemView(view);
                     break;
@@ -67,24 +83,25 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         }
     }
 
+    private int[] calcStageView(float[] stageVertices, Rect stageView) {
+        float[] stageVerticesTrans = new float[16];
+        for(int i=0; i<4; i++) {
+            Matrix.multiplyMV(stageVerticesTrans, i*4, VPMatrix, 0, stageVertices, i*4);
+            stageVerticesTrans[i*4] /= stageVerticesTrans[i*4 + 3];
+            stageVerticesTrans[i*4 + 1] /= stageVerticesTrans[i*4 + 3];
+            stageVerticesTrans[i*4 + 2] /= stageVerticesTrans[i*4 + 3];
+        }
+        int[] stageViewPoints = new int[8];
+        for(int i=0; i<4; i++) {
+            stageViewPoints[i * 2] = (int)((stageVerticesTrans[i * 4]+ 1) * (stageView.width() / 2) + stageView.left);
+            stageViewPoints[i * 2 + 1] = (int)(-(stageVerticesTrans[i * 4 + 1]  + 1) * (stageView.height() / 2) + stageView.height() + stageView.top);
+        }
+        return stageViewPoints;
+    }
+
     private Rect calcRoleView(float[] roleVertices, Rect stageView) {
         Rect roleViewSize = new Rect();
-        float[] VPMatrix = {0.56249994f,
-                0.0f,
-                0.0f,
-                0.0f,
-                0.0f,
-                0.13928048f,
-                1.0585464f,
-                0.99025303f,
-                0.0f,
-                0.990253f,
-                -0.14888605f,
-                -0.1392805f,
-                0.0f,
-                -1.7325242f,
-                15.46332f,
-                16.40117f};
+
         float[] roleVerticesTrans = new float[16];
         for(int i=0; i<4; i++) {
             Matrix.multiplyMV(roleVerticesTrans, i*4, VPMatrix, 0, roleVertices, i*4);
