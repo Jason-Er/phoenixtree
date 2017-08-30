@@ -1,7 +1,6 @@
 package com.example.phoenixtree.util;
 
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.opengl.Matrix;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -50,10 +49,10 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
             0.99702126f,
             0.0f,
             2.9910638f,
-                    -0.094267376f,
-                    -0.07712785f,
+            -0.094267376f,
+            -0.07712785f,
             0.0f,
-                    -8.262117f,
+            -8.262117f,
             13.207706f,
             16.26085f};
     private Rect stageViewRect = new Rect();
@@ -63,7 +62,6 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
             int viewType = getItemViewType(view);
             switch (SceneViewType.values()[viewType]) {
                 case STAGE:
-                    float[] stageVertices =  ((StageCardView) view).getStageVertices();
                     addView(view);
                     stageViewRect = layoutStageItemView(view);
                     break;
@@ -81,22 +79,6 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
                     break;
             }
         }
-    }
-
-    private int[] calcStageView(float[] stageVertices, Rect stageView) {
-        float[] stageVerticesTrans = new float[16];
-        for(int i=0; i<4; i++) {
-            Matrix.multiplyMV(stageVerticesTrans, i*4, VPMatrix, 0, stageVertices, i*4);
-            stageVerticesTrans[i*4] /= stageVerticesTrans[i*4 + 3];
-            stageVerticesTrans[i*4 + 1] /= stageVerticesTrans[i*4 + 3];
-            stageVerticesTrans[i*4 + 2] /= stageVerticesTrans[i*4 + 3];
-        }
-        int[] stageViewPoints = new int[8];
-        for(int i=0; i<4; i++) {
-            stageViewPoints[i * 2] = (int)((stageVerticesTrans[i * 4]+ 1) * (stageView.width() / 2) + stageView.left);
-            stageViewPoints[i * 2 + 1] = (int)(-(stageVerticesTrans[i * 4 + 1]  + 1) * (stageView.height() / 2) + stageView.height() + stageView.top);
-        }
-        return stageViewPoints;
     }
 
     private Rect calcRoleView(float[] roleVertices, Rect stageView) {
