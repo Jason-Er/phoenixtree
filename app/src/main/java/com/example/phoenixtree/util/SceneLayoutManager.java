@@ -2,6 +2,7 @@ package com.example.phoenixtree.util;
 
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.opengl.Matrix;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -38,10 +39,9 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         // layout according to position
         layoutItemView(recycler);
     }
-
+    private Rect stageViewRect = new Rect();
+    private RectF stageSurfaceRect = new RectF();
     private void layoutItemView(RecyclerView.Recycler recycler) {
-        Rect stageViewRect = new Rect();
-        RectF stageSurfaceRect = new RectF();
         for(int i=0; i< getItemCount(); i++) {
             View view = recycler.getViewForPosition(i);
             int viewType = getItemViewType(view);
@@ -52,9 +52,12 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
                     stageViewRect = layoutStageItemView(view);
                     break;
                 case ROLE:
-                    calcRoleViewSize(stageViewRect, stageSurfaceRect, (RoleCardView) view);
+                    float[] roleVertices = ((RoleCardView) view).getRoleVertices();
+                    Rect roleRect = calcRoleView(roleVertices, stageViewRect);
+                    ((RoleCardView) view).setRealHeight(roleRect.height());
+                    ((RoleCardView) view).setRealWidth(roleRect.width());
                     addView(view);
-                    layoutRoleItemView(view, stageViewRect);
+                    layoutRoleItemView(view, roleRect);
                     break;
                 case LINE:
                     addView(view);
@@ -64,24 +67,54 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         }
     }
 
-    private void calcRoleViewSize(Rect stageViewRect, RectF stageSurfaceRect, RoleCardView view) {
-        int width = stageViewRect.width();
-        float surfaceWidth = stageSurfaceRect.width();
-        float scale = width / surfaceWidth ;
-        RectF roleFigure = view.getRoleFigure();
-        int roleWidth = (int)(roleFigure.width() * scale);
-        int roleHeight = (int)(roleFigure.height() * scale);
-        view.setRealHeight(roleHeight);
-        view.setRealWidth(roleWidth);
-    }
+    private Rect calcRoleView(float[] roleVertices, Rect stageView) {
+        Rect roleViewSize = new Rect();
+        float[] VPMatrix = {0.56249994f,
+                0.0f,
+                0.0f,
+                0.0f,
+                0.0f,
+                0.13928048f,
+                1.0585464f,
+                0.99025303f,
+                0.0f,
+                0.990253f,
+                -0.14888605f,
+                -0.1392805f,
+                0.0f,
+                -1.7325242f,
+                15.46332f,
+                16.40117f};
+        float[] roleVerticesTrans = new float[16];
+        for(int i=0; i<4; i++) {
+            Matrix.multiplyMV(roleVerticesTrans, i*4, VPMatrix, 0, roleVertices, i*4);
+            roleVerticesTrans[i*4] /= roleVerticesTrans[i*4 + 3];
+            roleVerticesTrans[i*4 + 1] /= roleVerticesTrans[i*4 + 3];
+            roleVerticesTrans[i*4 + 2] /= roleVerticesTrans[i*4 + 3];
+        }
 
-    private Rect calcRoleViewPosition(float[] vertices, Rect roleSize, Rect stageView) {
-        Rect roleViewPositon = new Rect();
-        roleViewPositon.left = stageView.left + (stageView.width() - roleSize.width())/2;
-        roleViewPositon.top = stageView.top + (stageView.height() - roleSize.height())/2;
-        roleViewPositon.right = stageView.left + (stageView.width() + roleSize.width())/2;
-        roleViewPositon.bottom = stageView.top + (stageView.height() + roleSize.height())/2;
-        return roleViewPositon;
+        float[] roleView = new float[8];
+        for(int i=0; i<4; i++) {
+            roleView[i * 2] = (roleVerticesTrans[i * 4]+ 1) * (stageView.width() / 2) + stageView.left;
+            roleView[i * 2 + 1] = -(roleVerticesTrans[i * 4 + 1]  + 1) * (stageView.height() / 2) + stageView.height() + stageView.top;
+        }
+
+        roleViewSize.left = (int)roleView[0];
+        roleViewSize.top = (int)roleView[1];
+        roleViewSize.right = roleViewSize.left;
+        roleViewSize.bottom = roleViewSize.top;
+        for(int i=1; i<3; i++) {
+            if (roleViewSize.left > (int)roleView[i*2])
+                roleViewSize.left = (int)roleView[i*2];
+            if (roleViewSize.top > (int)roleView[i*2+1])
+                roleViewSize.top = (int)roleView[i*2+1];
+            if (roleViewSize.right < (int)roleView[i*2])
+                roleViewSize.right = (int)roleView[i*2];
+            if (roleViewSize.bottom < (int)roleView[i*2+1])
+                roleViewSize.bottom = (int)roleView[i*2+1];
+        }
+
+        return roleViewSize;
     }
 
     private Rect layoutStageItemView(View view) {
@@ -99,18 +132,9 @@ public class SceneLayoutManager extends RecyclerView.LayoutManager{
         return new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
     }
 
-    private void layoutRoleItemView(View view, Rect stageView) {
-
-        float[] vertices = ((RoleCardView)view).getVertices();
-
+    private void layoutRoleItemView(View view, Rect roleView) {
         measureChildWithMargins(view, 0, 0);
-
-        int width = getDecoratedMeasuredWidth(view);
-        int height = getDecoratedMeasuredHeight(view);
-
-        Rect rect = calcRoleViewPosition(vertices, new Rect(0,0,width,height), stageView);
-        layoutDecorated(view, rect.left, rect.top, rect.right, rect.bottom);
-
+        layoutDecorated(view, roleView.left, roleView.top, roleView.right, roleView.bottom);
     }
 
     private void layoutLineItemView(View view) {

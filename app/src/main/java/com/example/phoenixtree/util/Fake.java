@@ -28,8 +28,12 @@ public class Fake {
         keyframe.setStage(stage);
 
         List<Role> roles = new ArrayList<>();
+        float[] roleVerties = {-1f,0f,0f,1f,
+                -1f,0f,6f,1f,
+                 1f,0f,6f,1f,
+                 1f,0f,0f,1f};
         Role role = new Role();
-        role.setRoleFigure(new RectF(0f,0f,56f,183f));
+        role.setRoleVertices(roleVerties);
         role.setName("mike");
         roles.add(role);
         keyframe.setRoles(roles);

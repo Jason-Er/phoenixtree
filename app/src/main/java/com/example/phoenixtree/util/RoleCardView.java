@@ -14,8 +14,7 @@ public class RoleCardView extends CardView {
     private int realHeight;
     private int realWidth;
 
-    private RectF roleFigure;
-    private float[] vertices;
+    private float[] roleVertices;
 
     public RoleCardView(Context context) {
         super(context);
@@ -29,20 +28,12 @@ public class RoleCardView extends CardView {
         super(context, attrs, defStyleAttr);
     }
 
-    public float[] getVertices() {
-        return vertices;
+    public float[] getRoleVertices() {
+        return roleVertices;
     }
 
-    public void setVertices(float[] vertices) {
-        this.vertices = vertices;
-    }
-
-    public RectF getRoleFigure() {
-        return roleFigure;
-    }
-
-    public void setRoleFigure(RectF roleFigure) {
-        this.roleFigure = roleFigure;
+    public void setRoleVertices(float[] roleVertices) {
+        this.roleVertices = roleVertices;
     }
 
     public int getRealHeight() {

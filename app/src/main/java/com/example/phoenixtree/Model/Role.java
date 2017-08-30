@@ -8,7 +8,7 @@ import android.graphics.RectF;
 
 public class Role {
     String name;
-    RectF roleFigure;
+    float[] roleVertices;
 
     public String getName() {
         return name;
@@ -18,11 +18,11 @@ public class Role {
         this.name = name;
     }
 
-    public RectF getRoleFigure() {
-        return roleFigure;
+    public float[] getRoleVertices() {
+        return roleVertices;
     }
 
-    public void setRoleFigure(RectF roleFigure) {
-        this.roleFigure = roleFigure;
+    public void setRoleVertices(float[] roleVertices) {
+        this.roleVertices = roleVertices;
     }
 }
