@@ -45,6 +45,7 @@ public class SceneFragment extends LifecycleFragment {
         sceneViewModel.load(userId);
         sceneViewModel.getKeyframe().observe(this, keyframe -> {
             // update UI
+            Log.i(TAG, "keyframe updated!");
         });
     }
 
