@@ -86,21 +86,22 @@ public class StageCardView extends CardView {
         // TODO: 8/30/2017 need be removed later
         super.onDraw(canvas);
         Paint paint = new Paint();
-        float[] VPMatrix = new float[16];
-        float[] ProjectionMatrix = new float[16];
-        float[] ViewMatrix = new float[16];
-
-        Matrix.setLookAtM(ViewMatrix,0,
-                0f, -16f, 4f,
-                0f, 12.4391f, 1.8f,
-                0f, 0f,1f);
-        float ratio = 16f / 9f;
-
-        Matrix.frustumM(ProjectionMatrix, 0,
-                -ratio, ratio, -1, 1,
-                3f, 30f);
-
-        Matrix.multiplyMM(VPMatrix, 0, ProjectionMatrix, 0, ViewMatrix, 0);
+        float[] VPMatrix = {1.6875f,
+                0.0f,
+                0.0f,
+                0.0f,
+                0.0f,
+                0.23138356f,
+                1.2185816f,
+                0.99702126f,
+                0.0f,
+                2.9910638f,
+                -0.094267376f,
+                -0.07712785f,
+                0.0f,
+                -8.262117f,
+                13.207706f,
+                16.26085f};
 
         float[] stageVerticesTrans = new float[stageVertices.length];
         for(int i=0; i< stageVertices.length/4; i++) {

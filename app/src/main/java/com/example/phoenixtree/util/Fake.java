@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.Model.Position3D;
 import com.example.phoenixtree.Model.Role;
+import com.example.phoenixtree.Model.Scene;
 import com.example.phoenixtree.Model.Stage;
 
 import java.util.ArrayList;
@@ -55,5 +56,9 @@ public class Fake {
         keyframe.setMapPositon(mapPositons);
 
         return keyframe;
+    }
+    static public Scene propagateScene() {
+        Scene scene = new Scene();
+        return scene;
     }
 }
