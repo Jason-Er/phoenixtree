@@ -39,7 +39,7 @@ public class SceneFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String sceneId = "1"; // getArguments().getString(UID_KEY);
+        long sceneId = 1L; // getArguments().getString(UID_KEY);
         viewModel = ViewModelProviders.of(this).get(SceneViewModel.class);
         viewModel.load(sceneId);
         viewModel.getKeyframe().observe(this, keyframe -> {

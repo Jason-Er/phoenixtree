@@ -7,26 +7,35 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.Model.Scene;
+import com.example.phoenixtree.repository.SceneRepository;
 import com.example.phoenixtree.util.Fake;
-import com.example.phoenixtree.util.KeyframeProcessor;
 import com.example.phoenixtree.util.PanelInterface;
+
+import javax.inject.Inject;
 
 /**
  * Created by ej on 8/22/2017.
  */
 
 public class SceneViewModel extends ViewModel implements PanelInterface {
-    private String sceneId;
-    private MediatorLiveData<Scene> scene;
+    private long sceneId;
+    private MediatorLiveData<Scene> scene = new MediatorLiveData<>();
     private final MutableLiveData<Keyframe> keyframe = new MediatorLiveData<>();
     private PanelInterface keyframeProcessor;
     private PanelInterface audioProcessor;
+    private SceneRepository repository;
 
-    public SceneViewModel() {
-        scene = new MediatorLiveData<>();
+    @Inject
+    public SceneViewModel(SceneRepository repository) {
+        this.repository = repository;
     }
-    public void load(String sceneId) {
+    public void load(long sceneId) {
         this.sceneId = sceneId;
+        /*
+        repository.getScene(sceneId).observe(this, sceneResource -> {
+
+        });
+        */
         keyframe.setValue(Fake.propagateKeyframe());
     }
     public LiveData<Keyframe> getKeyframe() {
