@@ -67,7 +67,7 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         public RoleViewHolder(View v) {
             super(v);
             view = (RoleCardView)v;
-            // ButterKnife.bind(this, v);
+            ButterKnife.bind(this, v);
         }
 
     }
@@ -89,20 +89,26 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
     }
 
-    public SceneAdapter(@NonNull Keyframe keyframe) {
-        this.keyframe = keyframe;
-        dataset = new ArrayList<>();
-        dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.getStage()));
-        for(Role role: keyframe.getRoles()) {
-            dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
-        }
+    public Keyframe getKeyframe() {
+        return keyframe;
+    }
 
-        Iterator<Map.Entry<Role, String>> entries = keyframe.getMapLines().entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<Role, String> entry = entries.next();
-            dataset.add(new ItemViewInfo(SceneViewType.LINE, new RoleLine(entry.getKey(), entry.getValue())));
-        }
+    public void setKeyframe(Keyframe keyframe) {
+        if(keyframe != null) {
+            this.keyframe = keyframe;
+            dataset = new ArrayList<>();
+            dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.getStage()));
+            for (Role role : keyframe.getRoles()) {
+                dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
+            }
 
+            Iterator<Map.Entry<Role, String>> entries = keyframe.getMapLines().entrySet().iterator();
+            while (entries.hasNext()) {
+                Map.Entry<Role, String> entry = entries.next();
+                dataset.add(new ItemViewInfo(SceneViewType.LINE, new RoleLine(entry.getKey(), entry.getValue())));
+            }
+            notifyDataSetChanged();
+        }
     }
 
     @Override

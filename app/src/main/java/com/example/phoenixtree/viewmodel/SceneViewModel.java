@@ -2,10 +2,12 @@ package com.example.phoenixtree.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.Model.Scene;
+import com.example.phoenixtree.util.Fake;
 import com.example.phoenixtree.util.KeyframeProcessor;
 import com.example.phoenixtree.util.PanelInterface;
 
@@ -16,18 +18,16 @@ import com.example.phoenixtree.util.PanelInterface;
 public class SceneViewModel extends ViewModel implements PanelInterface {
     private String sceneId;
     private MediatorLiveData<Scene> scene;
-    private MediatorLiveData<Keyframe> keyframe;
+    private final MutableLiveData<Keyframe> keyframe = new MediatorLiveData<>();
     private PanelInterface keyframeProcessor;
     private PanelInterface audioProcessor;
 
     public SceneViewModel() {
         scene = new MediatorLiveData<>();
-        keyframe = new MediatorLiveData<>();
     }
-    public LiveData<Scene> load(String sceneId) {
+    public void load(String sceneId) {
         this.sceneId = sceneId;
-        //scene.addSource();
-        return scene;
+        keyframe.setValue(Fake.propagateKeyframe());
     }
     public LiveData<Keyframe> getKeyframe() {
         return keyframe;

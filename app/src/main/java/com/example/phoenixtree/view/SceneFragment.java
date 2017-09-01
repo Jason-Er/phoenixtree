@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +27,7 @@ public class SceneFragment extends LifecycleFragment {
     final private static String TAG = SceneFragment.class.getName();
 
     private static final String UID_KEY = "uid";
-    private SceneViewModel sceneViewModel;
+    private SceneViewModel viewModel;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -40,11 +39,11 @@ public class SceneFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String userId = "1"; // getArguments().getString(UID_KEY);
-        sceneViewModel = ViewModelProviders.of(this).get(SceneViewModel.class);
-        sceneViewModel.load(userId);
-        sceneViewModel.getKeyframe().observe(this, keyframe -> {
-            // update UI
+        String sceneId = "1"; // getArguments().getString(UID_KEY);
+        viewModel = ViewModelProviders.of(this).get(SceneViewModel.class);
+        viewModel.load(sceneId);
+        viewModel.getKeyframe().observe(this, keyframe -> {
+            ((SceneAdapter)adapter).setKeyframe(keyframe);
             Log.i(TAG, "keyframe updated!");
         });
     }
@@ -58,8 +57,7 @@ public class SceneFragment extends LifecycleFragment {
         recyclerView.setHasFixedSize(true);
         layoutManager = new SceneLayoutManager();// new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        Keyframe keyframe = Fake.propagateKeyframe(); // TODO: 8/23/2017 for test only must be removed later
-        adapter = new SceneAdapter(keyframe);
+        adapter = new SceneAdapter();
         recyclerView.setAdapter(adapter);
         return recyclerView;
     }
