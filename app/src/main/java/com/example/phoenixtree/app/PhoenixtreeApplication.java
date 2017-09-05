@@ -1,34 +1,30 @@
 package com.example.phoenixtree.app;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.example.phoenixtree.di.ApplicationComponent;
-import com.example.phoenixtree.di.ApplicationModule;
-import com.example.phoenixtree.di.DaggerApplicationComponent;
+import com.example.phoenixtree.di.AppComponent;
+import com.example.phoenixtree.di.DaggerAppComponent;
 
 /**
  * Created by ej on 9/4/2017.
  */
 
 public class PhoenixtreeApplication extends Application {
-    protected ApplicationComponent applicationComponent;
 
-    public static PhoenixtreeApplication get(Context context) {
-        return (PhoenixtreeApplication) context.getApplicationContext();
-    }
+    private AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        applicationComponent = DaggerApplicationComponent
+        DaggerAppComponent
                 .builder()
-                .applicationModule(new ApplicationModule(this))
-                .build();
-        applicationComponent.inject(this);
+                .application(this)
+                .build()
+                .inject(this);
     }
 
-    public ApplicationComponent getApplicationComponent() {
-        return applicationComponent;
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
+
 }

@@ -1,7 +1,8 @@
-package com.example.phoenixtree.view;
+package com.example.phoenixtree.view.participate;
 
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,12 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.util.Fake;
 import com.example.phoenixtree.util.SceneAdapter;
 import com.example.phoenixtree.util.SceneLayoutManager;
+import com.example.phoenixtree.view.NavigationController;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,11 @@ import com.example.phoenixtree.viewmodel.SceneViewModel;
 public class SceneFragment extends LifecycleFragment {
 
     final private static String TAG = SceneFragment.class.getName();
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    NavigationController navigationController;
 
     private static final String UID_KEY = "uid";
     private SceneViewModel viewModel;

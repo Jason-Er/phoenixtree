@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view;
+package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -15,6 +15,8 @@ import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.util.Common;
+import com.example.phoenixtree.view.participate.ParticipateFragment;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,11 +48,11 @@ public class MainActivity extends AppCompatActivity
 
         // attach fragment to main layout
         ParticipateFragment participateFragment = (ParticipateFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.participate_frame);
+                .findFragmentById(R.id.main_container);
 
         if (participateFragment == null) {
             participateFragment = new ParticipateFragment();
-            Common.addFragment(R.id.participate_frame, participateFragment, this);
+            Common.addFragment(R.id.main_container, participateFragment, this);
         }
     }
 

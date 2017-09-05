@@ -4,8 +4,9 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.phoenixtree.di.label.ApplicationContext;
 import com.example.phoenixtree.di.label.DatabaseInfo;
+
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,22 +15,11 @@ import dagger.Provides;
  * Created by ej on 9/4/2017.
  */
 @Module
-public class ApplicationModule {
-
-    private final Application application;
-
-    public ApplicationModule(Application app) {
-        application = app;
-    }
+public class AppModule {
 
     @Provides
-    @ApplicationContext
-    Context provideContext() {
-        return application;
-    }
-
-    @Provides
-    Application provideApplication() {
+    @Singleton
+    Context provideContext(Application application) {
         return application;
     }
 
@@ -46,7 +36,7 @@ public class ApplicationModule {
     }
 
     @Provides
-    SharedPreferences provideSharedPrefs() {
+    SharedPreferences provideSharedPrefs(Application application) {
         return application.getSharedPreferences("demo-prefs", Context.MODE_PRIVATE);
     }
 }

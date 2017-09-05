@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view;
+package com.example.phoenixtree.view.participate;
 
 
 import android.arch.lifecycle.LifecycleFragment;

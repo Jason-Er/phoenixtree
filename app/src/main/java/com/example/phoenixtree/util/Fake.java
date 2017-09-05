@@ -1,8 +1,5 @@
 package com.example.phoenixtree.util;
 
-import android.graphics.RectF;
-import android.support.annotation.NonNull;
-
 import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.Model.Position3D;
 import com.example.phoenixtree.Model.Role;
@@ -10,11 +7,9 @@ import com.example.phoenixtree.Model.Scene;
 import com.example.phoenixtree.Model.Stage;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by ej on 8/23/2017.
