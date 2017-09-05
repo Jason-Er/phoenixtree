@@ -16,11 +16,10 @@ public class PhoenixtreeApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DaggerAppComponent
+        appComponent = DaggerAppComponent
                 .builder()
                 .application(this)
-                .build()
-                .inject(this);
+                .build();
     }
 
     public AppComponent getAppComponent() {

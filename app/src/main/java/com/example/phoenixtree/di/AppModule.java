@@ -14,8 +14,8 @@ import dagger.Provides;
 /**
  * Created by ej on 9/4/2017.
  */
-@Module
-public class AppModule {
+@Module(includes = ViewModelModule.class)
+class AppModule {
 
     @Provides
     @Singleton

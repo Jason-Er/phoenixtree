@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.app.PhoenixtreeApplication;
 import com.example.phoenixtree.util.SceneAdapter;
 import com.example.phoenixtree.util.SceneLayoutManager;
 import com.example.phoenixtree.view.NavigationController;
@@ -30,8 +31,6 @@ public class SceneFragment extends LifecycleFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    @Inject
-    NavigationController navigationController;
 
     private static final String UID_KEY = "uid";
     private SceneViewModel viewModel;
@@ -46,8 +45,11 @@ public class SceneFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        ((PhoenixtreeApplication)getActivity().getApplication())
+                .getAppComponent()
+                .inject(this);
         long sceneId = 1L; // getArguments().getString(UID_KEY);
-        viewModel = ViewModelProviders.of(this).get(SceneViewModel.class);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
         viewModel.load(sceneId);
         viewModel.getKeyframe().observe(this, keyframe -> {
             ((SceneAdapter)adapter).setKeyframe(keyframe);

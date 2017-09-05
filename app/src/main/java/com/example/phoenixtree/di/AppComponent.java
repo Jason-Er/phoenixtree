@@ -3,6 +3,8 @@ package com.example.phoenixtree.di;
 import android.app.Application;
 
 import com.example.phoenixtree.app.PhoenixtreeApplication;
+import com.example.phoenixtree.view.participate.ParticipateFragment;
+import com.example.phoenixtree.view.participate.SceneFragment;
 
 import javax.inject.Singleton;
 
@@ -24,4 +26,7 @@ public interface AppComponent {
     }
 
     void inject(PhoenixtreeApplication app);
+
+    void inject(ParticipateFragment participateFragment);
+    void inject(SceneFragment sceneFragment);
 }

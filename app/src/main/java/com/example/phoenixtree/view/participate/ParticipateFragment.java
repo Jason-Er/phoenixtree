@@ -2,6 +2,7 @@ package com.example.phoenixtree.view.participate;
 
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,8 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.app.PhoenixtreeApplication;
 import com.example.phoenixtree.util.Common;
 import com.example.phoenixtree.viewmodel.ParticipateViewModel;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,10 +27,16 @@ public class ParticipateFragment extends LifecycleFragment {
     final private static String TAG = ParticipateFragment.class.getName();
     private ParticipateViewModel viewModel;
 
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(ParticipateViewModel.class);
+        ((PhoenixtreeApplication)getActivity().getApplication())
+                .getAppComponent()
+                .inject(this);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
 
     }
 
