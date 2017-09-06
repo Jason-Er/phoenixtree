@@ -1,11 +1,15 @@
 package com.example.phoenixtree.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.example.phoenixtree.Model.Keyframe;
+import com.example.phoenixtree.Model.Resource;
 import com.example.phoenixtree.Model.Scene;
 import com.example.phoenixtree.repository.SceneRepository;
 import com.example.phoenixtree.util.Fake;
@@ -19,7 +23,9 @@ import javax.inject.Inject;
 
 public class SceneViewModel extends ViewModel implements PanelInterface {
     private long sceneId;
-    private MediatorLiveData<Scene> scene = new MediatorLiveData<>();
+    // private final LiveData<Resource<Scene>> scene;
+    // private MediatorLiveData<Scene> scene = new MediatorLiveData<>();
+    private final String TAG = SceneViewModel.class.getName();
     private final MutableLiveData<Keyframe> keyframe = new MediatorLiveData<>();
     private PanelInterface keyframeProcessor;
     private PanelInterface audioProcessor;
@@ -29,13 +35,11 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     public SceneViewModel(SceneRepository repository) {
         this.repository = repository;
     }
-    public void load(long sceneId) {
+    public void getScene(long sceneId, final LifecycleOwner owner) {
         this.sceneId = sceneId;
-        /*
-        repository.getScene(sceneId).observe(this, sceneResource -> {
-
+        repository.loadScene(sceneId).observe(owner, sceneResource -> {
+            Log.i(TAG, "getScene()");
         });
-        */
         keyframe.setValue(Fake.propagateKeyframe());
     }
     public LiveData<Keyframe> getKeyframe() {

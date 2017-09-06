@@ -17,7 +17,6 @@ import com.example.phoenixtree.R;
 import com.example.phoenixtree.app.PhoenixtreeApplication;
 import com.example.phoenixtree.util.SceneAdapter;
 import com.example.phoenixtree.util.SceneLayoutManager;
-import com.example.phoenixtree.view.NavigationController;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
 
 import javax.inject.Inject;
@@ -50,7 +49,7 @@ public class SceneFragment extends LifecycleFragment {
                 .inject(this);
         long sceneId = 1L; // getArguments().getString(UID_KEY);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
-        viewModel.load(sceneId);
+        viewModel.getScene(sceneId, this);
         viewModel.getKeyframe().observe(this, keyframe -> {
             ((SceneAdapter)adapter).setKeyframe(keyframe);
             Log.i(TAG, "keyframe updated!");
