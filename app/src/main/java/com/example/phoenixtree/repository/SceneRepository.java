@@ -5,10 +5,8 @@ import android.arch.lifecycle.MutableLiveData;
 
 import com.example.phoenixtree.Model.Resource;
 import com.example.phoenixtree.Model.Scene;
-import com.example.phoenixtree.dataservice.remote.Webservice;
+import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.util.Fake;
-
-import java.util.concurrent.Executor;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -18,16 +16,18 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class SceneRepository {
-    private final Webservice webservice;
-    private final Executor executor;
+    private final WebService webservice;
+    // private final Executor executor;
 
     final MutableLiveData<Resource<Scene>> liveData = new MutableLiveData<>();
 
     @Inject
-    public SceneRepository(Webservice webservice, Executor executor) {
+    public SceneRepository(WebService webservice /*, Executor executor*/) {
+        
         this.webservice = webservice;
+        /*
         this.executor = executor;
-
+        */
     }
 
     public LiveData<Resource<Scene>> getScene(long sceneId) {

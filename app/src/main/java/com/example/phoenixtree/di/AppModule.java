@@ -4,18 +4,33 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.di.label.DatabaseInfo;
+import com.example.phoenixtree.util.LiveDataCallAdapterFactory;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by ej on 9/4/2017.
  */
 @Module(includes = ViewModelModule.class)
 class AppModule {
+
+    @Singleton
+    @Provides
+    WebService provideWebService() {
+        return new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
+                .build()
+                .create(WebService.class);
+    }
 
     @Provides
     @Singleton

@@ -26,8 +26,8 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private SceneRepository repository;
 
     @Inject
-    public SceneViewModel(/* SceneRepository repository */) {
-        // this.repository = repository;
+    public SceneViewModel(SceneRepository repository) {
+        this.repository = repository;
     }
     public void load(long sceneId) {
         this.sceneId = sceneId;
