@@ -57,6 +57,10 @@ dependencies {
     compile "com.google.dagger:dagger:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
     // compile "com.google.dagger:dagger-android-support:$dagger_version"
+
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$adapterrxjava2Version"
+    compile "com.squareup.retrofit2:converter-gson:$convertergsonVersion"
 }
 
 
