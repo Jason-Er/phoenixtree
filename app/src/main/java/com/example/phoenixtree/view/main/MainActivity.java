@@ -3,6 +3,7 @@ package com.example.phoenixtree.view.main;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,15 +15,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.app.PhoenixtreeApplication;
+
 import com.example.phoenixtree.util.Common;
+import com.example.phoenixtree.view.NavigationController;
 import com.example.phoenixtree.view.participate.ParticipateFragment;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector {
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,6 +69,7 @@ public class MainActivity extends AppCompatActivity
             participateFragment = new ParticipateFragment();
             Common.addFragment(R.id.main_container, participateFragment, this);
         }
+
     }
 
     @Override
@@ -111,6 +127,11 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentDispatchingAndroidInjector;
     }
 
 }

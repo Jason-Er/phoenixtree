@@ -23,10 +23,8 @@ import javax.inject.Inject;
 
 public class SceneViewModel extends ViewModel implements PanelInterface {
     private long sceneId;
-    // private final LiveData<Resource<Scene>> scene;
-    // private MediatorLiveData<Scene> scene = new MediatorLiveData<>();
     private final String TAG = SceneViewModel.class.getName();
-    private final MutableLiveData<Keyframe> keyframe = new MediatorLiveData<>();
+    private final MediatorLiveData<Resource<Keyframe>> keyframe = new MediatorLiveData<>();
     private PanelInterface keyframeProcessor;
     private PanelInterface audioProcessor;
     private SceneRepository repository;
@@ -37,12 +35,22 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     }
     public void getScene(long sceneId, final LifecycleOwner owner) {
         this.sceneId = sceneId;
+        /*
         repository.loadScene(sceneId).observe(owner, sceneResource -> {
+            switch (sceneResource.status) {
+                case SUCCESS:
+                    keyframe.setValue(Resource.success(Fake.propagateKeyframe()));
+                    break;
+                case ERROR:
+                    break;
+                case LOADING:
+                    break;
+            }
             Log.i(TAG, "getScene()");
         });
-        keyframe.setValue(Fake.propagateKeyframe());
+        */
     }
-    public LiveData<Keyframe> getKeyframe() {
+    public LiveData<Resource<Keyframe>> getKeyframe() {
         return keyframe;
     }
 

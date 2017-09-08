@@ -4,6 +4,7 @@ package com.example.phoenixtree.view.participate;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,9 +16,13 @@ import android.view.ViewGroup;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.app.PhoenixtreeApplication;
 import com.example.phoenixtree.util.Common;
+import com.example.phoenixtree.view.NavigationController;
+import com.example.phoenixtree.view.main.MainActivity;
 import com.example.phoenixtree.viewmodel.ParticipateViewModel;
 
 import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,15 +34,12 @@ public class ParticipateFragment extends LifecycleFragment {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
+    @Inject
+    NavigationController navigationController;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((PhoenixtreeApplication)getActivity().getApplication())
-                .getAppComponent()
-                .inject(this);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
-
     }
 
     @Override
@@ -55,4 +57,10 @@ public class ParticipateFragment extends LifecycleFragment {
         return root;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
+        super.onAttach(context);
+    }
 }

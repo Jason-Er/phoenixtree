@@ -1,4 +1,4 @@
-package com.example.phoenixtree.di;
+package com.example.phoenixtree.app;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

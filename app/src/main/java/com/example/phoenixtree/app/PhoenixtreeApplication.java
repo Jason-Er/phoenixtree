@@ -1,29 +1,35 @@
 package com.example.phoenixtree.app;
 
+import android.app.Activity;
 import android.app.Application;
 
-import com.example.phoenixtree.di.AppComponent;
-import com.example.phoenixtree.di.DaggerAppComponent;
+import javax.inject.Inject;
+
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 
 /**
  * Created by ej on 9/4/2017.
  */
 
-public class PhoenixtreeApplication extends Application {
+public class PhoenixtreeApplication extends Application implements HasActivityInjector {
 
-    private AppComponent appComponent;
+    @Inject
+    DispatchingAndroidInjector<Activity> activityDispatchingAndroidInjector;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        appComponent = DaggerAppComponent
+        DaggerAppComponent
                 .builder()
                 .application(this)
-                .build();
+                .build()
+                .inject(this);
     }
 
-    public AppComponent getAppComponent() {
-        return appComponent;
+    @Override
+    public DispatchingAndroidInjector<Activity> activityInjector() {
+        return activityDispatchingAndroidInjector;
     }
 
 }

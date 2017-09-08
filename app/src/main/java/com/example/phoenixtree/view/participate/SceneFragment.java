@@ -4,6 +4,7 @@ package com.example.phoenixtree.view.participate;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,13 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.phoenixtree.Model.Resource;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.app.PhoenixtreeApplication;
+import com.example.phoenixtree.util.Fake;
 import com.example.phoenixtree.util.SceneAdapter;
 import com.example.phoenixtree.util.SceneLayoutManager;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
 
 import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,16 +49,6 @@ public class SceneFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((PhoenixtreeApplication)getActivity().getApplication())
-                .getAppComponent()
-                .inject(this);
-        long sceneId = 1L; // getArguments().getString(UID_KEY);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
-        viewModel.getScene(sceneId, this);
-        viewModel.getKeyframe().observe(this, keyframe -> {
-            ((SceneAdapter)adapter).setKeyframe(keyframe);
-            Log.i(TAG, "keyframe updated!");
-        });
     }
 
     @Override
@@ -70,4 +65,27 @@ public class SceneFragment extends LifecycleFragment {
         return recyclerView;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+
+        long sceneId = 1L; // getArguments().getString(UID_KEY);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
+        viewModel.getScene(sceneId, this);
+        /*
+        viewModel.getKeyframe().observe(this, sceneResource -> {
+            switch (sceneResource.status) {
+                case SUCCESS:
+                    ((SceneAdapter)adapter).setKeyframe(sceneResource.data);
+                    Log.i(TAG, "keyframe updated!");
+                    break;
+                case ERROR:
+                    break;
+                case LOADING:
+                    break;
+            }
+        });
+        */
+    }
 }
