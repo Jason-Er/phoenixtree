@@ -1,8 +1,11 @@
-package com.example.phoenixtree.view;
+package com.example.phoenixtree.view.participate;
 
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,11 +16,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.Model.Keyframe;
+import com.example.phoenixtree.Model.Resource;
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.app.PhoenixtreeApplication;
 import com.example.phoenixtree.util.Fake;
 import com.example.phoenixtree.util.SceneAdapter;
 import com.example.phoenixtree.util.SceneLayoutManager;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
+
+import javax.inject.Inject;
+
+import dagger.android.support.AndroidSupportInjection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +34,9 @@ import com.example.phoenixtree.viewmodel.SceneViewModel;
 public class SceneFragment extends LifecycleFragment {
 
     final private static String TAG = SceneFragment.class.getName();
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     private static final String UID_KEY = "uid";
     private SceneViewModel viewModel;
@@ -39,13 +51,6 @@ public class SceneFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        long sceneId = 1L; // getArguments().getString(UID_KEY);
-        viewModel = ViewModelProviders.of(this).get(SceneViewModel.class);
-        viewModel.load(sceneId);
-        viewModel.getKeyframe().observe(this, keyframe -> {
-            ((SceneAdapter)adapter).setKeyframe(keyframe);
-            Log.i(TAG, "keyframe updated!");
-        });
     }
 
     @Override
@@ -60,6 +65,33 @@ public class SceneFragment extends LifecycleFragment {
         adapter = new SceneAdapter();
         recyclerView.setAdapter(adapter);
         return recyclerView;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
+
+        long sceneId = 1L; // getArguments().getString(UID_KEY);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
+        viewModel.getScene(sceneId, this);
+
+        viewModel.getKeyframe().observe(this, new Observer<Resource<Keyframe>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Keyframe> keyframeResource) {
+                switch (keyframeResource.status) {
+                    case SUCCESS:
+                        ((SceneAdapter)adapter).setKeyframe(keyframeResource.data);
+                        Log.i(TAG, "keyframe updated!");
+                        break;
+                    case ERROR:
+                        break;
+                    case LOADING:
+                        break;
+                }
+            }
+        });
+
     }
 
 }

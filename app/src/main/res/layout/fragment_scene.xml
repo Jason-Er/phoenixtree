@@ -3,6 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_scene"
-    tools:context="com.example.phoenixtree.view.SceneFragment">
+    tools:context="com.example.phoenixtree.view.participate.SceneFragment">
 
 </android.support.v7.widget.RecyclerView>

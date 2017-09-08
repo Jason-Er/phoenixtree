@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.Model.Play;
 
+import javax.inject.Inject;
+
 /**
  * Created by ej on 8/21/2017.
  */
@@ -18,5 +20,10 @@ public class ParticipateViewModel extends ViewModel {
     }
     public LiveData<Play> getPlay() {
         return play;
+    }
+
+    @Inject
+    public ParticipateViewModel() {
+
     }
 }

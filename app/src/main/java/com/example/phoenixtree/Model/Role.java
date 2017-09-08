@@ -1,7 +1,5 @@
 package com.example.phoenixtree.Model;
 
-import android.graphics.RectF;
-
 /**
  * Created by ej on 8/22/2017.
  */

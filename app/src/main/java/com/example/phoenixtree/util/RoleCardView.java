@@ -1,7 +1,6 @@
 package com.example.phoenixtree.util;
 
 import android.content.Context;
-import android.graphics.RectF;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 
