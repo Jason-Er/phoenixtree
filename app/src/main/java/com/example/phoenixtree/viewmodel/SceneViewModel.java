@@ -5,7 +5,9 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.phoenixtree.Model.Keyframe;
@@ -35,20 +37,23 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     }
     public void getScene(long sceneId, final LifecycleOwner owner) {
         this.sceneId = sceneId;
-        /*
-        repository.loadScene(sceneId).observe(owner, sceneResource -> {
-            switch (sceneResource.status) {
-                case SUCCESS:
-                    keyframe.setValue(Resource.success(Fake.propagateKeyframe()));
-                    break;
-                case ERROR:
-                    break;
-                case LOADING:
-                    break;
+
+        repository.loadScene(sceneId).observe(owner, new Observer<Resource<Scene>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Scene> sceneResource) {
+                switch (sceneResource.status) {
+                    case SUCCESS:
+                        keyframe.setValue(Resource.success(Fake.propagateKeyframe()));
+                        break;
+                    case ERROR:
+                        break;
+                    case LOADING:
+                        break;
+                }
+                Log.i(TAG, "getScene()");
             }
-            Log.i(TAG, "getScene()");
         });
-        */
+
     }
     public LiveData<Resource<Keyframe>> getKeyframe() {
         return keyframe;

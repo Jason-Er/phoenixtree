@@ -2,6 +2,7 @@ package com.example.phoenixtree.view.participate;
 
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.phoenixtree.Model.Keyframe;
 import com.example.phoenixtree.Model.Resource;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.app.PhoenixtreeApplication;
@@ -73,19 +75,23 @@ public class SceneFragment extends LifecycleFragment {
         long sceneId = 1L; // getArguments().getString(UID_KEY);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
         viewModel.getScene(sceneId, this);
-        /*
-        viewModel.getKeyframe().observe(this, sceneResource -> {
-            switch (sceneResource.status) {
-                case SUCCESS:
-                    ((SceneAdapter)adapter).setKeyframe(sceneResource.data);
-                    Log.i(TAG, "keyframe updated!");
-                    break;
-                case ERROR:
-                    break;
-                case LOADING:
-                    break;
+
+        viewModel.getKeyframe().observe(this, new Observer<Resource<Keyframe>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Keyframe> keyframeResource) {
+                switch (keyframeResource.status) {
+                    case SUCCESS:
+                        ((SceneAdapter)adapter).setKeyframe(keyframeResource.data);
+                        Log.i(TAG, "keyframe updated!");
+                        break;
+                    case ERROR:
+                        break;
+                    case LOADING:
+                        break;
+                }
             }
         });
-        */
+
     }
+
 }
