@@ -4,9 +4,9 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.phoenixtree.Model.Keyframe;
-import com.example.phoenixtree.Model.Resource;
-import com.example.phoenixtree.Model.Scene;
+import com.example.phoenixtree.model.Keyframe;
+import com.example.phoenixtree.model.Resource;
+import com.example.phoenixtree.model.Scene;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,7 +35,7 @@ public class KeyframeProcessor implements PanelInterface {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                // TODO: 9/11/2017 handle keyframe
+                // TODO: 9/11/2017 handle keyframe role position changing with time
                 Log.i(TAG, "Hello World!" + ( System.nanoTime() - startTime) / 1000000 + elapsedTime);
                 if(elapsedTime > 0) {
                     costTime = ( System.nanoTime() - startTime) / 1000000 + elapsedTime;

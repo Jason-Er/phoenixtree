@@ -1,16 +1,15 @@
 package com.example.phoenixtree.util;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.Model.Keyframe;
-import com.example.phoenixtree.Model.Position3D;
-import com.example.phoenixtree.Model.Role;
-import com.example.phoenixtree.Model.Stage;
+import com.example.phoenixtree.model.Keyframe;
+import com.example.phoenixtree.model.Position3D;
+import com.example.phoenixtree.model.Role;
+import com.example.phoenixtree.model.Stage;
 import com.example.phoenixtree.R;
 
 import java.util.ArrayList;
