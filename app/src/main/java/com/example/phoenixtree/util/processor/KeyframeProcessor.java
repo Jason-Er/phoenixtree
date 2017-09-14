@@ -1,4 +1,4 @@
-package com.example.phoenixtree.util;
+package com.example.phoenixtree.util.processor;
 
 import android.arch.lifecycle.MediatorLiveData;
 import android.support.annotation.NonNull;
@@ -7,6 +7,8 @@ import android.util.Log;
 import com.example.phoenixtree.model.Keyframe;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.Scene;
+import com.example.phoenixtree.util.Fake;
+import com.example.phoenixtree.util.PanelInterface;
 
 import java.util.Timer;
 import java.util.TimerTask;

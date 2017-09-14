@@ -1,12 +1,14 @@
-package com.example.phoenixtree.util;
+package com.example.phoenixtree.util.processor;
 
 import android.util.Log;
+
+import com.example.phoenixtree.util.PanelInterface;
 
 /**
  * Created by ej on 8/31/2017.
  */
 
-public class AudioProcessor implements PanelInterface{
+public class AudioProcessor implements PanelInterface {
     final String TAG = AudioProcessor.class.getName();
 
     @Override
