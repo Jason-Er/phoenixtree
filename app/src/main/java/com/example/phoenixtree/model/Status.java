@@ -1,4 +1,4 @@
-package com.example.phoenixtree.Model;
+package com.example.phoenixtree.model;
 
 /**
  * Created by ej on 9/1/2017.

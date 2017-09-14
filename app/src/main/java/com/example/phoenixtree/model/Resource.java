@@ -1,4 +1,4 @@
-package com.example.phoenixtree.Model;
+package com.example.phoenixtree.model;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
