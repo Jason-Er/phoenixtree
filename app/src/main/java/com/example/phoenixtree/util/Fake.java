@@ -1,10 +1,10 @@
 package com.example.phoenixtree.util;
 
-import com.example.phoenixtree.Model.Keyframe;
-import com.example.phoenixtree.Model.Position3D;
-import com.example.phoenixtree.Model.Role;
-import com.example.phoenixtree.Model.Scene;
-import com.example.phoenixtree.Model.Stage;
+import com.example.phoenixtree.model.Keyframe;
+import com.example.phoenixtree.model.Position3D;
+import com.example.phoenixtree.model.Role;
+import com.example.phoenixtree.model.Scene;
+import com.example.phoenixtree.model.Stage;
 
 import java.util.ArrayList;
 import java.util.HashMap;

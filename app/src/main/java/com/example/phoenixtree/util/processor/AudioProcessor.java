@@ -1,17 +1,15 @@
-package com.example.phoenixtree.util;
+package com.example.phoenixtree.util.processor;
 
 import android.util.Log;
 
+import com.example.phoenixtree.util.PanelInterface;
+
 /**
- * Created by ej on 8/30/2017.
+ * Created by ej on 8/31/2017.
  */
 
-public class KeyframeProcessor implements PanelInterface {
-    final String TAG = KeyframeProcessor.class.getName();
-
-    public KeyframeProcessor() {
-
-    }
+public class AudioProcessor implements PanelInterface {
+    final String TAG = AudioProcessor.class.getName();
 
     @Override
     public void play() {

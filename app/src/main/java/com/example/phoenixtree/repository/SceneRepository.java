@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
-import com.example.phoenixtree.Model.Resource;
-import com.example.phoenixtree.Model.Scene;
+import com.example.phoenixtree.model.Resource;
+import com.example.phoenixtree.model.Scene;
 import com.example.phoenixtree.app.AppExecutors;
 import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.util.Fake;
