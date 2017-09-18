@@ -1,4 +1,4 @@
-package com.example.phoenixtree.model;
+package com.example.phoenixtree.util.processor;
 
 import java.util.List;
 import java.util.Map;
@@ -8,15 +8,15 @@ import java.util.Map;
  */
 
 public class Keyframe {
-    private Stage stage;
-    private List<Role> roles;
-    private Map<Role, String> mapLines;
+    Stage stage;
+    List<com.example.phoenixtree.model.Role> roles;
+    Map<com.example.phoenixtree.model.Role, String> mapLines;
 
-    public List<Role> getRoles() {
+    public List<com.example.phoenixtree.model.Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<com.example.phoenixtree.model.Role> roles) {
         this.roles = roles;
     }
 
