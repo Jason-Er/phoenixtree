@@ -1,7 +1,6 @@
 package com.example.phoenixtree.util;
 
 import com.example.phoenixtree.model.Keyframe;
-import com.example.phoenixtree.model.Position3D;
 import com.example.phoenixtree.model.Role;
 import com.example.phoenixtree.model.Scene;
 import com.example.phoenixtree.model.Stage;
@@ -44,11 +43,6 @@ public class Fake {
         Map<Role, String> mapLines = new HashMap<>();
         mapLines.put(role, "Hello world!");
         keyframe.setMapLines(mapLines);
-
-        Map<Role, Position3D> mapPositons = new HashMap<>();
-        Position3D position3D = new Position3D(0.0f, 0.0f, 0.0f);
-        mapPositons.put(role, position3D);
-        keyframe.setMapPositon(mapPositons);
 
         return keyframe;
     }

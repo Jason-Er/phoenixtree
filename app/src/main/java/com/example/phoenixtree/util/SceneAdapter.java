@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.model.Keyframe;
-import com.example.phoenixtree.model.Position3D;
 import com.example.phoenixtree.model.Role;
 import com.example.phoenixtree.model.Stage;
 import com.example.phoenixtree.R;
@@ -144,8 +143,6 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         } else if (holder instanceof RoleViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof RoleViewHolder");
             Role role = (Role) dataset.get(position).getObject();
-            Position3D position3D = (Position3D)keyframe.getMapPositon().get(role);
-            ((RoleViewHolder) holder).view.setRoleVertices(new float[]{position3D.getX(),position3D.getY(),position3D.getZ()});
             ((RoleViewHolder) holder).view.setRoleVertices(role.getRoleVertices());
         } else if (holder instanceof LineViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof LineViewHolder");
