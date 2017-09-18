@@ -15,7 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.model.Keyframe;
+import com.example.phoenixtree.util.processor.Keyframe;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.util.SceneAdapter;

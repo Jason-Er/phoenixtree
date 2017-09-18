@@ -8,7 +8,7 @@ import android.arch.lifecycle.ViewModel;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.phoenixtree.model.Keyframe;
+import com.example.phoenixtree.util.processor.Keyframe;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.Scene;
 import com.example.phoenixtree.repository.SceneRepository;

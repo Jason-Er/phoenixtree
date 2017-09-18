@@ -1,10 +1,11 @@
 package com.example.phoenixtree.util;
 
-import com.example.phoenixtree.model.Keyframe;
-import com.example.phoenixtree.model.Position3D;
+import com.example.phoenixtree.util.processor.ActionScrpit;
+import com.example.phoenixtree.util.processor.Animate;
+import com.example.phoenixtree.util.processor.Keyframe;
 import com.example.phoenixtree.model.Role;
 import com.example.phoenixtree.model.Scene;
-import com.example.phoenixtree.model.Stage;
+import com.example.phoenixtree.util.processor.RoleFigure;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class Fake {
     static public Keyframe propagateKeyframe() {
         Keyframe keyframe = new Keyframe();
 
+        /*
         float[] stageVerties = {
                 -8f, 8f,0f,1f,
                 -8f,-8f,0f,1f,
@@ -29,7 +31,7 @@ public class Fake {
         Stage stage = new Stage();
         stage.setStageVertices(stageVerties);
         keyframe.setStage(stage);
-
+        */
         List<Role> roles = new ArrayList<>();
         float[] roleVerties = {-1f,0f,0f,1f,
                 -1f,0f,6f,1f,
@@ -45,15 +47,30 @@ public class Fake {
         mapLines.put(role, "Hello world!");
         keyframe.setMapLines(mapLines);
 
-        Map<Role, Position3D> mapPositons = new HashMap<>();
-        Position3D position3D = new Position3D(0.0f, 0.0f, 0.0f);
-        mapPositons.put(role, position3D);
-        keyframe.setMapPositon(mapPositons);
-
         return keyframe;
     }
     static public Scene propagateScene() {
         Scene scene = new Scene();
+
+        ActionScrpit actionScrpit = new ActionScrpit();
+        actionScrpit.setSceneId("1");
+        List<com.example.phoenixtree.util.processor.Role> roles = new ArrayList<>();
+        com.example.phoenixtree.util.processor.Role role = new com.example.phoenixtree.util.processor.Role();
+        RoleFigure roleFigure = new RoleFigure(2f,6f);
+        role.setFigure(roleFigure);
+        roles.add(role);
+        List<Animate> animates = new ArrayList<>();
+        Animate animate = new Animate();
+        animate.setBegin(0f);
+        animate.setAttributeName("position");
+        animate.setFrom(new float[]{0f,0f,0f});
+        animates.add(animate);
+        role.setAnimateList(animates);
+
+        actionScrpit.setRoleList(roles);
+
+        scene.setSceneId("1");
+        scene.setActionScrpit(actionScrpit);
         return scene;
     }
 }
