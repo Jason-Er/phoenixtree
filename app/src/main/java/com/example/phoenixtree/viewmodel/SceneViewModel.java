@@ -53,7 +53,6 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
                 Log.i(TAG, "getScene()");
             }
         });
-
     }
     public LiveData<Resource<Keyframe>> getKeyframe() {
         return keyframe;
