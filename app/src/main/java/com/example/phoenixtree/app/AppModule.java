@@ -1,9 +1,17 @@
 package com.example.phoenixtree.app;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.phoenixtree.dataservice.entity.UserEntity;
+import com.example.phoenixtree.dataservice.local.AppDatabase;
+import com.example.phoenixtree.dataservice.local.LineEntityDao;
+import com.example.phoenixtree.dataservice.local.PlayEntityDao;
+import com.example.phoenixtree.dataservice.local.RoleEntityDao;
+import com.example.phoenixtree.dataservice.local.SceneEntityDao;
+import com.example.phoenixtree.dataservice.local.UserEntityDao;
 import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.di.label.DatabaseInfo;
 import com.example.phoenixtree.util.LiveDataCallAdapterFactory;
@@ -40,19 +48,37 @@ class AppModule {
     }
 
     @Provides
-    @DatabaseInfo
-    String provideDatabaseName() {
-        return "demo-dagger.db";
-    }
-
-    @Provides
-    @DatabaseInfo
-    Integer provideDatabaseVersion() {
-        return 2;
-    }
-
-    @Provides
     SharedPreferences provideSharedPrefs(Application application) {
         return application.getSharedPreferences("demo-prefs", Context.MODE_PRIVATE);
+    }
+
+    @Singleton @Provides
+    AppDatabase provideDb(Application app) {
+        return Room.databaseBuilder(app, AppDatabase.class, AppDatabase.DATABASE_NAME).build();
+    }
+
+    @Singleton @Provides
+    UserEntityDao provideUserEntityDao(AppDatabase db) {
+        return db.userEntityDao();
+    }
+
+    @Singleton @Provides
+    RoleEntityDao provideRoleEntityDao(AppDatabase db) {
+        return db.roleEntityDao();
+    }
+
+    @Singleton @Provides
+    PlayEntityDao providePlayEntityDao(AppDatabase db) {
+        return db.playEntityDao();
+    }
+
+    @Singleton @Provides
+    SceneEntityDao provideSceneEntityDao(AppDatabase db) {
+        return db.sceneEntityDao();
+    }
+
+    @Singleton @Provides
+    LineEntityDao provideLineEntityDao(AppDatabase db) {
+        return db.lineEntityDao();
     }
 }
