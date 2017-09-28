@@ -31,4 +31,5 @@ ext {
     retrofitVersion = '2.3.0'
     adapterrxjava2Version = '2.3.0'
     convertergsonVersion = '2.2.0'
+    mockito_version = '2.7.19'
 }

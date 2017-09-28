@@ -75,6 +75,8 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava2:$adapterrxjava2Version"
     compile "com.squareup.retrofit2:converter-gson:$convertergsonVersion"
+
+    androidTestCompile "org.mockito:mockito-android:$mockito_version"
 }
 
 
