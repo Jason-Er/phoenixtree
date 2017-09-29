@@ -8,7 +8,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.repository.PlayRepository;
+import com.example.phoenixtree.repository.Play4PWRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
 
 import java.util.Objects;
@@ -25,7 +25,7 @@ public class ParticipateViewModel extends ViewModel {
     public final LiveData<Resource<Play4PW>> play;
 
     @Inject
-    public ParticipateViewModel(final PlayRepository repository) {
+    public ParticipateViewModel(final Play4PWRepository repository) {
         play = Transformations.switchMap(playId, new Function<Long, LiveData<Resource<Play4PW>>>() {
             @Override
             public LiveData<Resource<Play4PW>> apply(Long input) {

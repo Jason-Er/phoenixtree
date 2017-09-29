@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.util.processor.Keyframe;
-import com.example.phoenixtree.model.Role;
+import com.example.phoenixtree.model.Role4DIR;
 import com.example.phoenixtree.util.processor.Stage;
 import com.example.phoenixtree.R;
 
@@ -28,10 +28,10 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<ItemViewInfo> dataset;
 
     class RoleLine {
-        private Role role;
+        private Role4DIR role;
         private String string;
 
-        public RoleLine(Role role, String string) {
+        public RoleLine(Role4DIR role, String string) {
             this.role = role;
             this.string = string;
         }
@@ -96,13 +96,13 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             this.keyframe = keyframe;
             dataset = new ArrayList<>();
             dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.getStage()));
-            for (Role role : keyframe.getRoles()) {
+            for (Role4DIR role : keyframe.getRoles()) {
                 dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
             }
 
-            Iterator<Map.Entry<Role, String>> entries = keyframe.getMapLines().entrySet().iterator();
+            Iterator<Map.Entry<Role4DIR, String>> entries = keyframe.getMapLines().entrySet().iterator();
             while (entries.hasNext()) {
-                Map.Entry<Role, String> entry = entries.next();
+                Map.Entry<Role4DIR, String> entry = entries.next();
                 dataset.add(new ItemViewInfo(SceneViewType.LINE, new RoleLine(entry.getKey(), entry.getValue())));
             }
             notifyDataSetChanged();
@@ -142,7 +142,7 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             ((StageViewHolder) holder).view.setStageVertices(stage.getStageVertices());
         } else if (holder instanceof RoleViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof RoleViewHolder");
-            Role role = (Role) dataset.get(position).getObject();
+            Role4DIR role = (Role4DIR) dataset.get(position).getObject();
             ((RoleViewHolder) holder).view.setRoleVertices(role.getRoleVertices());
         } else if (holder instanceof LineViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof LineViewHolder");

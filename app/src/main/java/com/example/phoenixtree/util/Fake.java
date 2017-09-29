@@ -3,8 +3,8 @@ package com.example.phoenixtree.util;
 import com.example.phoenixtree.util.processor.ActionScrpit;
 import com.example.phoenixtree.util.processor.Animate;
 import com.example.phoenixtree.util.processor.Keyframe;
-import com.example.phoenixtree.model.Role;
-import com.example.phoenixtree.model.Scene;
+import com.example.phoenixtree.model.Role4DIR;
+import com.example.phoenixtree.model.Scene4PW;
 import com.example.phoenixtree.util.processor.RoleFigure;
 
 import java.util.ArrayList;
@@ -32,25 +32,25 @@ public class Fake {
         stage.setStageVertices(stageVerties);
         keyframe.setStage(stage);
         */
-        List<Role> roles = new ArrayList<>();
+        List<Role4DIR> roles = new ArrayList<>();
         float[] roleVerties = {-1f,0f,0f,1f,
                 -1f,0f,6f,1f,
                  1f,0f,6f,1f,
                  1f,0f,0f,1f};
-        Role role = new Role();
+        Role4DIR role = new Role4DIR();
         role.setRoleVertices(roleVerties);
         role.setName("mike");
         roles.add(role);
         keyframe.setRoles(roles);
 
-        Map<Role, String> mapLines = new HashMap<>();
+        Map<Role4DIR, String> mapLines = new HashMap<>();
         mapLines.put(role, "Hello world!");
         keyframe.setMapLines(mapLines);
 
         return keyframe;
     }
-    static public Scene propagateScene() {
-        Scene scene = new Scene();
+    static public Scene4PW propagateScene() {
+        Scene4PW scene = new Scene4PW();
 
         ActionScrpit actionScrpit = new ActionScrpit();
         actionScrpit.setSceneId("1");
@@ -69,8 +69,8 @@ public class Fake {
 
         actionScrpit.setRoleList(roles);
 
-        scene.setSceneId("1");
-        scene.setActionScrpit(actionScrpit);
+//        scene.setSceneId("1");
+//        scene.setActionScrpit(actionScrpit);
         return scene;
     }
 }
