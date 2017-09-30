@@ -8,6 +8,8 @@ import android.arch.persistence.room.Query;
 
 import com.example.phoenixtree.dataservice.entity.LineEntity;
 
+import java.util.List;
+
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 /**
@@ -21,4 +23,7 @@ public interface LineEntityDao {
     void delete(LineEntity line);
     @Query("SELECT * FROM line WHERE id = :lineId")
     LiveData<LineEntity> retrieve(long lineId);
+    @Query("SELECT * FROM line WHERE scene_id = :sceneId order by ordinal asc")
+    LiveData<List<LineEntity>> retrieveAllBySceneId(long sceneId);
+
 }

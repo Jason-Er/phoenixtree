@@ -4,7 +4,7 @@ package com.example.phoenixtree.model;
  * Created by ej on 8/22/2017.
  */
 
-public class Role {
+public class Role4DIR {
     String name;
     float[] roleVertices;
 

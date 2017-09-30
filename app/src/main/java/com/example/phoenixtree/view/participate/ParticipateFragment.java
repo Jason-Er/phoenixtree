@@ -2,6 +2,7 @@ package com.example.phoenixtree.view.participate;
 
 
 import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.app.PhoenixtreeApplication;
+import com.example.phoenixtree.model.Play4PW;
+import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.util.Common;
 import com.example.phoenixtree.view.NavigationController;
 import com.example.phoenixtree.view.main.MainActivity;
@@ -61,6 +64,13 @@ public class ParticipateFragment extends LifecycleFragment {
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
+        viewModel.setPlayId(1L);
+        viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
+                Log.i(TAG, "onAttach onChanged");
+            }
+        });
         super.onAttach(context);
     }
 }

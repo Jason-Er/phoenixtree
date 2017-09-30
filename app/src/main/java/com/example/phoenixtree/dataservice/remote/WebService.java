@@ -2,9 +2,11 @@ package com.example.phoenixtree.dataservice.remote;
 
 import android.arch.lifecycle.LiveData;
 
-import com.example.phoenixtree.model.Play;
+import com.example.phoenixtree.model.Play4PW;
 
-import retrofit2.http.POST;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 
 /**
@@ -12,6 +14,10 @@ import retrofit2.http.Path;
  */
 
 public interface WebService {
-    @POST("users/{login}")
-    LiveData<ApiResponse<Play>> login(@Path("login") String login);
+    @GET("v1/web/play/{id}")
+    Call<Play4PW> loadPlayC(@Path("id") long id);
+    @GET("v1/web/play/{id}")
+    LiveData<ApiResponse<Play4PW>> loadPlay(@Path("id") long id);
+    @GET("v1/web/play/{id}")
+    LiveData<ApiResponse<Play4PW>> loadPlay(@Header("Authorization") String token, @Path("id") long id);
 }

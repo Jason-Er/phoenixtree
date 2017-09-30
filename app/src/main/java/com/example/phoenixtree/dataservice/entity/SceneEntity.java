@@ -24,4 +24,8 @@ public class SceneEntity {
 
     @ColumnInfo(name = "play_id")
     public long playId;
+
+    public String setting;
+    @ColumnInfo(name = "at_rise")
+    public String atrise;
 }

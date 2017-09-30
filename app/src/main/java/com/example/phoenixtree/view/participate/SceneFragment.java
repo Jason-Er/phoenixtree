@@ -72,6 +72,7 @@ public class SceneFragment extends LifecycleFragment {
 
         long sceneId = 1L; // getArguments().getString(UID_KEY);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
+        /*
         viewModel.getScene(sceneId, this);
 
         viewModel.getKeyframe().observe(this, new Observer<Resource<Keyframe>>() {
@@ -89,7 +90,7 @@ public class SceneFragment extends LifecycleFragment {
                 }
             }
         });
-
+        */
     }
 
 }

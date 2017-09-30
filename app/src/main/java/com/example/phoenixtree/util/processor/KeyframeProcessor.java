@@ -5,7 +5,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.Scene;
+import com.example.phoenixtree.model.Role4DIR;
+import com.example.phoenixtree.model.Scene4PW;
 import com.example.phoenixtree.util.PanelInterface;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.TimerTask;
 public class KeyframeProcessor implements PanelInterface {
     final String TAG = KeyframeProcessor.class.getName();
 
-    private Scene scene;
+    private Scene4PW scene;
     private MediatorLiveData<Resource<Keyframe>> keyframeLive;
 
     private final long timeInterval = 30;
@@ -53,7 +54,7 @@ public class KeyframeProcessor implements PanelInterface {
         };
     }
 
-    public void init(@NonNull Scene scene, @NonNull MediatorLiveData<Resource<Keyframe>> keyframe) {
+    public void init(@NonNull Scene4PW scene, @NonNull MediatorLiveData<Resource<Keyframe>> keyframe) {
         this.scene = scene;
         this.keyframeLive = keyframe;
 
@@ -65,17 +66,18 @@ public class KeyframeProcessor implements PanelInterface {
     }
 
     private void firstFrame() {
+        /*
         ActionScrpit actionScrpit = this.scene.getActionScrpit();
         List<Role> roleList = actionScrpit.getRoleList();
-        List<com.example.phoenixtree.model.Role> roles = new ArrayList<>();
-        Map<com.example.phoenixtree.model.Role, String> mapLines = new HashMap<>();
+        List<Role4DIR> roles = new ArrayList<>();
+        Map<Role4DIR, String> mapLines = new HashMap<>();
         for(Role role: roleList) {
             float width = role.getFigure().getWidth() / 2f;
             float height = role.getFigure().getHeight();
 
             for(Animate animate: role.getAnimateList()) {
                 if(Math.abs(animate.getBegin()) < 1e-5) {
-                    com.example.phoenixtree.model.Role roleT = new com.example.phoenixtree.model.Role();
+                    Role4DIR roleT = new Role4DIR();
                     float x = animate.getFrom()[0];
                     float y = animate.getFrom()[1];
                     float z = animate.getFrom()[2];
@@ -110,6 +112,7 @@ public class KeyframeProcessor implements PanelInterface {
         keyframe.setStage(stage);
 
         keyframeLive.setValue(Resource.success(keyframe));
+        */
     }
 
     @Override

@@ -34,7 +34,7 @@ class AppModule {
     @Provides
     WebService provideWebService() {
         return new Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
+                .baseUrl("http://192.1.112.31:8448/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                 .build()

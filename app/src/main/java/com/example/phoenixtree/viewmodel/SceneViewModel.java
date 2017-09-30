@@ -1,20 +1,22 @@
 package com.example.phoenixtree.viewmodel;
 
-import android.arch.lifecycle.LifecycleOwner;
+import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
+import com.example.phoenixtree.util.AbsentLiveData;
+import com.example.phoenixtree.util.Fake;
 import com.example.phoenixtree.util.processor.Keyframe;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.Scene;
+import com.example.phoenixtree.model.Scene4PW;
 import com.example.phoenixtree.repository.SceneRepository;
 import com.example.phoenixtree.util.processor.AudioProcessor;
 import com.example.phoenixtree.util.processor.KeyframeProcessor;
 import com.example.phoenixtree.util.PanelInterface;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -26,36 +28,42 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
 
     private final String TAG = SceneViewModel.class.getName();
 
-    private final MediatorLiveData<Resource<Keyframe>> keyframe = new MediatorLiveData<>();
+    private final MutableLiveData<Long> sceneId = new MutableLiveData<>();
+    public final LiveData<Resource<Keyframe>> keyframe;
+
     private KeyframeProcessor keyframeProcessor = new KeyframeProcessor();
     private AudioProcessor audioProcessor = new AudioProcessor();
-    private SceneRepository repository;
+
 
     @Inject
-    public SceneViewModel(SceneRepository repository) {
-        this.repository = repository;
-    }
-    public void getScene(long sceneId, final LifecycleOwner owner) {
-        repository.loadScene(sceneId).observe(owner, new Observer<Resource<Scene>>() {
+    public SceneViewModel(final SceneRepository repository) {
+        keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Resource<Keyframe>>>() {
             @Override
-            public void onChanged(@Nullable Resource<Scene> sceneResource) {
-                switch (sceneResource.status) {
-                    case SUCCESS:
-                        keyframeProcessor.init(sceneResource.data, keyframe);
-                        break;
-                    case ERROR:
-                        keyframe.setValue(Resource.error(sceneResource.message , new Keyframe()));
-                        break;
-                    case LOADING:
-                        keyframe.setValue(Resource.loading(new Keyframe()));
-                        break;
+            public LiveData<Resource<Keyframe>> apply(Long input) {
+                if(input == null) {
+                    return AbsentLiveData.create();
+                } else {
+                    return Transformations.map(repository.loadScene(input), new Function<Resource<Scene4PW>, Resource<Keyframe>>() {
+                        @Override
+                        public Resource<Keyframe> apply(Resource<Scene4PW> sceneResource) {
+                            Resource resource = null;
+                            switch (sceneResource.status) {
+                                case SUCCESS:
+                                    resource = Resource.success(Fake.propagateKeyframe());
+                                    break;
+                                case ERROR:
+                                    resource = Resource.error(sceneResource.message , new Keyframe());
+                                    break;
+                                case LOADING:
+                                    resource = Resource.loading(new Keyframe());
+                                    break;
+                            }
+                            return resource;
+                        }
+                    });
                 }
-                Log.i(TAG, "getScene()");
             }
         });
-    }
-    public LiveData<Resource<Keyframe>> getKeyframe() {
-        return keyframe;
     }
 
     @Override
@@ -80,5 +88,12 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     public void stop() {
         keyframeProcessor.stop();
         audioProcessor.stop();
+    }
+
+    public void setSceneId(long sceneId) {
+        if (Objects.equals(this.sceneId.getValue(), sceneId)) {
+            return;
+        }
+        this.sceneId.setValue(sceneId);
     }
 }
