@@ -67,19 +67,21 @@ public class Play4PWRepository {
             @Override
             protected void saveCallResult(@NonNull Play4PW item) {
                 Log.i(TAG, "saveCallResult");
-                playEntityDao.save(item);
+                userEntityDao.save(item.playwright);
+                PlayEntity playEntity = (PlayEntity) item;
+                playEntityDao.save(playEntity);
+                // TODO: 9/22/2017 need batch saving
+                for(RoleEntity role: item.cast) {
+                    roleEntityDao.save(role);
+                }
                 // TODO: 9/22/2017 need batch saving
                 for(Scene4PW scene: item.scenes) {
-                    sceneEntityDao.save(scene);
+                    SceneEntity sceneEntity = (SceneEntity) scene;
+                    sceneEntityDao.save(sceneEntity);
                     // TODO: 9/22/2017 need batch saving
                     for(LineEntity line: scene.lines) {
                         lineEntityDao.save(line);
                     }
-                }
-                userEntityDao.save(item.playwright);
-                // TODO: 9/22/2017 need batch saving
-                for(RoleEntity role: item.cast) {
-                    roleEntityDao.save(role);
                 }
             }
 
@@ -95,7 +97,7 @@ public class Play4PWRepository {
                 /*
                 Log.i(TAG, "loadFromDb");
                 final MediatorLiveData<Resource<Play4PW>> liveData = new MediatorLiveData<>();
-                LiveData<PlayEntity> playEntity = playEntityDao.retrieve(playId);
+                LiveData<PlayEntity> playEntity = playEntityDao.retrieveByIdLive(playId);
                 Transformations.map()
 
                 LiveData<SceneEntity> sceneEntity = Transformations.switchMap(playEntity, new Function<PlayEntity, LiveData<SceneEntity>>() {

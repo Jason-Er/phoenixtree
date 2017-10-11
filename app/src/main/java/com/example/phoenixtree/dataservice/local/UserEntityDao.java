@@ -20,5 +20,7 @@ public interface UserEntityDao {
     @Delete
     void delete(UserEntity userEntity);
     @Query("SELECT * FROM user WHERE id = :userId")
-    LiveData<UserEntity> retrieve(long userId);
+    LiveData<UserEntity> retrieveByIdLive(long userId);
+    @Query("SELECT * FROM user WHERE id = :userId")
+    UserEntity retrieveById(long userId);
 }
