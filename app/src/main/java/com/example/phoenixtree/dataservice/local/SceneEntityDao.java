@@ -22,7 +22,7 @@ public interface SceneEntityDao {
     @Delete
     void delete(SceneEntity scene);
     @Query("SELECT * FROM scene WHERE id = :sceneId")
-    LiveData<SceneEntity> retrieve(long sceneId);
+    LiveData<SceneEntity> retrieveByIdLive(long sceneId);
     @Query("SELECT * FROM scene WHERE play_id = :playId")
     LiveData<List<SceneEntity>> retrieveAllByPlayIdLive(long playId);
 }

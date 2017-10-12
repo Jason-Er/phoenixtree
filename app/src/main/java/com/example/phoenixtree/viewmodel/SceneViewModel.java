@@ -29,35 +29,26 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private final String TAG = SceneViewModel.class.getName();
 
     private final MutableLiveData<Long> sceneId = new MutableLiveData<>();
-    public final LiveData<Resource<Keyframe>> keyframe;
+    public final LiveData<Keyframe> keyframe;
 
     private KeyframeProcessor keyframeProcessor = new KeyframeProcessor();
     private AudioProcessor audioProcessor = new AudioProcessor();
-
+    private LiveData<Resource<Scene4PW>> sceneLiveData;
     @Inject
     public SceneViewModel(final SceneRepository repository) {
-        keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Resource<Keyframe>>>() {
+        keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
             @Override
-            public LiveData<Resource<Keyframe>> apply(Long input) {
+            public LiveData<Keyframe> apply(Long input) {
                 if(input == null) {
                     return AbsentLiveData.create();
                 } else {
-                    return Transformations.map(repository.loadScene(input), new Function<Resource<Scene4PW>, Resource<Keyframe>>() {
+                    sceneLiveData = repository.loadScene(input);
+                    return Transformations.switchMap(sceneLiveData, new Function<Resource<Scene4PW>, LiveData<Keyframe>>() {
                         @Override
-                        public Resource<Keyframe> apply(Resource<Scene4PW> sceneResource) {
-                            Resource resource = null;
-                            switch (sceneResource.status) {
-                                case SUCCESS:
-                                    resource = Resource.success(Fake.propagateKeyframe());
-                                    break;
-                                case ERROR:
-                                    resource = Resource.error(sceneResource.message , new Keyframe());
-                                    break;
-                                case LOADING:
-                                    resource = Resource.loading(new Keyframe());
-                                    break;
-                            }
-                            return resource;
+                        public LiveData<Keyframe> apply(Resource<Scene4PW> scene4PWResource) {
+                            MutableLiveData<Keyframe> keyframeLiveData = new MutableLiveData<Keyframe>();
+                            Scene4PW scene4PW = scene4PWResource.data;
+                            return keyframeLiveData;
                         }
                     });
                 }
