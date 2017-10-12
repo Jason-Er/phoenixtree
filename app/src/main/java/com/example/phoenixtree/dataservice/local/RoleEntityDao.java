@@ -8,6 +8,8 @@ import android.arch.persistence.room.Query;
 
 import com.example.phoenixtree.dataservice.entity.RoleEntity;
 
+import java.util.List;
+
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 /**
@@ -19,6 +21,10 @@ public interface RoleEntityDao {
     void save(RoleEntity roleEntity);
     @Delete
     void delete(RoleEntity roleEntity);
-    @Query("SELECT * FROM user WHERE id = :roleId")
-    LiveData<RoleEntity> retrieve(long roleId);
+    @Query("SELECT * FROM role WHERE id = :roleId")
+    LiveData<RoleEntity> retrieveByIdLive(long roleId);
+    @Query("SELECT * FROM role WHERE play_id = :playId")
+    List<RoleEntity> retrieveAllByPlayId(long playId);
+    @Query("SELECT * FROM role WHERE play_id = :playId")
+    LiveData<List<RoleEntity>> retrieveAllByPlayIdLive(long playId);
 }

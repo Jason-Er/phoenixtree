@@ -8,6 +8,8 @@ import android.arch.persistence.room.Query;
 
 import com.example.phoenixtree.dataservice.entity.SceneEntity;
 
+import java.util.List;
+
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 
 /**
@@ -21,4 +23,6 @@ public interface SceneEntityDao {
     void delete(SceneEntity scene);
     @Query("SELECT * FROM scene WHERE id = :sceneId")
     LiveData<SceneEntity> retrieve(long sceneId);
+    @Query("SELECT * FROM scene WHERE play_id = :playId")
+    LiveData<List<SceneEntity>> retrieveAllByPlayIdLive(long playId);
 }
