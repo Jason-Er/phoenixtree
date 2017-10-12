@@ -65,6 +65,7 @@ public class ParticipateFragment extends LifecycleFragment {
         AndroidSupportInjection.inject(this);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
         viewModel.setPlayId(1L);
+        //viewModel.setPlayId(2L);
         viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
             @Override
             public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {

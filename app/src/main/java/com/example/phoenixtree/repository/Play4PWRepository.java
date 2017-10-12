@@ -26,6 +26,7 @@ import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.Scene4PW;
 import com.example.phoenixtree.util.AbsentLiveData;
+import com.example.phoenixtree.util.CallBackInterface;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -97,7 +98,7 @@ public class Play4PWRepository {
                 return data == null;
             }
 
-            private void traverseScenelist(final Iterator iterator, final MediatorLiveData<Play4PW> play4PWLiveData, final CallBack callback) {
+            private void traverseScenelist(final Iterator iterator, final MediatorLiveData<Play4PW> play4PWLiveData, final CallBackInterface callback) {
                 if(iterator.hasNext()) {
                     final Scene4PW scene4PW = (Scene4PW) iterator.next();
                     final LiveData<List<LineEntity>> linelistLiveData = lineEntityDao.retrieveAllBySceneIdLive(scene4PW.id);
@@ -122,164 +123,66 @@ public class Play4PWRepository {
                 if(play4PWLiveData == null) {
                     play4PWLiveData = new MediatorLiveData<>();
                 }
+
                 final Play4PW play4PW = new Play4PW();
-
                 final LiveData<PlayEntity> playEntityLiveData = playEntityDao.retrieveByIdLive(playId);
-
                 play4PWLiveData.addSource(playEntityLiveData, new Observer<PlayEntity>() {
                     @Override
                     public void onChanged(@android.support.annotation.Nullable PlayEntity playEntity) {
                         play4PWLiveData.removeSource(playEntityLiveData);
-                        if(playEntity == null) return;
-                        play4PW.id = playEntity.id;
-                        play4PW.name = playEntity.name;
-                        play4PW.playwrightId = playEntity.playwrightId;
-                        final LiveData<UserEntity> userEntityLiveData = userEntityDao.retrieveByIdLive(play4PW.playwrightId);
-                        play4PWLiveData.addSource(userEntityLiveData, new Observer<UserEntity>() {
-                            @Override
-                            public void onChanged(@android.support.annotation.Nullable UserEntity userEntity) {
-                                play4PWLiveData.removeSource(userEntityLiveData);
-                                play4PW.playwright = userEntity;
-                                final LiveData<List<RoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByPlayIdLive(playId);
-                                play4PWLiveData.addSource(roleListLiveData, new Observer<List<RoleEntity>>() {
-                                    @Override
-                                    public void onChanged(@android.support.annotation.Nullable List<RoleEntity> roleEntities) {
-                                        play4PWLiveData.removeSource(roleListLiveData);
-                                        play4PW.cast = roleEntities;
-                                        final LiveData<List<SceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByPlayIdLive(playId);
-                                        play4PWLiveData.addSource(scenelistLiveData, new Observer<List<SceneEntity>>() {
-                                            @Override
-                                            public void onChanged(@android.support.annotation.Nullable List<SceneEntity> sceneEntities) {
-                                                play4PWLiveData.removeSource(scenelistLiveData);
-                                                List<Scene4PW> scene4PWList = new ArrayList<>();
-                                                for(SceneEntity sceneEntity: sceneEntities) {
-                                                    Scene4PW scene4PW = new Scene4PW();
-                                                    // properties copy
-                                                    scene4PW.id = sceneEntity.id;
-                                                    scene4PW.playId = sceneEntity.playId;
-                                                    scene4PW.setting = sceneEntity.setting;
-                                                    scene4PW.actOrdinal = sceneEntity.actOrdinal;
-                                                    scene4PW.atrise = sceneEntity.atrise;
-                                                    scene4PW.ordinal = sceneEntity.ordinal;
-                                                    scene4PWList.add(scene4PW);
-                                                }
-                                                play4PW.scenes = scene4PWList;
-
-                                                Iterator iterator = scene4PWList.iterator();
-                                                traverseScenelist(iterator, play4PWLiveData, new CallBack() {
-                                                    @Override
-                                                    public void callback() {
-                                                        play4PWLiveData.setValue(play4PW);
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
-                    }
-                });
-
-                /*
-                LiveData<Object> objectLiveData = Transformations.switchMap(playEntityDao.retrieveByIdLive(playId), new Function<PlayEntity, LiveData<Object>>() {
-                    @Override
-                    public LiveData<Object> apply(PlayEntity playEntity) {
-                        play4PW.id = playEntity.id;
-                        play4PW.name = playEntity.name;
-                        play4PW.playwrightId = playEntity.playwrightId;
-                        Transformations.switchMap(userEntityDao.retrieveByIdLive(play4PW.playwrightId), new Function<UserEntity, LiveData<Object>>() {
-                            @Override
-                            public LiveData<Object> apply(UserEntity userEntity) {
-                                play4PW.playwright = userEntity;
-                                // play4PWLiveData.notify();
-                                Log.i(TAG, "play4PW.playwright finished!");
-                                return null;
-                            }
-                        });
-                        Transformations.switchMap(sceneEntityDao.retrieveAllByPlayIdLive(playId), new Function<List<SceneEntity>, LiveData<Object>>() {
-                            @Override
-                            public LiveData<Object> apply(List<SceneEntity> sceneEntities) {
-                                final List<Scene4PW> scene4PWList = new ArrayList<>();
-                                for(final SceneEntity sceneEntity: sceneEntities) {
-                                    final Scene4PW scene4PW = new Scene4PW();
-                                    // properties copy
-                                    scene4PW.id = sceneEntity.id;
-                                    scene4PW.playId = sceneEntity.playId;
-                                    scene4PW.setting = sceneEntity.setting;
-                                    scene4PW.actOrdinal = sceneEntity.actOrdinal;
-                                    scene4PW.atrise = sceneEntity.atrise;
-                                    scene4PW.ordinal = sceneEntity.ordinal;
-                                    scene4PWList.add(scene4PW);
-                                    Transformations.switchMap(lineEntityDao.retrieveAllBySceneIdLive(sceneEntity.id), new Function<List<LineEntity>, LiveData<Object>>() {
+                        if(playEntity != null) {
+                            play4PW.id = playEntity.id;
+                            play4PW.name = playEntity.name;
+                            play4PW.playwrightId = playEntity.playwrightId;
+                            final LiveData<UserEntity> userEntityLiveData = userEntityDao.retrieveByIdLive(play4PW.playwrightId);
+                            play4PWLiveData.addSource(userEntityLiveData, new Observer<UserEntity>() {
+                                @Override
+                                public void onChanged(@android.support.annotation.Nullable UserEntity userEntity) {
+                                    play4PWLiveData.removeSource(userEntityLiveData);
+                                    play4PW.playwright = userEntity;
+                                    final LiveData<List<RoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByPlayIdLive(playId);
+                                    play4PWLiveData.addSource(roleListLiveData, new Observer<List<RoleEntity>>() {
                                         @Override
-                                        public LiveData<Object> apply(List<LineEntity> lineEntities) {
-                                            scene4PW.lines = lineEntities;
-                                            // play4PWLiveData.notify();
-                                            Log.i(TAG, "play4PW.lines finished!");
-                                            return null;
+                                        public void onChanged(@android.support.annotation.Nullable List<RoleEntity> roleEntities) {
+                                            play4PWLiveData.removeSource(roleListLiveData);
+                                            play4PW.cast = roleEntities;
+                                            final LiveData<List<SceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByPlayIdLive(playId);
+                                            play4PWLiveData.addSource(scenelistLiveData, new Observer<List<SceneEntity>>() {
+                                                @Override
+                                                public void onChanged(@android.support.annotation.Nullable List<SceneEntity> sceneEntities) {
+                                                    play4PWLiveData.removeSource(scenelistLiveData);
+                                                    List<Scene4PW> scene4PWList = new ArrayList<>();
+                                                    for (SceneEntity sceneEntity : sceneEntities) {
+                                                        Scene4PW scene4PW = new Scene4PW();
+                                                        // properties copy
+                                                        scene4PW.id = sceneEntity.id;
+                                                        scene4PW.playId = sceneEntity.playId;
+                                                        scene4PW.setting = sceneEntity.setting;
+                                                        scene4PW.actOrdinal = sceneEntity.actOrdinal;
+                                                        scene4PW.atrise = sceneEntity.atrise;
+                                                        scene4PW.ordinal = sceneEntity.ordinal;
+                                                        scene4PWList.add(scene4PW);
+                                                    }
+                                                    play4PW.scenes = scene4PWList;
+
+                                                    Iterator iterator = scene4PWList.iterator();
+                                                    traverseScenelist(iterator, play4PWLiveData, new CallBackInterface() {
+                                                        @Override
+                                                        public void callback() {
+                                                            play4PWLiveData.setValue(play4PW);
+                                                        }
+                                                    });
+                                                }
+                                            });
                                         }
                                     });
                                 }
-                                play4PW.scenes = scene4PWList;
-                                // play4PWLiveData.notify();
-                                Log.i(TAG, "play4PW.scenes finished!");
-                                return null;
-                            }
-                        });
-                        Transformations.switchMap(roleEntityDao.retrieveAllByPlayIdLive(playId), new Function<List<RoleEntity>, LiveData<Object>>() {
-                            @Override
-                            public LiveData<Object> apply(List<RoleEntity> roleEntities) {
-                                play4PW.cast = roleEntities;
-                                // play4PWLiveData.notify();
-                                Log.i(TAG, "play4PW.cast finished!");
-                                return null;
-                            }
-                        });
-                        return null;
+                            });
+                        } else {
+                            play4PWLiveData.setValue(null);
+                        }
                     }
                 });
-
-                objectLiveData.observeForever(new Observer<Object>() {
-                    @Override
-                    public void onChanged(@android.support.annotation.Nullable Object o) {
-                        Log.i(TAG,"hi");
-                    }
-                });
-                */
-                /*
-                Play4PW play4PW = new Play4PW();
-                PlayEntity playEntity = playEntityDao.retrieveById(playId);
-                UserEntity userEntity = userEntityDao.retrieveById(playEntity.playwrightId);
-                List<SceneEntity> sceneEntityList = sceneEntityDao.retrieveAllByPlayId(playId);
-                List<RoleEntity> roleEntityList = roleEntityDao.retrieveAllByPlayId(playId);
-
-                // properties copy
-                play4PW.id = playEntity.id;
-                play4PW.name = playEntity.name;
-                play4PW.playwrightId = playEntity.playwrightId;
-
-                List<Scene4PW> scene4PWList = new ArrayList<>();
-                for(SceneEntity sceneEntity: sceneEntityList) {
-                    Scene4PW scene4PW = new Scene4PW();
-
-                    // properties copy
-                    scene4PW.id = sceneEntity.id;
-                    scene4PW.playId = sceneEntity.playId;
-                    scene4PW.setting = sceneEntity.setting;
-                    scene4PW.actOrdinal = sceneEntity.actOrdinal;
-                    scene4PW.atrise = sceneEntity.atrise;
-                    scene4PW.ordinal = sceneEntity.ordinal;
-
-                    List<LineEntity> lineEntitieList = lineEntityDao.retrieveAllBySceneId(sceneEntity.id);
-                    scene4PW.lines = lineEntitieList;
-                    scene4PWList.add(scene4PW);
-                }
-                play4PW.scenes = scene4PWList;
-                play4PW.playwright = userEntity;
-                play4PW.cast = roleEntityList;
-                */
-
 
                 return play4PWLiveData;
             }
@@ -292,8 +195,4 @@ public class Play4PWRepository {
             }
         }.asLiveData();
     }
-}
-
-interface CallBack {
-    void callback();
 }
