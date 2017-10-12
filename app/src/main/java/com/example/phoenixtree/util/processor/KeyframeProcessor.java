@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
 /**
  * Created by ej on 8/30/2017.
  */
@@ -36,6 +38,7 @@ public class KeyframeProcessor implements PanelInterface {
     private long costTime;
     private Keyframe keyframe = new Keyframe();
 
+    @Inject
     public KeyframeProcessor() {
         timer = new Timer();
         timerTask = new TimerTask() {

@@ -31,11 +31,14 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private final MutableLiveData<Long> sceneId = new MutableLiveData<>();
     public final LiveData<Keyframe> keyframe;
 
-    private KeyframeProcessor keyframeProcessor = new KeyframeProcessor();
-    private AudioProcessor audioProcessor = new AudioProcessor();
+    private final KeyframeProcessor keyframeProcessor;
+    private final AudioProcessor audioProcessor;
+
     private LiveData<Resource<Scene4PW>> sceneLiveData;
     @Inject
-    public SceneViewModel(final SceneRepository repository) {
+    public SceneViewModel(final SceneRepository repository, KeyframeProcessor keyframeProcessor, AudioProcessor audioProcessor) {
+        this.keyframeProcessor = keyframeProcessor;
+        this.audioProcessor = audioProcessor;
         keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
             @Override
             public LiveData<Keyframe> apply(Long input) {
