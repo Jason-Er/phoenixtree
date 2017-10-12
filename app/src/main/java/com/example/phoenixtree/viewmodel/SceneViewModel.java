@@ -34,7 +34,6 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private KeyframeProcessor keyframeProcessor = new KeyframeProcessor();
     private AudioProcessor audioProcessor = new AudioProcessor();
 
-
     @Inject
     public SceneViewModel(final SceneRepository repository) {
         keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Resource<Keyframe>>>() {

@@ -55,6 +55,9 @@ public class ParticipateFragment extends LifecycleFragment {
                 .findFragmentById(R.id.fragment_participate_frame);
         if (sceneFragment == null) {
             sceneFragment = new SceneFragment();
+            Bundle bundle = new Bundle();
+            bundle.putLong(SceneFragment.ID_KEY, 1L);
+            sceneFragment.setArguments(bundle);
             Common.addFragment(R.id.fragment_participate_frame, sceneFragment, getActivity());
         }
         return root;
@@ -65,7 +68,6 @@ public class ParticipateFragment extends LifecycleFragment {
         AndroidSupportInjection.inject(this);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
         viewModel.setPlayId(1L);
-        //viewModel.setPlayId(2L);
         viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
             @Override
             public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
