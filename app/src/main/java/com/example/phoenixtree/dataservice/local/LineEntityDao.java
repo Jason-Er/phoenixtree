@@ -24,6 +24,8 @@ public interface LineEntityDao {
     @Query("SELECT * FROM line WHERE id = :lineId")
     LiveData<LineEntity> retrieve(long lineId);
     @Query("SELECT * FROM line WHERE scene_id = :sceneId order by ordinal asc")
-    LiveData<List<LineEntity>> retrieveAllBySceneId(long sceneId);
+    LiveData<List<LineEntity>> retrieveAllBySceneIdLive(long sceneId);
+    @Query("SELECT * FROM line WHERE scene_id = :sceneId order by ordinal asc")
+    List<LineEntity> retrieveAllBySceneId(long sceneId);
 
 }

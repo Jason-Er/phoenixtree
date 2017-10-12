@@ -4,6 +4,7 @@ import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -25,6 +26,11 @@ import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.Scene4PW;
 import com.example.phoenixtree.util.AbsentLiveData;
+import com.example.phoenixtree.util.CallBackInterface;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -43,6 +49,7 @@ public class Play4PWRepository {
     private final LineEntityDao lineEntityDao;
     private final RoleEntityDao roleEntityDao;
     private final UserEntityDao userEntityDao;
+    private MediatorLiveData<Play4PW> play4PWLiveData;
 
     @Inject
     public Play4PWRepository(WebService webservice,
@@ -67,19 +74,21 @@ public class Play4PWRepository {
             @Override
             protected void saveCallResult(@NonNull Play4PW item) {
                 Log.i(TAG, "saveCallResult");
-                playEntityDao.save(item);
+                userEntityDao.save(item.playwright);
+                PlayEntity playEntity = (PlayEntity) item;
+                playEntityDao.save(playEntity);
+                // TODO: 9/22/2017 need batch saving
+                for(RoleEntity role: item.cast) {
+                    roleEntityDao.save(role);
+                }
                 // TODO: 9/22/2017 need batch saving
                 for(Scene4PW scene: item.scenes) {
-                    sceneEntityDao.save(scene);
+                    SceneEntity sceneEntity = (SceneEntity) scene;
+                    sceneEntityDao.save(sceneEntity);
                     // TODO: 9/22/2017 need batch saving
                     for(LineEntity line: scene.lines) {
                         lineEntityDao.save(line);
                     }
-                }
-                userEntityDao.save(item.playwright);
-                // TODO: 9/22/2017 need batch saving
-                for(RoleEntity role: item.cast) {
-                    roleEntityDao.save(role);
                 }
             }
 
@@ -89,24 +98,93 @@ public class Play4PWRepository {
                 return data == null;
             }
 
+            private void traverseScenelist(final Iterator iterator, final MediatorLiveData<Play4PW> play4PWLiveData, final CallBackInterface callback) {
+                if(iterator.hasNext()) {
+                    final Scene4PW scene4PW = (Scene4PW) iterator.next();
+                    final LiveData<List<LineEntity>> linelistLiveData = lineEntityDao.retrieveAllBySceneIdLive(scene4PW.id);
+                    play4PWLiveData.addSource(linelistLiveData, new Observer<List<LineEntity>>() {
+                        @Override
+                        public void onChanged(@android.support.annotation.Nullable List<LineEntity> lineEntities) {
+                            play4PWLiveData.removeSource(linelistLiveData);
+                            scene4PW.lines = lineEntities;
+                            traverseScenelist(iterator, play4PWLiveData, callback);
+                        }
+                    });
+                } else {
+                    callback.callback();
+                }
+            }
+
             @NonNull
             @Override
             protected LiveData<Play4PW> loadFromDb() {
-                /*
-                Log.i(TAG, "loadFromDb");
-                final MediatorLiveData<Resource<Play4PW>> liveData = new MediatorLiveData<>();
-                LiveData<PlayEntity> playEntity = playEntityDao.retrieve(playId);
-                Transformations.map()
 
-                LiveData<SceneEntity> sceneEntity = Transformations.switchMap(playEntity, new Function<PlayEntity, LiveData<SceneEntity>>() {
+                Log.i(TAG, "loadFromDb");
+                if(play4PWLiveData == null) {
+                    play4PWLiveData = new MediatorLiveData<>();
+                }
+
+                final Play4PW play4PW = new Play4PW();
+                final LiveData<PlayEntity> playEntityLiveData = playEntityDao.retrieveByIdLive(playId);
+                play4PWLiveData.addSource(playEntityLiveData, new Observer<PlayEntity>() {
                     @Override
-                    public LiveData<SceneEntity> apply(PlayEntity input) {
-                        return null;
+                    public void onChanged(@android.support.annotation.Nullable PlayEntity playEntity) {
+                        play4PWLiveData.removeSource(playEntityLiveData);
+                        if(playEntity != null) {
+                            play4PW.id = playEntity.id;
+                            play4PW.name = playEntity.name;
+                            play4PW.playwrightId = playEntity.playwrightId;
+                            final LiveData<UserEntity> userEntityLiveData = userEntityDao.retrieveByIdLive(play4PW.playwrightId);
+                            play4PWLiveData.addSource(userEntityLiveData, new Observer<UserEntity>() {
+                                @Override
+                                public void onChanged(@android.support.annotation.Nullable UserEntity userEntity) {
+                                    play4PWLiveData.removeSource(userEntityLiveData);
+                                    play4PW.playwright = userEntity;
+                                    final LiveData<List<RoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByPlayIdLive(playId);
+                                    play4PWLiveData.addSource(roleListLiveData, new Observer<List<RoleEntity>>() {
+                                        @Override
+                                        public void onChanged(@android.support.annotation.Nullable List<RoleEntity> roleEntities) {
+                                            play4PWLiveData.removeSource(roleListLiveData);
+                                            play4PW.cast = roleEntities;
+                                            final LiveData<List<SceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByPlayIdLive(playId);
+                                            play4PWLiveData.addSource(scenelistLiveData, new Observer<List<SceneEntity>>() {
+                                                @Override
+                                                public void onChanged(@android.support.annotation.Nullable List<SceneEntity> sceneEntities) {
+                                                    play4PWLiveData.removeSource(scenelistLiveData);
+                                                    List<Scene4PW> scene4PWList = new ArrayList<>();
+                                                    for (SceneEntity sceneEntity : sceneEntities) {
+                                                        Scene4PW scene4PW = new Scene4PW();
+                                                        // properties copy
+                                                        scene4PW.id = sceneEntity.id;
+                                                        scene4PW.playId = sceneEntity.playId;
+                                                        scene4PW.setting = sceneEntity.setting;
+                                                        scene4PW.actOrdinal = sceneEntity.actOrdinal;
+                                                        scene4PW.atrise = sceneEntity.atrise;
+                                                        scene4PW.ordinal = sceneEntity.ordinal;
+                                                        scene4PWList.add(scene4PW);
+                                                    }
+                                                    play4PW.scenes = scene4PWList;
+
+                                                    Iterator iterator = scene4PWList.iterator();
+                                                    traverseScenelist(iterator, play4PWLiveData, new CallBackInterface() {
+                                                        @Override
+                                                        public void callback() {
+                                                            play4PWLiveData.setValue(play4PW);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            play4PWLiveData.setValue(null);
+                        }
                     }
                 });
-                */
-                // LiveData<Play4PW> play4PWLiveData = new MutableLiveData<Play4PW>();
-                return AbsentLiveData.create();
+
+                return play4PWLiveData;
             }
 
             @NonNull

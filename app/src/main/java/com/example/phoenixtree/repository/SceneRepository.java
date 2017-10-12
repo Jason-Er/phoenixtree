@@ -44,12 +44,12 @@ public class SceneRepository {
     public LiveData<Resource<Scene4PW>> loadScene(long sceneId) {
         final MediatorLiveData<Resource<Scene4PW>> liveData = new MediatorLiveData<>();
         /*
-        final LiveData<SceneEntity> sceneEntityLiveData = sceneEntityDao.retrieve(sceneId);
+        final LiveData<SceneEntity> sceneEntityLiveData = sceneEntityDao.retrieveByIdLive(sceneId);
         liveData.addSource(sceneEntityLiveData, new Observer<SceneEntity>() {
             @Override
             public void onChanged(@Nullable SceneEntity sceneEntity) {
                 liveData.removeSource(sceneEntityLiveData);
-                final LiveData<List<LineEntity>> listLiveData = lineEntityDao.retrieveAllBySceneId(sceneEntity.id);
+                final LiveData<List<LineEntity>> listLiveData = lineEntityDao.retrieveAllBySceneIdLive(sceneEntity.id);
                 liveData.addSource(listLiveData, new Observer<List<LineEntity>>() {
                     @Override
                     public void onChanged(@Nullable List<LineEntity> lineEntities) {

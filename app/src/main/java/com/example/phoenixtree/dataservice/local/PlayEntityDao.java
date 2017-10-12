@@ -20,5 +20,7 @@ public interface PlayEntityDao {
     @Delete
     void delete(PlayEntity play);
     @Query("SELECT * FROM play WHERE id = :playId")
-    LiveData<PlayEntity> retrieve(long playId);
+    LiveData<PlayEntity> retrieveByIdLive(long playId);
+    @Query("SELECT * FROM play WHERE id = :playId")
+    PlayEntity retrieveById(long playId);
 }
