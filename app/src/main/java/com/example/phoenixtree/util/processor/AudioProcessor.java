@@ -4,12 +4,17 @@ import android.util.Log;
 
 import com.example.phoenixtree.util.PanelInterface;
 
+import javax.inject.Inject;
+
 /**
  * Created by ej on 8/31/2017.
  */
 
 public class AudioProcessor implements PanelInterface {
     final String TAG = AudioProcessor.class.getName();
+
+    @Inject
+    public AudioProcessor() {}
 
     @Override
     public void play() {

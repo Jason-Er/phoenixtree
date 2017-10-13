@@ -36,7 +36,7 @@ public class SceneFragment extends LifecycleFragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    private static final String UID_KEY = "uid";
+    public static final String ID_KEY = "id";
     private SceneViewModel viewModel;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -49,6 +49,15 @@ public class SceneFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Long sceneId = getArguments().getLong(ID_KEY);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
+        viewModel.setSceneId(sceneId);
+        viewModel.keyframe.observe(this, new Observer<Keyframe>() {
+            @Override
+            public void onChanged(@Nullable Keyframe keyframe) {
+                Log.i(TAG, "onAttach onChanged");
+            }
+        });
     }
 
     @Override
@@ -58,7 +67,7 @@ public class SceneFragment extends LifecycleFragment {
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_scene, container, false);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new SceneLayoutManager();// new LinearLayoutManager(getContext());
+        layoutManager = new SceneLayoutManager();
         recyclerView.setLayoutManager(layoutManager);
         adapter = new SceneAdapter();
         recyclerView.setAdapter(adapter);
@@ -69,28 +78,6 @@ public class SceneFragment extends LifecycleFragment {
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-
-        long sceneId = 1L; // getArguments().getString(UID_KEY);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
-        /*
-        viewModel.getScene(sceneId, this);
-
-        viewModel.getKeyframe().observe(this, new Observer<Resource<Keyframe>>() {
-            @Override
-            public void onChanged(@Nullable Resource<Keyframe> keyframeResource) {
-                switch (keyframeResource.status) {
-                    case SUCCESS:
-                        ((SceneAdapter)adapter).setKeyframe(keyframeResource.data);
-                        Log.i(TAG, "keyframe updated!");
-                        break;
-                    case ERROR:
-                        break;
-                    case LOADING:
-                        break;
-                }
-            }
-        });
-        */
     }
 
 }

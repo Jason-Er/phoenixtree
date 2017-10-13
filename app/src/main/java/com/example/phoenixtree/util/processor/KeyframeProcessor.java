@@ -1,6 +1,8 @@
 package com.example.phoenixtree.util.processor;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -16,6 +18,8 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.inject.Inject;
+
 /**
  * Created by ej on 8/30/2017.
  */
@@ -24,7 +28,7 @@ public class KeyframeProcessor implements PanelInterface {
     final String TAG = KeyframeProcessor.class.getName();
 
     private Scene4PW scene;
-    private MediatorLiveData<Resource<Keyframe>> keyframeLive;
+    private MutableLiveData<Keyframe> mutableLiveData = new MediatorLiveData<>();
 
     private final long timeInterval = 30;
     private long startTime;
@@ -36,6 +40,7 @@ public class KeyframeProcessor implements PanelInterface {
     private long costTime;
     private Keyframe keyframe = new Keyframe();
 
+    @Inject
     public KeyframeProcessor() {
         timer = new Timer();
         timerTask = new TimerTask() {
@@ -54,15 +59,16 @@ public class KeyframeProcessor implements PanelInterface {
         };
     }
 
-    public void init(@NonNull Scene4PW scene, @NonNull MediatorLiveData<Resource<Keyframe>> keyframe) {
+    public LiveData<Keyframe> setScene(@NonNull Scene4PW scene) {
         this.scene = scene;
-        this.keyframeLive = keyframe;
 
+        // TODO: 10/13/2017 need calculate first frame according to action script
         this.keyframe.roles = null;
         this.keyframe.mapLines = null;
         this.keyframe.stage = null;
+        mutableLiveData.setValue(keyframe);
 
-        firstFrame();
+        return mutableLiveData;
     }
 
     private void firstFrame() {
