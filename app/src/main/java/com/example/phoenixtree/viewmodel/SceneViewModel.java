@@ -7,7 +7,6 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.util.AbsentLiveData;
-import com.example.phoenixtree.util.Fake;
 import com.example.phoenixtree.util.processor.Keyframe;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.Scene4PW;
@@ -31,14 +30,14 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private final MutableLiveData<Long> sceneId = new MutableLiveData<>();
     public final LiveData<Keyframe> keyframe;
 
-    private final KeyframeProcessor keyframeProcessor;
-    private final AudioProcessor audioProcessor;
+    private final KeyframeProcessor keyframeP;
+    private final AudioProcessor audioP;
 
     private LiveData<Resource<Scene4PW>> sceneLiveData;
     @Inject
     public SceneViewModel(final SceneRepository repository, KeyframeProcessor keyframeProcessor, AudioProcessor audioProcessor) {
-        this.keyframeProcessor = keyframeProcessor;
-        this.audioProcessor = audioProcessor;
+        keyframeP = keyframeProcessor;
+        audioP = audioProcessor;
         keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
             @Override
             public LiveData<Keyframe> apply(Long input) {
@@ -49,9 +48,7 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
                     return Transformations.switchMap(sceneLiveData, new Function<Resource<Scene4PW>, LiveData<Keyframe>>() {
                         @Override
                         public LiveData<Keyframe> apply(Resource<Scene4PW> scene4PWResource) {
-                            MutableLiveData<Keyframe> keyframeLiveData = new MutableLiveData<Keyframe>();
-                            Scene4PW scene4PW = scene4PWResource.data;
-                            return keyframeLiveData;
+                            return keyframeP.setScene(scene4PWResource.data);
                         }
                     });
                 }
@@ -61,26 +58,26 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
 
     @Override
     public void play() {
-        keyframeProcessor.play();
-        audioProcessor.play();
+        keyframeP.play();
+        audioP.play();
     }
 
     @Override
     public void pause() {
-        keyframeProcessor.pause();
-        audioProcessor.pause();
+        keyframeP.pause();
+        audioP.pause();
     }
 
     @Override
     public void resume() {
-        keyframeProcessor.resume();
-        audioProcessor.resume();
+        keyframeP.resume();
+        audioP.resume();
     }
 
     @Override
     public void stop() {
-        keyframeProcessor.stop();
-        audioProcessor.stop();
+        keyframeP.stop();
+        audioP.stop();
     }
 
     public void setSceneId(long sceneId) {
