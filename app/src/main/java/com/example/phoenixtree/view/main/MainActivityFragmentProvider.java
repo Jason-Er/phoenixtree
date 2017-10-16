@@ -2,6 +2,8 @@ package com.example.phoenixtree.view.main;
 
 import android.support.v4.app.Fragment;
 
+import com.example.phoenixtree.view.browse.BrowseFragment;
+import com.example.phoenixtree.view.browse.BrowseFragmentComponent;
 import com.example.phoenixtree.view.participate.ParticipateFragment;
 import com.example.phoenixtree.view.participate.ParticipateFragmentComponent;
 import com.example.phoenixtree.view.participate.SceneFragment;
@@ -18,7 +20,8 @@ import dagger.multibindings.IntoMap;
  */
 @Module(subcomponents = {
         ParticipateFragmentComponent.class,
-        SceneFragmentComponent.class})
+        SceneFragmentComponent.class,
+        BrowseFragmentComponent.class})
 public abstract class MainActivityFragmentProvider {
     @Binds
     @IntoMap
@@ -29,4 +32,9 @@ public abstract class MainActivityFragmentProvider {
     @IntoMap
     @FragmentKey(SceneFragment.class)
     abstract AndroidInjector.Factory<? extends Fragment> provideSceneFragmentFactory(SceneFragmentComponent.Builder builder);
+
+    @Binds
+    @IntoMap
+    @FragmentKey(BrowseFragment.class)
+    abstract AndroidInjector.Factory<? extends Fragment> provideBrowseFragmentFactory(BrowseFragmentComponent.Builder builder);
 }
