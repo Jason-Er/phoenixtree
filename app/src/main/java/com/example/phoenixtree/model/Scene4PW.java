@@ -2,7 +2,6 @@ package com.example.phoenixtree.model;
 
 import com.example.phoenixtree.dataservice.entity.LineEntity;
 import com.example.phoenixtree.dataservice.entity.SceneEntity;
-import com.example.phoenixtree.util.processor.ActionScrpit;
 
 import java.util.List;
 
@@ -14,15 +13,4 @@ public class Scene4PW extends SceneEntity {
 
     public List<LineEntity> lines;
 
-    /*
-    private ActionScrpit actionScrpit;
-
-    public ActionScrpit getActionScrpit() {
-        return actionScrpit;
-    }
-
-    public void setActionScrpit(ActionScrpit actionScrpit) {
-        this.actionScrpit = actionScrpit;
-    }
-    */
 }
