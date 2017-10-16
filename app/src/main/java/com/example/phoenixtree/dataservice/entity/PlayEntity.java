@@ -13,7 +13,10 @@ import android.arch.persistence.room.PrimaryKey;
         foreignKeys = @ForeignKey(entity = UserEntity.class,
                 parentColumns = "id",
                 childColumns = "playwright_id"),
-        indices = {@Index("playwright_id")})
+        indices = {
+                @Index("playwright_id"),
+                @Index("adapted_from")
+        })
 public class PlayEntity {
     @PrimaryKey
     public long id;
@@ -22,4 +25,7 @@ public class PlayEntity {
 
     @ColumnInfo(name = "playwright_id")
     public long playwrightId;
+
+    @ColumnInfo(name = "adapted_from")
+    public long adaptedfrom;
 }
