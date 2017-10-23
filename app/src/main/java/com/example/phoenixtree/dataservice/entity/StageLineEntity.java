@@ -36,4 +36,7 @@ public class StageLineEntity {
 
     @ColumnInfo(name = "begin_time") // offset to ordinal time
     public float beginTime;
+
+    @ColumnInfo(name = "audio_url")
+    public String audioURL;
 }

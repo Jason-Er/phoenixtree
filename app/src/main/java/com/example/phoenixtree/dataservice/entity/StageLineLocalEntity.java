@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey;
 /**
  * Created by ej on 10/16/2017.
  */
-@Entity(tableName = "stage_line_audio",
+@Entity(tableName = "stage_line_local",
         foreignKeys = {
                 @ForeignKey(entity = StageLineEntity.class, parentColumns = "id", childColumns = "stage_line_id"),
                 @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "user_id")
@@ -17,7 +17,7 @@ import android.arch.persistence.room.PrimaryKey;
         indices = {
                 @Index(value = {"stage_line_id", "user_id"})
         })
-public class StageLineAudioEntity {
+public class StageLineLocalEntity {
     @PrimaryKey
     public long id;
 
