@@ -5,14 +5,16 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.util.LiveDataCallAdapterFactory;
+import com.example.phoenixtree.util.RetrievePageInfo;
 import com.google.gson.Gson;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +43,7 @@ public class WebServiceTest {
 
     @Test
     public void loadPlayC() throws Exception {
-        Call<Play4PW> call = webService.loadPlayC(1);
+        Call<Play4PW> call = webService.loadPlayCall(1);
         Play4PW play4PW = call.execute().body();
         assertTrue(play4PW.cast.size()>0);
         String json = "{\"cast\":[{\"id\":1,\"firstName\":\"Jill\",\"lastName\":\"Bradleyson\",\"description\":\"A woman in her late 20s\",\"playId\":1}],\"scenes\":[{\"lines\":[{\"id\":1,\"sceneId\":1,\"roleId\":1,\"ordinal\":0,\"type\":\"DIRECTION_DIALOGUE\",\"stageDirection\":\"Two sets of footsteps\",\"dialogue\":\"What’s happening here?\"}],\"id\":1,\"actOrdinal\":1,\"ordinal\":1,\"playId\":1,\"setting\":\"We are in the basement\",\"atrise\":\"DONALD BRADLEYSON is curled up\"}],\"playwright\":{\"id\":1,\"firstName\":\"mike\",\"lastName\":\"fighter\",\"email\":\"mike@163.com\"},\"id\":1,\"name\":\"THE BOYS IN THE CAGE\",\"playwrightId\":1}";
@@ -68,6 +70,40 @@ public class WebServiceTest {
             }
         };
         liveData.observeForever(observer);
+        latch.await(5, TimeUnit.SECONDS);
+
+    }
+
+    @Test
+    public void loadStagePlayInfoCall() throws Exception {
+        Call<RetrievePageInfo<List<StagePlayEntity>>> call = webService.loadStagePlayInfoCall(0,15);
+        RetrievePageInfo<List<StagePlayEntity>> body = call.execute().body();
+
+        assertTrue(body.size == 15);
+
+        List<StagePlayEntity> content = body.content;
+        Log.i(TAG, content.get(0).name);
+
+    }
+
+    @Test
+    public void loadStagePlayInfo() throws Exception {
+
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        LiveData<ApiResponse<RetrievePageInfo<List<StagePlayEntity>>>> liveData = webService.loadStagePlayInfo(0,15);
+
+        Observer<ApiResponse<RetrievePageInfo<List<StagePlayEntity>>>> observer = new Observer<ApiResponse<RetrievePageInfo<List<StagePlayEntity>>>>() {
+            @Override
+            public void onChanged(@Nullable ApiResponse<RetrievePageInfo<List<StagePlayEntity>>> retrievePageInfoApiResponse) {
+                RetrievePageInfo<List<StagePlayEntity>> pageInfo = retrievePageInfoApiResponse.body;
+                assertTrue(pageInfo.size == 15);
+                List<StagePlayEntity> content = (List<StagePlayEntity>)pageInfo.content;
+                Log.i(TAG, content.get(0).name);
+            }
+        };
+        liveData.observeForever(observer);
+
         latch.await(5, TimeUnit.SECONDS);
 
     }

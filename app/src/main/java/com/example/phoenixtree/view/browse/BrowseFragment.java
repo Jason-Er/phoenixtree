@@ -7,7 +7,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -18,7 +17,8 @@ import android.view.ViewGroup;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.util.Pageable;
+import com.example.phoenixtree.util.PageRequest;
+import com.example.phoenixtree.util.RetrievePageInfo;
 import com.example.phoenixtree.util.browseRecyclerView.BrowseAdapter;
 import com.example.phoenixtree.view.NavigationController;
 import com.example.phoenixtree.viewmodel.BrowseViewModel;
@@ -51,11 +51,25 @@ public class BrowseFragment extends LifecycleFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(BrowseViewModel.class);
-        viewModel.setStagePage(new Pageable(0,15,""));
-        viewModel.stagePlayInfoLiveData.observe(this, new Observer<Resource<List<StagePlayEntity>>>() {
+        viewModel.setRequestPage(new PageRequest(0,15,""));
+        viewModel.stagePlayInfoLiveData.observe(this, new Observer<Resource<RetrievePageInfo<List<StagePlayEntity>>>>() {
             @Override
-            public void onChanged(@Nullable Resource<List<StagePlayEntity>> listResource) {
+            public void onChanged(@Nullable Resource<RetrievePageInfo<List<StagePlayEntity>>> resource) {
+                Log.i(TAG,"onChanged");
+                switch (resource.status) {
+                    case SUCCESS:
+                        Log.i(TAG, "SUCCESS");
+                        RetrievePageInfo<List<StagePlayEntity>> pageInfo = resource.data;
 
+
+                        break;
+                    case ERROR:
+
+                        break;
+                    case LOADING:
+
+                        break;
+                }
             }
         });
     }

@@ -5,6 +5,7 @@ import android.arch.lifecycle.LiveData;
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.StagePlay;
+import com.example.phoenixtree.util.RetrievePageInfo;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import retrofit2.http.Query;
 
 public interface WebService {
     @GET("v1/web/play/{id}")
-    Call<Play4PW> loadPlayC(@Path("id") long id);
+    Call<Play4PW> loadPlayCall(@Path("id") long id);
     @GET("v1/web/play/{id}")
     LiveData<ApiResponse<Play4PW>> loadPlay(@Path("id") long id);
     @GET("v1/web/play/{id}")
@@ -30,5 +31,7 @@ public interface WebService {
     @GET("v1/web/stageplayinfo")
     LiveData<ApiResponse<List<StagePlayEntity>>> loadStagePlayInfo();
     @GET("v1/web/stageplayinfo")
-    LiveData<ApiResponse<List<StagePlayEntity>>> loadStagePlayInfo(@Query("page") long page, @Query("size") long size);
+    LiveData<ApiResponse<RetrievePageInfo<List<StagePlayEntity>>>> loadStagePlayInfo(@Query("page") long page, @Query("size") long size);
+    @GET("v1/web/stageplayinfo")
+    Call<RetrievePageInfo<List<StagePlayEntity>>> loadStagePlayInfoCall(@Query("page") long page, @Query("size") long size);
 }

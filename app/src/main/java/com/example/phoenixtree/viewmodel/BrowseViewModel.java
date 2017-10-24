@@ -10,7 +10,8 @@ import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.repository.StagePlayRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
-import com.example.phoenixtree.util.Pageable;
+import com.example.phoenixtree.util.PageRequest;
+import com.example.phoenixtree.util.RetrievePageInfo;
 
 import java.util.List;
 import java.util.Objects;
@@ -23,14 +24,14 @@ import javax.inject.Inject;
 
 public class BrowseViewModel extends ViewModel {
 
-    private final MutableLiveData<Pageable> pageable = new MutableLiveData<>();
-    public final LiveData<Resource<List<StagePlayEntity>>> stagePlayInfoLiveData;
+    private final MutableLiveData<PageRequest> pageable = new MutableLiveData<>();
+    public final LiveData<Resource<RetrievePageInfo<List<StagePlayEntity>>>> stagePlayInfoLiveData;
 
     @Inject
     public BrowseViewModel(final StagePlayRepository repository) {
-        stagePlayInfoLiveData = Transformations.switchMap(pageable, new Function<Pageable, LiveData<Resource<List<StagePlayEntity>>>>() {
+        stagePlayInfoLiveData = Transformations.switchMap(pageable, new Function<PageRequest, LiveData<Resource<RetrievePageInfo<List<StagePlayEntity>>>>>() {
             @Override
-            public LiveData<Resource<List<StagePlayEntity>>> apply(Pageable input) {
+            public LiveData<Resource<RetrievePageInfo<List<StagePlayEntity>>>> apply(PageRequest input) {
                 if(pageable == null) {
                     return AbsentLiveData.create();
                 } else {
@@ -40,7 +41,7 @@ public class BrowseViewModel extends ViewModel {
         });
     }
 
-    public void setStagePage(Pageable pageable) {
+    public void setRequestPage(PageRequest pageable) {
         if (Objects.equals(this.pageable.getValue(), pageable)) {
             return;
         }

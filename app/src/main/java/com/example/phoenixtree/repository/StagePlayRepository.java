@@ -25,6 +25,7 @@ import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.util.CallBackInterface;
+import com.example.phoenixtree.util.RetrievePageInfo;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,7 +51,7 @@ public class StagePlayRepository {
     private final UserEntityDao userEntityDao;
 
     private MediatorLiveData<StagePlay> stagePlayLiveData;
-    private MediatorLiveData<List<StagePlayEntity>> stagePlayInfoListLiveData;
+    private MediatorLiveData<RetrievePageInfo<List<StagePlayEntity>>> stagePlayInfoListLiveData;
 
     @Inject
     public StagePlayRepository(WebService webservice,
@@ -195,25 +196,27 @@ public class StagePlayRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<List<StagePlayEntity>>> loadStagePlayInfo(final long page, final long size) {
-        return new NetworkBoundResource<List<StagePlayEntity>, List<StagePlayEntity>>(appExecutors) {
+    public LiveData<Resource<RetrievePageInfo<List<StagePlayEntity>>>> loadStagePlayInfo(final long page, final long size) {
+        return new NetworkBoundResource<RetrievePageInfo<List<StagePlayEntity>>, RetrievePageInfo<List<StagePlayEntity>>>(appExecutors) {
 
             @Override
-            protected void saveCallResult(@NonNull List<StagePlayEntity> item) {
+            protected void saveCallResult(@NonNull RetrievePageInfo<List<StagePlayEntity>> item) {
                 // TODO: 9/22/2017 need batch saving
-                for(StagePlayEntity stagePlayEntity: item) {
-                    playEntityDao.save(stagePlayEntity);
+                Log.i(TAG, "saveCallResult");
+                List<StagePlayEntity> content = item.content;
+                for(StagePlayEntity entity: content) {
+                    playEntityDao.save(entity);
                 }
             }
 
             @Override
-            protected boolean shouldFetch(@Nullable List<StagePlayEntity> data) {
+            protected boolean shouldFetch(@Nullable RetrievePageInfo<List<StagePlayEntity>> data) {
                 return data == null;
             }
 
             @NonNull
             @Override
-            protected LiveData<List<StagePlayEntity>> loadFromDb() {
+            protected LiveData<RetrievePageInfo<List<StagePlayEntity>>> loadFromDb() {
                 Log.i(TAG, "loadFromDb");
                 // TODO: 10/23/2017 load page from local
                 if(stagePlayInfoListLiveData == null) {
@@ -225,7 +228,7 @@ public class StagePlayRepository {
 
             @NonNull
             @Override
-            protected LiveData<ApiResponse<List<StagePlayEntity>>> createCall() {
+            protected LiveData<ApiResponse<RetrievePageInfo<List<StagePlayEntity>>>> createCall() {
                 Log.i(TAG, "createCall");
                 return webservice.loadStagePlayInfo(page, size);
             }
