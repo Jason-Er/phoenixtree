@@ -1,5 +1,7 @@
 package com.example.phoenixtree.model;
 
+import com.example.phoenixtree.dataservice.entity.StageLineEntity;
+import com.example.phoenixtree.dataservice.entity.StageLineLocalEntity;
 import com.example.phoenixtree.dataservice.entity.StageSceneEntity;
 
 import java.util.List;
@@ -9,5 +11,6 @@ import java.util.List;
  */
 
 public class StageScene extends StageSceneEntity {
-    public List<StageLine> stageLines;
+    public List<StageLineEntity> stageLines;
+    public List<StageLineLocalEntity> stageLinesLocal;
 }

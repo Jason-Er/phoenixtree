@@ -43,6 +43,25 @@ public class ParticipateFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
+        viewModel.setPlayId(1L);
+        viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
+                Log.i(TAG, "onAttach onChanged");
+                switch (play4PWResource.status) {
+                    case SUCCESS:
+                        Play4PW play4PW = play4PWResource.data;
+                        break;
+                    case ERROR:
+
+                        break;
+                    case LOADING:
+
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -67,25 +86,6 @@ public class ParticipateFragment extends LifecycleFragment {
     @Override
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
-        viewModel.setPlayId(1L);
-        viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
-            @Override
-            public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
-                Log.i(TAG, "onAttach onChanged");
-                switch (play4PWResource.status) {
-                    case SUCCESS:
-                        Play4PW play4PW = play4PWResource.data;
-                        break;
-                    case ERROR:
-
-                        break;
-                    case LOADING:
-
-                        break;
-                }
-            }
-        });
         super.onAttach(context);
     }
 }

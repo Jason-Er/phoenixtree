@@ -8,6 +8,8 @@ import android.arch.persistence.room.Query;
 
 import com.example.phoenixtree.dataservice.entity.StageSceneEntity;
 
+import java.util.List;
+
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 /**
  * Created by ej on 10/18/2017.
@@ -22,4 +24,6 @@ public interface StageSceneEntityDao {
     LiveData<StageSceneEntity> retrieveByIdLive(long id);
     @Query("SELECT * FROM stage_scene WHERE id = :id")
     StageSceneEntity retrieveById(long id);
+    @Query("SELECT * FROM stage_scene WHERE stage_play_id = :stagePlayId")
+    LiveData<List<StageSceneEntity>> retrieveAllByStagePlayIdLive(long stagePlayId);
 }

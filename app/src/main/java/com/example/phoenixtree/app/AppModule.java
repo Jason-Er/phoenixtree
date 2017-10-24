@@ -5,12 +5,19 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.phoenixtree.dataservice.entity.StageRoleEntity;
 import com.example.phoenixtree.dataservice.entity.UserEntity;
 import com.example.phoenixtree.dataservice.local.AppDatabase;
 import com.example.phoenixtree.dataservice.local.LineEntityDao;
 import com.example.phoenixtree.dataservice.local.PlayEntityDao;
 import com.example.phoenixtree.dataservice.local.RoleEntityDao;
 import com.example.phoenixtree.dataservice.local.SceneEntityDao;
+import com.example.phoenixtree.dataservice.local.StageEntityDao;
+import com.example.phoenixtree.dataservice.local.StageLineEntityDao;
+import com.example.phoenixtree.dataservice.local.StageLineLocalEntityDao;
+import com.example.phoenixtree.dataservice.local.StagePlayEntityDao;
+import com.example.phoenixtree.dataservice.local.StageRoleEntityDao;
+import com.example.phoenixtree.dataservice.local.StageSceneEntityDao;
 import com.example.phoenixtree.dataservice.local.UserEntityDao;
 import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.di.label.DatabaseInfo;
@@ -81,4 +88,35 @@ class AppModule {
     LineEntityDao provideLineEntityDao(AppDatabase db) {
         return db.lineEntityDao();
     }
+
+    @Singleton @Provides
+    StageEntityDao provideStageEntityDao(AppDatabase db) {
+        return db.stageEntityDao();
+    }
+
+    @Singleton @Provides
+    StageLineEntityDao provideStageLineEntityDao(AppDatabase db) {
+        return db.stageLineEntityDao();
+    }
+
+    @Singleton @Provides
+    StageLineLocalEntityDao provideStageLineLocalEntityDao(AppDatabase db) {
+        return db.stageLineLocalEntityDao();
+    }
+
+    @Singleton @Provides
+    StagePlayEntityDao provideStagePlayEntityDao(AppDatabase db) {
+        return db.stagePlayEntityDao();
+    }
+
+    @Singleton @Provides
+    StageRoleEntityDao provideStageRoleEntityDao(AppDatabase db) {
+        return db.stageRoleEntityDao();
+    }
+
+    @Singleton @Provides
+    StageSceneEntityDao provideStageSceneEntityDao(AppDatabase db) {
+        return db.stageSceneEntityDao();
+    }
+
 }

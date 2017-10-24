@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.phoenixtree.util.RoleCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.phoenixtree.util.sceneRecyclerView.RoleCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_gravity="center"
@@ -31,4 +31,4 @@
         android:layout_height="wrap_content"
         android:text="1.0"
         android:visibility="invisible" /-->
-</com.example.phoenixtree.util.RoleCardView>
+</com.example.phoenixtree.util.sceneRecyclerView.RoleCardView>

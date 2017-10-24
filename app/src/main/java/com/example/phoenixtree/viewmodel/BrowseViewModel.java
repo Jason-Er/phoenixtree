@@ -8,7 +8,9 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.repository.StageRepository;
+import com.example.phoenixtree.repository.StagePlayRepository;
+import com.example.phoenixtree.util.AbsentLiveData;
+import com.example.phoenixtree.util.Pageable;
 
 import java.util.List;
 import java.util.Objects;
@@ -21,24 +23,28 @@ import javax.inject.Inject;
 
 public class BrowseViewModel extends ViewModel {
 
-    private final MutableLiveData<Long> stagePage = new MutableLiveData<>();
-    public final LiveData<Resource<List<StagePlayEntity>>> stageEntityListLiveData;
+    private final MutableLiveData<Pageable> pageable = new MutableLiveData<>();
+    public final LiveData<Resource<List<StagePlayEntity>>> stagePlayInfoLiveData;
 
     @Inject
-    public BrowseViewModel(final StageRepository repository) {
-        stageEntityListLiveData = Transformations.switchMap(stagePage, new Function<Long, LiveData<Resource<List<StagePlayEntity>>>>() {
+    public BrowseViewModel(final StagePlayRepository repository) {
+        stagePlayInfoLiveData = Transformations.switchMap(pageable, new Function<Pageable, LiveData<Resource<List<StagePlayEntity>>>>() {
             @Override
-            public LiveData<Resource<List<StagePlayEntity>>> apply(Long input) {
-                return null;
+            public LiveData<Resource<List<StagePlayEntity>>> apply(Pageable input) {
+                if(pageable == null) {
+                    return AbsentLiveData.create();
+                } else {
+                    return repository.loadStagePlayInfo(input.page, input.size);
+                }
             }
         });
     }
 
-    public void setStagePage(long stagePage) {
-        if (Objects.equals(this.stagePage.getValue(), stagePage)) {
+    public void setStagePage(Pageable pageable) {
+        if (Objects.equals(this.pageable.getValue(), pageable)) {
             return;
         }
-        this.stagePage.setValue(stagePage);
+        this.pageable.setValue(pageable);
     }
 
 }
