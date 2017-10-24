@@ -10,11 +10,6 @@ import android.arch.persistence.room.PrimaryKey;
  * Created by ej on 10/16/2017.
  */
 @Entity(tableName = "stage_play",
-        foreignKeys = {
-                @ForeignKey(entity = PlayEntity.class, parentColumns = "id", childColumns = "play_id"),
-                @ForeignKey(entity = UserEntity.class, parentColumns = "id", childColumns = "director_id"),
-                @ForeignKey(entity = StageEntity.class, parentColumns = "id", childColumns = "stage_id")
-        },
         indices = {
                 @Index("play_id"),
                 @Index("director_id"),
