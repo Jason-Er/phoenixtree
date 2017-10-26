@@ -12,17 +12,17 @@ public class RetrievePageInfo<T> {
 
     public boolean last;
 
-    public int totalPages;
+    public long totalPages;
 
-    public int totalElements;
+    public long totalElements;
 
-    public int size;
+    public long size;
 
-    public int number;
+    public long number;
 
     public List<RetrieveSortInfo> sort ;
 
-    public int numberOfElements;
+    public long numberOfElements;
 
     public boolean first;
 }

@@ -222,7 +222,42 @@ public class StagePlayRepository {
                 if(stagePlayInfoListLiveData == null) {
                     stagePlayInfoListLiveData = new MediatorLiveData<>();
                 }
-                stagePlayInfoListLiveData.setValue(null);
+                final LiveData<Long> longLiveData = playEntityDao.retrieveCountLive();
+                final LiveData<List<StagePlayEntity>> listLiveData = playEntityDao.retrievePagedListLive(page, size);
+                final RetrievePageInfo<List<StagePlayEntity>> retrievePageInfo = new RetrievePageInfo<>();
+                stagePlayInfoListLiveData.addSource(longLiveData, new Observer<Long>() {
+                    @Override
+                    public void onChanged(@android.support.annotation.Nullable Long aLong) {
+                        if(aLong > 0) {
+                            stagePlayInfoListLiveData.removeSource(longLiveData);
+                            retrievePageInfo.totalPages = aLong / size + 1;
+                            if (retrievePageInfo.totalPages > page) {
+                                if (page + 1 >= retrievePageInfo.totalPages) {
+                                    retrievePageInfo.last = true;
+                                } else {
+                                    retrievePageInfo.last = false;
+                                }
+                                stagePlayInfoListLiveData.addSource(listLiveData, new Observer<List<StagePlayEntity>>() {
+                                    @Override
+                                    public void onChanged(@android.support.annotation.Nullable List<StagePlayEntity> stagePlayEntities) {
+                                        stagePlayInfoListLiveData.removeSource(listLiveData);
+                                        if (stagePlayEntities != null) {
+                                            retrievePageInfo.content = stagePlayEntities;
+                                            retrievePageInfo.size = size;
+                                            stagePlayInfoListLiveData.setValue(retrievePageInfo);
+                                        } else {
+                                            stagePlayInfoListLiveData.setValue(null);
+                                        }
+                                    }
+                                });
+                            } else {
+                                stagePlayInfoListLiveData.setValue(null);
+                            }
+                        } else {
+                            stagePlayInfoListLiveData.setValue(null);
+                        }
+                    }
+                });
                 return stagePlayInfoListLiveData;
             }
 

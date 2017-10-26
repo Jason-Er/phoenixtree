@@ -60,6 +60,9 @@ public class BrowseFragment extends LifecycleFragment {
                     case SUCCESS:
                         Log.i(TAG, "SUCCESS");
                         RetrievePageInfo<List<StagePlayEntity>> pageInfo = resource.data;
+                        if(resource.data != null) {
+
+                        }
 
 
                         break;

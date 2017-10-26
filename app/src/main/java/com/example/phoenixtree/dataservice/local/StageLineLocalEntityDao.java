@@ -18,8 +18,8 @@ public interface StageLineLocalEntityDao {
     void save(StageLineLocalEntity entity);
     @Delete
     void delete(StageLineLocalEntity entity);
-    @Query("SELECT * FROM stage_line WHERE id = :id")
+    @Query("SELECT * FROM stage_line_local WHERE id = :id")
     LiveData<StageLineLocalEntity> retrieveByIdLive(long id);
-    @Query("SELECT * FROM stage_line WHERE id = :id")
+    @Query("SELECT * FROM stage_line_local WHERE id = :id")
     StageLineLocalEntity retrieveById(long id);
 }

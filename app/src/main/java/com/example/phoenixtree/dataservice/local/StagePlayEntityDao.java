@@ -8,6 +8,8 @@ import android.arch.persistence.room.Query;
 
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 
+import java.util.List;
+
 import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 /**
  * Created by ej on 10/18/2017.
@@ -22,4 +24,13 @@ public interface StagePlayEntityDao {
     LiveData<StagePlayEntity> retrieveByIdLive(long id);
     @Query("SELECT * FROM stage_play WHERE id = :id")
     StagePlayEntity retrieveById(long id);
+    @Query("SELECT * FROM stage_play ORDER BY id ASC LIMIT :size OFFSET :page * :size")
+    LiveData<List<StagePlayEntity>> retrievePagedListLive(long page, long size);
+    @Query("SELECT * FROM stage_play ORDER BY id ASC LIMIT :size OFFSET :page * :size")
+    List<StagePlayEntity> retrievePagedListLiveCall(long page, long size);
+    @Query("SELECT COUNT(*) FROM stage_play")
+    LiveData<Long> retrieveCountLive();
+    @Query("SELECT COUNT(*) FROM stage_play")
+    Long retrieveCountLiveCall();
+
 }
