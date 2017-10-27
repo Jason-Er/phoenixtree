@@ -13,22 +13,4 @@
         android:background="@mipmap/ic_launcher">
     </ImageView>
 
-    <!--TextView
-        android:id="@+id/role_view_position_x"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1.0"
-        android:visibility="invisible" />
-    <TextView
-        android:id="@+id/role_view_position_y"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1.0"
-        android:visibility="invisible" />
-    <TextView
-        android:id="@+id/role_view_position_z"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1.0"
-        android:visibility="invisible" /-->
 </com.example.phoenixtree.util.sceneRecyclerView.RoleCardView>

@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.phoenixtree.app.AppExecutors;
-import com.example.phoenixtree.dataservice.entity.LineEntity;
 import com.example.phoenixtree.dataservice.entity.StageLineEntity;
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.dataservice.entity.StageRoleEntity;
@@ -24,7 +23,7 @@ import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.model.StageScene;
-import com.example.phoenixtree.util.CallBackInterface;
+import com.example.phoenixtree.util.callbackInterface.PlainCallBack;
 import com.example.phoenixtree.util.RetrievePageInfo;
 
 import java.util.ArrayList;
@@ -100,7 +99,7 @@ public class StagePlayRepository {
                 return data == null;
             }
 
-            private void traverseScenelist(final Iterator iterator, final MediatorLiveData<StagePlay> stagePlayLiveData, final CallBackInterface callback) {
+            private void traverseScenelist(final Iterator iterator, final MediatorLiveData<StagePlay> stagePlayLiveData, final PlainCallBack callback) {
                 if(iterator.hasNext()) {
                     final StageScene stageScene = (StageScene) iterator.next();
                     final LiveData<List<StageLineEntity>> linelistLiveData = lineEntityDao.retrieveAllByStageSceneIdLive(stageScene.id);
@@ -167,7 +166,7 @@ public class StagePlayRepository {
                                                     stagePlay.scenes = stageSceneList;
 
                                                     Iterator iterator = stageSceneList.iterator();
-                                                    traverseScenelist(iterator, stagePlayLiveData, new CallBackInterface() {
+                                                    traverseScenelist(iterator, stagePlayLiveData, new PlainCallBack() {
                                                         @Override
                                                         public void callback() {
                                                             stagePlayLiveData.setValue(stagePlay);

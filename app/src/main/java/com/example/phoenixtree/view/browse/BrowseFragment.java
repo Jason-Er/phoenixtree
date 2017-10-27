@@ -20,6 +20,7 @@ import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.util.PageRequest;
 import com.example.phoenixtree.util.RetrievePageInfo;
 import com.example.phoenixtree.util.browseRecyclerView.BrowseAdapter;
+import com.example.phoenixtree.util.callbackInterface.OnClickCallBack;
 import com.example.phoenixtree.view.NavigationController;
 import com.example.phoenixtree.viewmodel.BrowseViewModel;
 
@@ -87,7 +88,12 @@ public class BrowseFragment extends Fragment {
         int spanCount = 2;
         layoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new BrowseAdapter();
+        adapter = new BrowseAdapter(new OnClickCallBack() {
+            @Override
+            public void onClick(long id) {
+                navigationController.navigateToParticipate(id);
+            }
+        });
         recyclerView.setAdapter(adapter);
         return root;
     }
