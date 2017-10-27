@@ -62,7 +62,7 @@ public class BrowseFragment extends Fragment {
                         Log.i(TAG, "SUCCESS");
                         RetrievePageInfo<List<StagePlayEntity>> pageInfo = resource.data;
                         if(resource.data != null) {
-
+                            ((BrowseAdapter)adapter).setDataset(resource.data.content);
                         }
 
 
