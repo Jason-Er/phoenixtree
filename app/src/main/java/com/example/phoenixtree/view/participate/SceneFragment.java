@@ -1,7 +1,5 @@
 package com.example.phoenixtree.view.participate;
 
-
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -28,7 +26,7 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SceneFragment extends LifecycleFragment {
+public class SceneFragment extends Fragment {
 
     final private static String TAG = SceneFragment.class.getName();
 

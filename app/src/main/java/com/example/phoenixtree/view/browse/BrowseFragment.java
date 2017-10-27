@@ -1,12 +1,12 @@
 package com.example.phoenixtree.view.browse;
 
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -33,7 +33,7 @@ import dagger.android.support.AndroidSupportInjection;
  * Created by ej on 10/16/2017.
  */
 
-public class BrowseFragment extends LifecycleFragment {
+public class BrowseFragment extends Fragment {
 
     final String TAG = BrowseFragment.class.getName();
 
@@ -46,6 +46,7 @@ public class BrowseFragment extends LifecycleFragment {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

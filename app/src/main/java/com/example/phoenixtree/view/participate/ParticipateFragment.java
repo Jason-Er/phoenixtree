@@ -1,7 +1,5 @@
 package com.example.phoenixtree.view.participate;
 
-
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,12 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.app.PhoenixtreeApplication;
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.util.Common;
 import com.example.phoenixtree.view.NavigationController;
-import com.example.phoenixtree.view.main.MainActivity;
 import com.example.phoenixtree.viewmodel.ParticipateViewModel;
 
 import javax.inject.Inject;
@@ -30,7 +26,7 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ParticipateFragment extends LifecycleFragment {
+public class ParticipateFragment extends Fragment {
 
     final private static String TAG = ParticipateFragment.class.getName();
     private ParticipateViewModel viewModel;
