@@ -8,7 +8,9 @@ import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
+import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.repository.Play4PWRepository;
+import com.example.phoenixtree.repository.StagePlayRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
 
 import java.util.Objects;
@@ -22,13 +24,13 @@ import javax.inject.Inject;
 public class ParticipateViewModel extends ViewModel {
 
     private final MutableLiveData<Long> playId = new MutableLiveData<>();
-    public final LiveData<Resource<Play4PW>> play;
+    public final LiveData<Resource<StagePlay>> play;
 
     @Inject
-    public ParticipateViewModel(final Play4PWRepository repository) {
-        play = Transformations.switchMap(playId, new Function<Long, LiveData<Resource<Play4PW>>>() {
+    public ParticipateViewModel(final StagePlayRepository repository) {
+        play = Transformations.switchMap(playId, new Function<Long, LiveData<Resource<StagePlay>>>() {
             @Override
-            public LiveData<Resource<Play4PW>> apply(Long input) {
+            public LiveData<Resource<StagePlay>> apply(Long input) {
                 if(playId == null) {
                     return AbsentLiveData.create();
                 } else {

@@ -71,7 +71,7 @@ public class StagePlayRepository {
         this.lineEntityDao = lineEntityDao;
     }
 
-    public LiveData<Resource<StagePlay>> loadStagePlay(final long playId) {
+    public LiveData<Resource<StagePlay>> loadPlay(final long playId) {
         return new NetworkBoundResource<StagePlay, StagePlay>(appExecutors) {
 
             @Override
@@ -139,43 +139,47 @@ public class StagePlayRepository {
                                 @Override
                                 public void onChanged(@android.support.annotation.Nullable UserEntity userEntity) {
                                     stagePlayLiveData.removeSource(userEntityLiveData);
-                                    stagePlay.director = userEntity;
-                                    final LiveData<List<StageRoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByStagePlayIdLive(playId);
-                                    stagePlayLiveData.addSource(roleListLiveData, new Observer<List<StageRoleEntity>>() {
-                                        @Override
-                                        public void onChanged(@android.support.annotation.Nullable List<StageRoleEntity> roleEntities) {
-                                            stagePlayLiveData.removeSource(roleListLiveData);
-                                            stagePlay.cast = roleEntities;
-                                            final LiveData<List<StageSceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByStagePlayIdLive(playId);
-                                            stagePlayLiveData.addSource(scenelistLiveData, new Observer<List<StageSceneEntity>>() {
-                                                @Override
-                                                public void onChanged(@android.support.annotation.Nullable List<StageSceneEntity> sceneEntities) {
-                                                    stagePlayLiveData.removeSource(scenelistLiveData);
-                                                    List<StageScene> stageSceneList = new ArrayList<>();
-                                                    for (StageSceneEntity sceneEntity : sceneEntities) {
-                                                        StageScene stageScene = new StageScene();
-                                                        // properties copy
-                                                        stageScene.id = sceneEntity.id;
-                                                        stageScene.stagePlayId = sceneEntity.stagePlayId;
-                                                        stageScene.setting = sceneEntity.setting;
-                                                        stageScene.actOrdinal = sceneEntity.actOrdinal;
-                                                        stageScene.atrise = sceneEntity.atrise;
-                                                        stageScene.ordinal = sceneEntity.ordinal;
-                                                        stageSceneList.add(stageScene);
-                                                    }
-                                                    stagePlay.scenes = stageSceneList;
-
-                                                    Iterator iterator = stageSceneList.iterator();
-                                                    traverseScenelist(iterator, stagePlayLiveData, new PlainCallBack() {
-                                                        @Override
-                                                        public void callback() {
-                                                            stagePlayLiveData.setValue(stagePlay);
+                                    if(userEntity != null) {
+                                        stagePlay.director = userEntity;
+                                        final LiveData<List<StageRoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByStagePlayIdLive(playId);
+                                        stagePlayLiveData.addSource(roleListLiveData, new Observer<List<StageRoleEntity>>() {
+                                            @Override
+                                            public void onChanged(@android.support.annotation.Nullable List<StageRoleEntity> roleEntities) {
+                                                stagePlayLiveData.removeSource(roleListLiveData);
+                                                stagePlay.cast = roleEntities;
+                                                final LiveData<List<StageSceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByStagePlayIdLive(playId);
+                                                stagePlayLiveData.addSource(scenelistLiveData, new Observer<List<StageSceneEntity>>() {
+                                                    @Override
+                                                    public void onChanged(@android.support.annotation.Nullable List<StageSceneEntity> sceneEntities) {
+                                                        stagePlayLiveData.removeSource(scenelistLiveData);
+                                                        List<StageScene> stageSceneList = new ArrayList<>();
+                                                        for (StageSceneEntity sceneEntity : sceneEntities) {
+                                                            StageScene stageScene = new StageScene();
+                                                            // properties copy
+                                                            stageScene.id = sceneEntity.id;
+                                                            stageScene.stagePlayId = sceneEntity.stagePlayId;
+                                                            stageScene.setting = sceneEntity.setting;
+                                                            stageScene.actOrdinal = sceneEntity.actOrdinal;
+                                                            stageScene.atrise = sceneEntity.atrise;
+                                                            stageScene.ordinal = sceneEntity.ordinal;
+                                                            stageSceneList.add(stageScene);
                                                         }
-                                                    });
-                                                }
-                                            });
-                                        }
-                                    });
+                                                        stagePlay.scenes = stageSceneList;
+
+                                                        Iterator iterator = stageSceneList.iterator();
+                                                        traverseScenelist(iterator, stagePlayLiveData, new PlainCallBack() {
+                                                            @Override
+                                                            public void callback() {
+                                                                stagePlayLiveData.setValue(stagePlay);
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    } else {
+                                        stagePlayLiveData.setValue(null);
+                                    }
                                 }
                             });
                         } else {
@@ -195,7 +199,7 @@ public class StagePlayRepository {
         }.asLiveData();
     }
 
-    public LiveData<Resource<RetrievePageInfo<List<StagePlayEntity>>>> loadStagePlayInfo(final long page, final long size) {
+    public LiveData<Resource<RetrievePageInfo<List<StagePlayEntity>>>> loadPlayInfo(final long page, final long size) {
         return new NetworkBoundResource<RetrievePageInfo<List<StagePlayEntity>>, RetrievePageInfo<List<StagePlayEntity>>>(appExecutors) {
 
             @Override

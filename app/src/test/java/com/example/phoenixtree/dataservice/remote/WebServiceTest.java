@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.model.Play4PW;
+import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.util.LiveDataCallAdapterFactory;
 import com.example.phoenixtree.util.RetrievePageInfo;
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by ej on 9/29/2017.
@@ -42,7 +44,7 @@ public class WebServiceTest {
     }
 
     @Test
-    public void loadPlayC() throws Exception {
+    public void loadPlayCall() throws Exception {
         Call<Play4PW> call = webService.loadPlayCall(1);
         Play4PW play4PW = call.execute().body();
         assertTrue(play4PW.cast.size()>0);
@@ -50,6 +52,13 @@ public class WebServiceTest {
         Gson gson = new Gson();
         String entityToStr = gson.toJson(play4PW);
         assertEquals(entityToStr, json);
+    }
+
+    @Test
+    public void loadStagePlayCall() throws Exception {
+        Call<StagePlay> call = webService.loadStagePlayCall(1);
+        StagePlay play = call.execute().body();
+        assertTrue(play.cast.size() > 0);
     }
 
     @Test

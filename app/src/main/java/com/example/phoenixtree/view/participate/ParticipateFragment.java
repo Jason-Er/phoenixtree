@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
+import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.util.Common;
 import com.example.phoenixtree.view.NavigationController;
 import com.example.phoenixtree.viewmodel.ParticipateViewModel;
@@ -47,13 +47,13 @@ public class ParticipateFragment extends Fragment {
             viewModel.setPlayId(0);
         }
 
-        viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
+        viewModel.play.observe(this, new Observer<Resource<StagePlay>>() {
             @Override
-            public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
+            public void onChanged(@Nullable Resource<StagePlay> stagePlayResource) {
                 Log.i(TAG, "onAttach onChanged");
-                switch (play4PWResource.status) {
+                switch (stagePlayResource.status) {
                     case SUCCESS:
-                        Play4PW play4PW = play4PWResource.data;
+                        StagePlay play = stagePlayResource.data;
                         break;
                     case ERROR:
 

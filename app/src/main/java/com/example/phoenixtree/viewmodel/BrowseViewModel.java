@@ -35,7 +35,7 @@ public class BrowseViewModel extends ViewModel {
                 if(pageable == null) {
                     return AbsentLiveData.create();
                 } else {
-                    return repository.loadStagePlayInfo(input.page, input.size);
+                    return repository.loadPlayInfo(input.page, input.size);
                 }
             }
         });
