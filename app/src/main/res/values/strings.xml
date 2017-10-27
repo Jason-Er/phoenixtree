@@ -6,6 +6,8 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="stage_play_info_poster">Poster</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

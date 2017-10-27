@@ -1,7 +1,5 @@
 package com.example.phoenixtree.view.participate;
 
-
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,12 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.app.PhoenixtreeApplication;
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.util.Common;
 import com.example.phoenixtree.view.NavigationController;
-import com.example.phoenixtree.view.main.MainActivity;
 import com.example.phoenixtree.viewmodel.ParticipateViewModel;
 
 import javax.inject.Inject;
@@ -30,11 +26,11 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ParticipateFragment extends LifecycleFragment {
+public class ParticipateFragment extends Fragment {
 
     final private static String TAG = ParticipateFragment.class.getName();
     private ParticipateViewModel viewModel;
-
+    public static final String ID_KEY = "id";
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
@@ -43,6 +39,31 @@ public class ParticipateFragment extends LifecycleFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ID_KEY)) {
+            viewModel.setPlayId(args.getLong(ID_KEY));
+        } else {
+            viewModel.setPlayId(0);
+        }
+
+        viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
+            @Override
+            public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
+                Log.i(TAG, "onAttach onChanged");
+                switch (play4PWResource.status) {
+                    case SUCCESS:
+                        Play4PW play4PW = play4PWResource.data;
+                        break;
+                    case ERROR:
+
+                        break;
+                    case LOADING:
+
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -67,25 +88,14 @@ public class ParticipateFragment extends LifecycleFragment {
     @Override
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
-        viewModel.setPlayId(1L);
-        viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
-            @Override
-            public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
-                Log.i(TAG, "onAttach onChanged");
-                switch (play4PWResource.status) {
-                    case SUCCESS:
-                        Play4PW play4PW = play4PWResource.data;
-                        break;
-                    case ERROR:
-
-                        break;
-                    case LOADING:
-
-                        break;
-                }
-            }
-        });
         super.onAttach(context);
+    }
+
+    public static ParticipateFragment create(long stagePlayId) {
+        ParticipateFragment fragment = new ParticipateFragment();
+        Bundle args = new Bundle();
+        args.putLong(ID_KEY, stagePlayId);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

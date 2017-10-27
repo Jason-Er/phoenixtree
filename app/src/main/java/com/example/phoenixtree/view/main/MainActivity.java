@@ -19,6 +19,7 @@ import com.example.phoenixtree.app.PhoenixtreeApplication;
 
 import com.example.phoenixtree.util.Common;
 import com.example.phoenixtree.view.NavigationController;
+import com.example.phoenixtree.view.browse.BrowseFragment;
 import com.example.phoenixtree.view.participate.ParticipateFragment;
 
 import javax.inject.Inject;
@@ -62,12 +63,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // attach fragment to main layout
-        ParticipateFragment participateFragment = (ParticipateFragment) getSupportFragmentManager()
+        Fragment fragment = getSupportFragmentManager()
                 .findFragmentById(R.id.main_container);
 
-        if (participateFragment == null) {
-            participateFragment = new ParticipateFragment();
-            Common.addFragment(R.id.main_container, participateFragment, this);
+        if (fragment == null) {
+            fragment = new BrowseFragment(); //new ParticipateFragment();
+            Common.addFragment(R.id.main_container, fragment, this);
         }
 
     }

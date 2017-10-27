@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0'
 
         classpath 'com.jakewharton:butterknife-gradle-plugin:8.5.1'
         // NOTE: Do not place your application dependencies here; they belong
@@ -25,7 +25,8 @@ task clean(type: Delete) {
 }
 
 ext {
-    arch_version = '1.0.0-alpha5'
+    arch_version = '1.0.0-rc1'
+    paging_version = '1.0.0-alpha3'
     butter_knife_version = '8.5.1'
     dagger_version = '2.11'
     retrofitVersion = '2.3.0'

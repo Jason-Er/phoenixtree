@@ -22,8 +22,9 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class AppDatabaseTest {
     final String TAG = AppDatabaseTest.class.getName();
-    private UserEntityDao userEntityDao;
     private AppDatabase appDatabase;
+    private UserEntityDao userEntityDao;
+
     @Before
     public void setUp() throws Exception {
         Context context = InstrumentationRegistry.getTargetContext();

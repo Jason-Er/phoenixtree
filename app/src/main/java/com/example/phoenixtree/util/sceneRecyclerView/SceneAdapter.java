@@ -1,4 +1,4 @@
-package com.example.phoenixtree.util;
+package com.example.phoenixtree.util.sceneRecyclerView;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;

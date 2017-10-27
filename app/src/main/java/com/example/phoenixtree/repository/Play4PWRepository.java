@@ -1,11 +1,8 @@
 package com.example.phoenixtree.repository;
 
-import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -25,8 +22,7 @@ import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.Scene4PW;
-import com.example.phoenixtree.util.AbsentLiveData;
-import com.example.phoenixtree.util.CallBackInterface;
+import com.example.phoenixtree.util.callbackInterface.PlainCallBack;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -98,7 +94,7 @@ public class Play4PWRepository {
                 return data == null;
             }
 
-            private void traverseScenelist(final Iterator iterator, final MediatorLiveData<Play4PW> play4PWLiveData, final CallBackInterface callback) {
+            private void traverseScenelist(final Iterator iterator, final MediatorLiveData<Play4PW> play4PWLiveData, final PlainCallBack callback) {
                 if(iterator.hasNext()) {
                     final Scene4PW scene4PW = (Scene4PW) iterator.next();
                     final LiveData<List<LineEntity>> linelistLiveData = lineEntityDao.retrieveAllBySceneIdLive(scene4PW.id);
@@ -166,7 +162,7 @@ public class Play4PWRepository {
                                                     play4PW.scenes = scene4PWList;
 
                                                     Iterator iterator = scene4PWList.iterator();
-                                                    traverseScenelist(iterator, play4PWLiveData, new CallBackInterface() {
+                                                    traverseScenelist(iterator, play4PWLiveData, new PlainCallBack() {
                                                         @Override
                                                         public void callback() {
                                                             play4PWLiveData.setValue(play4PW);

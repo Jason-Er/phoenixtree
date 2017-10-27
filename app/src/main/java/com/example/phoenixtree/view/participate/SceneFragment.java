@@ -1,7 +1,5 @@
 package com.example.phoenixtree.view.participate;
 
-
-import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -16,10 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.util.processor.Keyframe;
-import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.util.SceneAdapter;
-import com.example.phoenixtree.util.SceneLayoutManager;
+import com.example.phoenixtree.util.sceneRecyclerView.SceneAdapter;
+import com.example.phoenixtree.util.sceneRecyclerView.SceneLayoutManager;
 import com.example.phoenixtree.viewmodel.SceneViewModel;
 
 import javax.inject.Inject;
@@ -29,7 +26,7 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SceneFragment extends LifecycleFragment {
+public class SceneFragment extends Fragment {
 
     final private static String TAG = SceneFragment.class.getName();
 
