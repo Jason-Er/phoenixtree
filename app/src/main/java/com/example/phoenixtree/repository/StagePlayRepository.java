@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.phoenixtree.app.AppExecutors;
+import com.example.phoenixtree.dataservice.entity.StageEntity;
 import com.example.phoenixtree.dataservice.entity.StageLineEntity;
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.dataservice.entity.StageRoleEntity;
@@ -77,6 +78,7 @@ public class StagePlayRepository {
             @Override
             protected void saveCallResult(@NonNull StagePlay item) {
                 userEntityDao.save(item.director);
+                stageEntityDao.save(item.stage);
                 StagePlayEntity stagePlayEntity = (StagePlayEntity) item;
                 playEntityDao.save(stagePlayEntity);
                 // TODO: 9/22/2017 need batch saving
@@ -134,6 +136,7 @@ public class StagePlayRepository {
                             stagePlay.id = playEntity.id;
                             stagePlay.name = playEntity.name;
                             stagePlay.directorId = playEntity.directorId;
+                            stagePlay.stageId = playEntity.stageId;
                             final LiveData<UserEntity> userEntityLiveData = userEntityDao.retrieveByIdLive(stagePlay.directorId);
                             stagePlayLiveData.addSource(userEntityLiveData, new Observer<UserEntity>() {
                                 @Override
@@ -141,40 +144,56 @@ public class StagePlayRepository {
                                     stagePlayLiveData.removeSource(userEntityLiveData);
                                     if(userEntity != null) {
                                         stagePlay.director = userEntity;
-                                        final LiveData<List<StageRoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByStagePlayIdLive(playId);
-                                        stagePlayLiveData.addSource(roleListLiveData, new Observer<List<StageRoleEntity>>() {
+                                        final LiveData<StageEntity> stageEntityLiveData = stageEntityDao.retrieveByIdLive(stagePlay.stageId);
+                                        stagePlayLiveData.addSource(stageEntityLiveData, new Observer<StageEntity>() {
                                             @Override
-                                            public void onChanged(@android.support.annotation.Nullable List<StageRoleEntity> roleEntities) {
-                                                stagePlayLiveData.removeSource(roleListLiveData);
-                                                stagePlay.cast = roleEntities;
-                                                final LiveData<List<StageSceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByStagePlayIdLive(playId);
-                                                stagePlayLiveData.addSource(scenelistLiveData, new Observer<List<StageSceneEntity>>() {
-                                                    @Override
-                                                    public void onChanged(@android.support.annotation.Nullable List<StageSceneEntity> sceneEntities) {
-                                                        stagePlayLiveData.removeSource(scenelistLiveData);
-                                                        List<StageScene> stageSceneList = new ArrayList<>();
-                                                        for (StageSceneEntity sceneEntity : sceneEntities) {
-                                                            StageScene stageScene = new StageScene();
-                                                            // properties copy
-                                                            stageScene.id = sceneEntity.id;
-                                                            stageScene.stagePlayId = sceneEntity.stagePlayId;
-                                                            stageScene.setting = sceneEntity.setting;
-                                                            stageScene.actOrdinal = sceneEntity.actOrdinal;
-                                                            stageScene.atrise = sceneEntity.atrise;
-                                                            stageScene.ordinal = sceneEntity.ordinal;
-                                                            stageSceneList.add(stageScene);
-                                                        }
-                                                        stagePlay.scenes = stageSceneList;
+                                            public void onChanged(@android.support.annotation.Nullable StageEntity stageEntity) {
+                                                stagePlayLiveData.removeSource(stageEntityLiveData);
+                                                if(stageEntity != null) {
+                                                    stagePlay.stage = stageEntity;
+                                                    final LiveData<List<StageRoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByStagePlayIdLive(playId);
+                                                    stagePlayLiveData.addSource(roleListLiveData, new Observer<List<StageRoleEntity>>() {
+                                                        @Override
+                                                        public void onChanged(@android.support.annotation.Nullable List<StageRoleEntity> roleEntities) {
+                                                            stagePlayLiveData.removeSource(roleListLiveData);
+                                                            if(roleEntities != null) {
+                                                                stagePlay.cast = roleEntities;
+                                                                final LiveData<List<StageSceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByStagePlayIdLive(playId);
+                                                                stagePlayLiveData.addSource(scenelistLiveData, new Observer<List<StageSceneEntity>>() {
+                                                                    @Override
+                                                                    public void onChanged(@android.support.annotation.Nullable List<StageSceneEntity> sceneEntities) {
+                                                                        stagePlayLiveData.removeSource(scenelistLiveData);
+                                                                        List<StageScene> stageSceneList = new ArrayList<>();
+                                                                        for (StageSceneEntity sceneEntity : sceneEntities) {
+                                                                            StageScene stageScene = new StageScene();
+                                                                            // properties copy
+                                                                            stageScene.id = sceneEntity.id;
+                                                                            stageScene.stagePlayId = sceneEntity.stagePlayId;
+                                                                            stageScene.setting = sceneEntity.setting;
+                                                                            stageScene.actOrdinal = sceneEntity.actOrdinal;
+                                                                            stageScene.atrise = sceneEntity.atrise;
+                                                                            stageScene.ordinal = sceneEntity.ordinal;
+                                                                            stageSceneList.add(stageScene);
+                                                                        }
+                                                                        stagePlay.scenes = stageSceneList;
 
-                                                        Iterator iterator = stageSceneList.iterator();
-                                                        traverseScenelist(iterator, stagePlayLiveData, new PlainCallBack() {
-                                                            @Override
-                                                            public void callback() {
-                                                                stagePlayLiveData.setValue(stagePlay);
+                                                                        Iterator iterator = stageSceneList.iterator();
+                                                                        traverseScenelist(iterator, stagePlayLiveData, new PlainCallBack() {
+                                                                            @Override
+                                                                            public void callback() {
+                                                                                stagePlayLiveData.setValue(stagePlay);
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                stagePlayLiveData.setValue(null);
                                                             }
-                                                        });
-                                                    }
-                                                });
+                                                        }
+                                                    });
+                                                } else {
+                                                    stagePlayLiveData.setValue(null);
+                                                }
                                             }
                                         });
                                     } else {
