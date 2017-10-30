@@ -55,16 +55,17 @@ public class SceneFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle args = getArguments();
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
         if (args != null && args.containsKey(ID_KEY)) {
             viewModel.setSceneId(args.getLong(ID_KEY));
         } else {
             viewModel.setSceneId(0L);
         }
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
         viewModel.keyframe.observe(this, new Observer<Keyframe>() {
             @Override
             public void onChanged(@Nullable Keyframe keyframe) {
                 Log.i(TAG, "onActivityCreated onChanged");
+                ((SceneAdapter)adapter).setKeyframe(keyframe);
             }
         });
     }

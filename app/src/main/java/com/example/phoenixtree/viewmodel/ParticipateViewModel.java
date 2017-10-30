@@ -6,10 +6,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
-import com.example.phoenixtree.repository.Play4PWRepository;
 import com.example.phoenixtree.repository.StagePlayRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
 

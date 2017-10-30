@@ -6,15 +6,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.Role4DIR;
-import com.example.phoenixtree.model.Scene4PW;
+import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.util.PanelInterface;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,8 +21,8 @@ import javax.inject.Inject;
 public class KeyframeProcessor implements PanelInterface {
     final String TAG = KeyframeProcessor.class.getName();
 
-    private Scene4PW scene;
-    private MutableLiveData<Keyframe> mutableLiveData = new MediatorLiveData<>();
+    private StageScene scene;
+    public MutableLiveData<Keyframe> keyframeLiveData = new MediatorLiveData<>();
 
     private final long timeInterval = 30;
     private long startTime;
@@ -59,19 +53,18 @@ public class KeyframeProcessor implements PanelInterface {
         };
     }
 
-    public LiveData<Keyframe> setScene(@NonNull Scene4PW scene) {
+    public void setScene(@NonNull StageScene scene) {
         this.scene = scene;
+    }
 
+    public LiveData<Keyframe> firstFrame() {
         // TODO: 10/13/2017 need calculate first frame according to action script
         this.keyframe.roles = null;
         this.keyframe.mapLines = null;
         this.keyframe.stage = null;
-        mutableLiveData.setValue(keyframe);
+        keyframeLiveData.setValue(keyframe);
 
-        return mutableLiveData;
-    }
 
-    private void firstFrame() {
         /*
         ActionScrpit actionScrpit = this.scene.getActionScrpit();
         List<Role> roleList = actionScrpit.getRoleList();
@@ -119,6 +112,8 @@ public class KeyframeProcessor implements PanelInterface {
 
         keyframeLive.setValue(Resource.success(keyframe));
         */
+
+        return keyframeLiveData;
     }
 
     @Override

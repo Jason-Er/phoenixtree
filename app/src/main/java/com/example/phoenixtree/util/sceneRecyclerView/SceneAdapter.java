@@ -1,5 +1,6 @@
 package com.example.phoenixtree.util.sceneRecyclerView;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,22 +92,20 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         return keyframe;
     }
 
-    public void setKeyframe(Keyframe keyframe) {
-        if(keyframe != null) {
-            this.keyframe = keyframe;
-            dataset = new ArrayList<>();
-            dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.getStage()));
-            for (Role4DIR role : keyframe.getRoles()) {
-                dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
-            }
-
-            Iterator<Map.Entry<Role4DIR, String>> entries = keyframe.getMapLines().entrySet().iterator();
-            while (entries.hasNext()) {
-                Map.Entry<Role4DIR, String> entry = entries.next();
-                dataset.add(new ItemViewInfo(SceneViewType.LINE, new RoleLine(entry.getKey(), entry.getValue())));
-            }
-            notifyDataSetChanged();
+    public void setKeyframe(@NonNull Keyframe keyframe) {
+        this.keyframe = keyframe;
+        dataset = new ArrayList<>();
+        dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.getStage()));
+        for (Role4DIR role : keyframe.getRoles()) {
+            dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
         }
+
+        Iterator<Map.Entry<Role4DIR, String>> entries = keyframe.getMapLines().entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry<Role4DIR, String> entry = entries.next();
+            dataset.add(new ItemViewInfo(SceneViewType.LINE, new RoleLine(entry.getKey(), entry.getValue())));
+        }
+        notifyDataSetChanged();
     }
 
     @Override
