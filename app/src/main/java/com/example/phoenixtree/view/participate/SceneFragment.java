@@ -43,16 +43,28 @@ public class SceneFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static SceneFragment create(long stageSceneId) {
+        SceneFragment fragment = new SceneFragment();
+        Bundle args = new Bundle();
+        args.putLong(ID_KEY, stageSceneId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Long sceneId = getArguments().getLong(ID_KEY);
+        Bundle args = getArguments();
+        if (args != null && args.containsKey(ID_KEY)) {
+            viewModel.setSceneId(args.getLong(ID_KEY));
+        } else {
+            viewModel.setSceneId(0L);
+        }
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
-        viewModel.setSceneId(sceneId);
         viewModel.keyframe.observe(this, new Observer<Keyframe>() {
             @Override
             public void onChanged(@Nullable Keyframe keyframe) {
-                Log.i(TAG, "onAttach onChanged");
+                Log.i(TAG, "onActivityCreated onChanged");
             }
         });
     }

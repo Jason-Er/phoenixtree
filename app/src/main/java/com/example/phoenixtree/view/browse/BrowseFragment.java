@@ -21,7 +21,7 @@ import com.example.phoenixtree.util.PageRequest;
 import com.example.phoenixtree.util.RetrievePageInfo;
 import com.example.phoenixtree.util.browseRecyclerView.BrowseAdapter;
 import com.example.phoenixtree.util.callbackInterface.OnClickCallBack;
-import com.example.phoenixtree.view.NavigationController;
+import com.example.phoenixtree.view.FragmentNavigation;
 import com.example.phoenixtree.viewmodel.BrowseViewModel;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class BrowseFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
-    NavigationController navigationController;
+    FragmentNavigation navigationController;
 
     private BrowseViewModel viewModel;
     private RecyclerView recyclerView;
