@@ -13,7 +13,7 @@ import java.util.List;
 
 public class StagePlay extends StagePlayEntity {
     public UserEntity director;
-    public StageEntity stageSize;
+    public StageEntity stage;
     public List<StageScene> scenes;
     public List<StageRoleEntity> cast;
 }

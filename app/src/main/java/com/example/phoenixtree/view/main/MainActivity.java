@@ -15,12 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.app.PhoenixtreeApplication;
 
-import com.example.phoenixtree.util.Common;
-import com.example.phoenixtree.view.NavigationController;
-import com.example.phoenixtree.view.browse.BrowseFragment;
-import com.example.phoenixtree.view.participate.ParticipateFragment;
+import com.example.phoenixtree.view.FragmentNavigation;
 
 import javax.inject.Inject;
 
@@ -35,6 +31,9 @@ public class MainActivity extends AppCompatActivity
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
+
+    @Inject
+    FragmentNavigation fragmentNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,14 +61,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // attach fragment to main layout
-        Fragment fragment = getSupportFragmentManager()
-                .findFragmentById(R.id.main_container);
-
-        if (fragment == null) {
-            fragment = new BrowseFragment(); //new ParticipateFragment();
-            Common.addFragment(R.id.main_container, fragment, this);
-        }
+        fragmentNavigation.navigateToBrowse();
 
     }
 

@@ -28,6 +28,8 @@ public interface WebService {
     LiveData<ApiResponse<Play4PW>> loadPlay(@Header("Authorization") String token, @Path("id") long id);
     @GET("v1/web/stageplay/{id}")
     LiveData<ApiResponse<StagePlay>> loadStagePlay(@Path("id") long id);
+    @GET("v1/web/stageplay/{id}")
+    Call<StagePlay> loadStagePlayCall(@Path("id") long id);
     @GET("v1/web/stageplayinfo")
     LiveData<ApiResponse<List<StagePlayEntity>>> loadStagePlayInfo();
     @GET("v1/web/stageplayinfo")

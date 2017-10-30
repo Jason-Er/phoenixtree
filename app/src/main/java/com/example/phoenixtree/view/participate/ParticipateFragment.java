@@ -13,10 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.util.Common;
-import com.example.phoenixtree.view.NavigationController;
+import com.example.phoenixtree.model.StagePlay;
+import com.example.phoenixtree.view.FragmentNavigation;
 import com.example.phoenixtree.viewmodel.ParticipateViewModel;
 
 import javax.inject.Inject;
@@ -34,7 +33,9 @@ public class ParticipateFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
-    NavigationController navigationController;
+    FragmentNavigation fragmentNavigation;
+    @Inject
+    SceneNavigation sceneNavigation;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -47,13 +48,15 @@ public class ParticipateFragment extends Fragment {
             viewModel.setPlayId(0);
         }
 
-        viewModel.play.observe(this, new Observer<Resource<Play4PW>>() {
+        viewModel.play.observe(this, new Observer<Resource<StagePlay>>() {
             @Override
-            public void onChanged(@Nullable Resource<Play4PW> play4PWResource) {
+            public void onChanged(@Nullable Resource<StagePlay> stagePlayResource) {
                 Log.i(TAG, "onAttach onChanged");
-                switch (play4PWResource.status) {
+                switch (stagePlayResource.status) {
                     case SUCCESS:
-                        Play4PW play4PW = play4PWResource.data;
+                        StagePlay play = stagePlayResource.data;
+                        sceneNavigation.setStageScenes(play.scenes);
+                        sceneNavigation.navigateToFirst();
                         break;
                     case ERROR:
 
@@ -72,16 +75,6 @@ public class ParticipateFragment extends Fragment {
         Log.i(TAG, "ParticipateFragment onCreateView");
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_participate, container, false);
-        SceneFragment sceneFragment = (SceneFragment) getActivity().getSupportFragmentManager()
-                .findFragmentById(R.id.fragment_participate_frame);
-        if (sceneFragment == null) {
-            // trans argument for scene fragment
-            sceneFragment = new SceneFragment();
-            Bundle bundle = new Bundle();
-            bundle.putLong(SceneFragment.ID_KEY, 1L);
-            sceneFragment.setArguments(bundle);
-            Common.addFragment(R.id.fragment_participate_frame, sceneFragment, getActivity());
-        }
         return root;
     }
 
@@ -98,4 +91,5 @@ public class ParticipateFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 }
