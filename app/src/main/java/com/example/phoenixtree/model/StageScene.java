@@ -11,6 +11,7 @@ import java.util.List;
  */
 
 public class StageScene extends StageSceneEntity {
+    public ActionScrpit actionScrpit;
     public List<StageLineEntity> stageLines;
     public List<StageLineLocalEntity> stageLinesLocal;
 }

@@ -1,6 +1,6 @@
 package com.example.phoenixtree.util.processor;
 
-import com.example.phoenixtree.model.Role4DIR;
+import android.graphics.Bitmap;
 
 import java.util.List;
 import java.util.Map;
@@ -10,31 +10,26 @@ import java.util.Map;
  */
 
 public class Keyframe {
-    Stage stage;
-    List<Role4DIR> roles;
-    Map<Role4DIR, String> mapLines;
 
-    public List<Role4DIR> getRoles() {
-        return roles;
+    public class Stage {
+        Bitmap floor;
+        Bitmap setting;
+        Bitmap surrouding;
+        public float[] stageVertices;
     }
 
-    public void setRoles(List<Role4DIR> roles) {
-        this.roles = roles;
+    public class Role {
+        public String name;
+        public float[] roleVertices;
     }
 
-    public Map getMapLines() {
-        return mapLines;
+    public class Line {
+        public String line;
+        public float[] linePosition;
     }
 
-    public void setMapLines(Map mapLines) {
-        this.mapLines = mapLines;
-    }
+    public Stage stage;
+    public List<Role> roles;
+    public Map<Role, Line> mapLines;
 
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
 }

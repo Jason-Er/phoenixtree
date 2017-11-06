@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.util.processor.Keyframe;
-import com.example.phoenixtree.model.Role4DIR;
-import com.example.phoenixtree.util.processor.Stage;
 import com.example.phoenixtree.R;
 
 import java.util.ArrayList;
@@ -27,16 +25,6 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private final String TAG = SceneAdapter.class.getName();
     private Keyframe keyframe;
     private List<ItemViewInfo> dataset;
-
-    class RoleLine {
-        private Role4DIR role;
-        private String string;
-
-        public RoleLine(Role4DIR role, String string) {
-            this.role = role;
-            this.string = string;
-        }
-    }
 
     class ItemViewInfo {
         private SceneViewType sceneViewType;
@@ -95,15 +83,15 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void setKeyframe(@NonNull Keyframe keyframe) {
         this.keyframe = keyframe;
         dataset = new ArrayList<>();
-        dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.getStage()));
-        for (Role4DIR role : keyframe.getRoles()) {
+        dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.stage));
+        for (Keyframe.Role role : keyframe.roles) {
             dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
         }
 
-        Iterator<Map.Entry<Role4DIR, String>> entries = keyframe.getMapLines().entrySet().iterator();
+        Iterator<Map.Entry<Keyframe.Role, Keyframe.Line>> entries = keyframe.mapLines.entrySet().iterator();
         while (entries.hasNext()) {
-            Map.Entry<Role4DIR, String> entry = entries.next();
-            dataset.add(new ItemViewInfo(SceneViewType.LINE, new RoleLine(entry.getKey(), entry.getValue())));
+            Map.Entry<Keyframe.Role, Keyframe.Line> entry = entries.next();
+            dataset.add(new ItemViewInfo(SceneViewType.LINE, entry));
         }
         notifyDataSetChanged();
     }
@@ -137,12 +125,12 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StageViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof StageViewHolder");
-            Stage stage = (Stage) dataset.get(position).getObject();
-            ((StageViewHolder) holder).view.setStageVertices(stage.getStageVertices());
+            Keyframe.Stage stage = (Keyframe.Stage) dataset.get(position).getObject();
+            ((StageViewHolder) holder).view.setStageVertices(stage.stageVertices);
         } else if (holder instanceof RoleViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof RoleViewHolder");
-            Role4DIR role = (Role4DIR) dataset.get(position).getObject();
-            ((RoleViewHolder) holder).view.setRoleVertices(role.getRoleVertices());
+            Keyframe.Role role = (Keyframe.Role) dataset.get(position).getObject();
+            ((RoleViewHolder) holder).view.setRoleVertices(role.roleVertices);
         } else if (holder instanceof LineViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof LineViewHolder");
         }
