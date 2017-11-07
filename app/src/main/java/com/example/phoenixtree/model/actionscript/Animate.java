@@ -1,4 +1,4 @@
-package com.example.phoenixtree.model.actionscrpit;
+package com.example.phoenixtree.model.actionscript;
 
 /**
  * Created by ej on 11/7/2017.

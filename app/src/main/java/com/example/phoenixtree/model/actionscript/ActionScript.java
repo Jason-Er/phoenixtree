@@ -1,4 +1,4 @@
-package com.example.phoenixtree.model.actionscrpit;
+package com.example.phoenixtree.model.actionscript;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Created by ej on 9/14/2017.
  */
 
-public class ActionScrpit {
+public class ActionScript {
     public String sceneId;
     public List<Role> roleList;
 }

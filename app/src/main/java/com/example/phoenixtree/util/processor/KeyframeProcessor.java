@@ -67,7 +67,7 @@ public class KeyframeProcessor implements PanelInterface {
 
 
         /*
-        ActionScrpit actionScrpit = this.scene.getActionScrpit();
+        ActionScript actionScrpit = this.scene.getActionScrpit();
         List<Role> roleList = actionScrpit.getRoleList();
         List<Role4DIR> roles = new ArrayList<>();
         Map<Role4DIR, String> mapLines = new HashMap<>();

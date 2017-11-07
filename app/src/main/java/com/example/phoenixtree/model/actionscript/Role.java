@@ -1,4 +1,4 @@
-package com.example.phoenixtree.model.actionscrpit;
+package com.example.phoenixtree.model.actionscript;
 
 import java.util.List;
 
