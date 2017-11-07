@@ -69,8 +69,8 @@ public class KeyframeProcessor implements PanelInterface {
 
     public LiveData<Keyframe> firstFrame() {
         // TODO: 10/13/2017 need calculate first frame according to action script
-        ActionScript actionScrpit = this.scene.actionScrpit;
-        List<Role> roleList = actionScrpit.roleList;
+        ActionScript actionScript = this.scene.actionScrpit;
+        List<Role> roleList = actionScript.roleList;
         List<com.example.phoenixtree.model.keyframe.Role> roles = new ArrayList<>();
         Map<com.example.phoenixtree.model.keyframe.Role, Line> mapLines = new HashMap<>();
         for(Role role: roleList) {

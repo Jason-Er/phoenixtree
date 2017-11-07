@@ -34,8 +34,8 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private final KeyframeProcessor keyframeP;
     private final AudioProcessor audioP;
 
-    private LiveData<Keyframe> keyframeLiveData;
-    private LiveData<Resource<StageScene>> sceneLiveData;
+    // private LiveData<Keyframe> keyframeLiveData;
+    private LiveData<StageScene> sceneLiveData;
     @Inject
     public SceneViewModel(final StageSceneRepository repository,
                           KeyframeProcessor keyframeProcessor,
@@ -49,23 +49,11 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
                     return AbsentLiveData.create();
                 } else {
                     sceneLiveData = repository.loadScene(input);
-                    return Transformations.switchMap(sceneLiveData, new Function<Resource<StageScene>, LiveData<Keyframe>>() {
+                    return Transformations.switchMap(sceneLiveData, new Function<StageScene, LiveData<Keyframe>>() {
                         @Override
-                        public LiveData<Keyframe> apply(Resource<StageScene> input) {
-                            switch (input.status) {
-                                case SUCCESS:
-                                    Log.i(TAG, "success");
-                                    keyframeP.setScene(input.data);
-                                    keyframeLiveData = keyframeP.firstFrame();
-                                    break;
-                                case ERROR:
-                                    keyframeLiveData = AbsentLiveData.create();
-                                    break;
-                                case LOADING:
-                                    keyframeLiveData = AbsentLiveData.create();
-                                    break;
-                            }
-                            return keyframeLiveData;
+                        public LiveData<Keyframe> apply(StageScene scene) {
+                            keyframeP.setScene(scene);
+                            return keyframeP.firstFrame();
                         }
                     });
                 }

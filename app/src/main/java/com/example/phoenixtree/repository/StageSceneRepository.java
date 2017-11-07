@@ -46,25 +46,14 @@ public class StageSceneRepository {
         this.lineEntityDao = lineEntityDao;
     }
 
-    public LiveData<Resource<StageScene>> loadScene(final long sceneId) {
-        return new NetworkBoundResource<StageScene, StageScene>(appExecutors) {
+    public LiveData<StageScene> loadScene(final long sceneId) {
+        Log.i(TAG, "loadFromDb");
+        if(sceneMediatorLiveData == null) {
+            sceneMediatorLiveData = new MediatorLiveData<>();
+        }
+        appExecutors.diskIO().execute(new Runnable() {
             @Override
-            protected void saveCallResult(@NonNull StageScene item) {
-
-            }
-
-            @Override
-            protected boolean shouldFetch(@javax.annotation.Nullable StageScene data) {
-                return false;
-            }
-
-            @NonNull
-            @Override
-            protected LiveData<StageScene> loadFromDb() {
-                Log.i(TAG, "loadFromDb");
-                if(sceneMediatorLiveData == null) {
-                    sceneMediatorLiveData = new MediatorLiveData<>();
-                }
+            public void run() {
                 final StageScene scene = new StageScene();
                 final LiveData<StageSceneEntity> sceneEntityLiveData = sceneEntityDao.retrieveByIdLive(sceneId);
                 sceneMediatorLiveData.addSource(sceneEntityLiveData, new Observer<StageSceneEntity>() {
@@ -95,14 +84,8 @@ public class StageSceneRepository {
                         }
                     }
                 });
-                return sceneMediatorLiveData;
             }
-
-            @NonNull
-            @Override
-            protected LiveData<ApiResponse<StageScene>> createCall() {
-                return null;
-            }
-        }.asLiveData();
+        });
+        return sceneMediatorLiveData;
     }
 }
