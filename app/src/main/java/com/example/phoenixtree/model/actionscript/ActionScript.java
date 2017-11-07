@@ -7,6 +7,6 @@ import java.util.List;
  */
 
 public class ActionScript {
-    public String sceneId;
+    public long sceneId;
     public List<Role> roleList;
 }

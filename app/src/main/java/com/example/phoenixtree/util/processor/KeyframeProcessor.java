@@ -7,9 +7,18 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.actionscript.ActionScript;
+import com.example.phoenixtree.model.actionscript.Animate;
+import com.example.phoenixtree.model.actionscript.Role;
+import com.example.phoenixtree.model.keyframe.Line;
+import com.example.phoenixtree.model.keyframe.Stage;
 import com.example.phoenixtree.util.PanelInterface;
 import com.example.phoenixtree.model.keyframe.Keyframe;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -60,44 +69,37 @@ public class KeyframeProcessor implements PanelInterface {
 
     public LiveData<Keyframe> firstFrame() {
         // TODO: 10/13/2017 need calculate first frame according to action script
-        this.keyframe.roles = null;
-        this.keyframe.mapLines = null;
-        this.keyframe.stage = null;
-        keyframeLiveData.setValue(keyframe);
-
-
-        /*
-        ActionScript actionScrpit = this.scene.getActionScrpit();
-        List<Role> roleList = actionScrpit.getRoleList();
-        List<Role4DIR> roles = new ArrayList<>();
-        Map<Role4DIR, String> mapLines = new HashMap<>();
+        ActionScript actionScrpit = this.scene.actionScrpit;
+        List<Role> roleList = actionScrpit.roleList;
+        List<com.example.phoenixtree.model.keyframe.Role> roles = new ArrayList<>();
+        Map<com.example.phoenixtree.model.keyframe.Role, Line> mapLines = new HashMap<>();
         for(Role role: roleList) {
-            float width = role.getFigure().getWidth() / 2f;
-            float height = role.getFigure().getHeight();
+            float width = role.figure.width / 2f;
+            float height = role.figure.height;
 
-            for(Animate animate: role.getAnimateList()) {
-                if(Math.abs(animate.getBegin()) < 1e-5) {
-                    Role4DIR roleT = new Role4DIR();
-                    float x = animate.getFrom()[0];
-                    float y = animate.getFrom()[1];
-                    float z = animate.getFrom()[2];
+            for(Animate animate: role.animateList) {
+                if(Math.abs(animate.begin) < 1e-5) {
+                    com.example.phoenixtree.model.keyframe.Role roleT = new com.example.phoenixtree.model.keyframe.Role();
+                    float x = animate.from[0];
+                    float y = animate.from[1];
+                    float z = animate.from[2];
                     float[] roleVerties = {
                             -width + x, y, z,1f,
                             -width + x, y, height+z,1f,
                             width + x,  y, height+z,1f,
                             width + x,  y, z,1f};
 
-                    roleT.setRoleVertices(roleVerties);
-                    roleT.setName(role.getName());
+                    roleT.roleVertices = roleVerties;
+                    roleT.name = role.name;
                     roles.add(roleT);
 
-                    mapLines.put(roleT, "Hello world!");
+                    mapLines.put(roleT, new Line());
                 }
             }
         }
-        keyframe.setRoles(roles);
+        keyframe.roles = roles;
 
-        keyframe.setMapLines(mapLines);
+        keyframe.mapLines = mapLines;
 
         // TODO: 9/18/2017 stage need further change
         float[] stageVerties = {
@@ -108,11 +110,11 @@ public class KeyframeProcessor implements PanelInterface {
                 8f,8f,10f,1f,
                 -8f,8f,10f,1f};
         Stage stage = new Stage();
-        stage.setStageVertices(stageVerties);
-        keyframe.setStage(stage);
+        stage.stageVertices =  stageVerties;
+        keyframe.stage = stage;
 
-        keyframeLive.setValue(Resource.success(keyframe));
-        */
+        keyframeLiveData.setValue(keyframe);
+
 
         return keyframeLiveData;
     }

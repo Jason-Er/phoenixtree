@@ -14,8 +14,11 @@ import com.example.phoenixtree.dataservice.local.StageSceneEntityDao;
 import com.example.phoenixtree.dataservice.remote.ApiResponse;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.actionscript.ActionScript;
+import com.example.phoenixtree.util.JsonUtil;
 
 import java.util.List;
+import java.util.jar.JarEntry;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -76,7 +79,8 @@ public class StageSceneRepository {
                             scene.actOrdinal = sceneEntity.actOrdinal;
                             scene.atrise = sceneEntity.atrise;
                             scene.ordinal = sceneEntity.ordinal;
-
+                            scene.actionScript = sceneEntity.actionScript;
+                            scene.actionScrpit = (ActionScript)JsonUtil.stringToObject(sceneEntity.actionScript, ActionScript.class);
                             final LiveData<List<StageLineEntity>> lineEntityLiveData = lineEntityDao.retrieveAllByStageSceneIdLive(sceneId);
                             sceneMediatorLiveData.addSource(lineEntityLiveData, new Observer<List<StageLineEntity>>() {
                                 @Override

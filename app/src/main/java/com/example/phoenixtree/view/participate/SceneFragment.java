@@ -65,7 +65,9 @@ public class SceneFragment extends Fragment {
             @Override
             public void onChanged(@Nullable Keyframe keyframe) {
                 Log.i(TAG, "onActivityCreated onChanged");
-                ((SceneAdapter)adapter).setKeyframe(keyframe);
+                if(keyframe != null) {
+                    ((SceneAdapter) adapter).setKeyframe(keyframe);
+                }
             }
         });
     }
