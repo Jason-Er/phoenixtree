@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.util.processor.Keyframe;
+import com.example.phoenixtree.model.keyframe.*;
 import com.example.phoenixtree.R;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -84,13 +85,13 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.keyframe = keyframe;
         dataset = new ArrayList<>();
         dataset.add(new ItemViewInfo(SceneViewType.STAGE, keyframe.stage));
-        for (Keyframe.Role role : keyframe.roles) {
+        for (Role role : keyframe.roles) {
             dataset.add(new ItemViewInfo(SceneViewType.ROLE, role));
         }
 
-        Iterator<Map.Entry<Keyframe.Role, Keyframe.Line>> entries = keyframe.mapLines.entrySet().iterator();
+        Iterator<Map.Entry<Role, Line>> entries = keyframe.mapLines.entrySet().iterator();
         while (entries.hasNext()) {
-            Map.Entry<Keyframe.Role, Keyframe.Line> entry = entries.next();
+            Map.Entry<Role, Line> entry = entries.next();
             dataset.add(new ItemViewInfo(SceneViewType.LINE, entry));
         }
         notifyDataSetChanged();
@@ -125,11 +126,11 @@ public class SceneAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StageViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof StageViewHolder");
-            Keyframe.Stage stage = (Keyframe.Stage) dataset.get(position).getObject();
+            Stage stage = (Stage) dataset.get(position).getObject();
             ((StageViewHolder) holder).view.setStageVertices(stage.stageVertices);
         } else if (holder instanceof RoleViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof RoleViewHolder");
-            Keyframe.Role role = (Keyframe.Role) dataset.get(position).getObject();
+            Role role = (Role) dataset.get(position).getObject();
             ((RoleViewHolder) holder).view.setRoleVertices(role.roleVertices);
         } else if (holder instanceof LineViewHolder) {
             Log.i(TAG, "onBindViewHolder instanceof LineViewHolder");

@@ -3,6 +3,7 @@ package com.example.phoenixtree.model;
 import com.example.phoenixtree.dataservice.entity.StageLineEntity;
 import com.example.phoenixtree.dataservice.entity.StageLineLocalEntity;
 import com.example.phoenixtree.dataservice.entity.StageSceneEntity;
+import com.example.phoenixtree.model.actionscrpit.ActionScrpit;
 
 import java.util.List;
 

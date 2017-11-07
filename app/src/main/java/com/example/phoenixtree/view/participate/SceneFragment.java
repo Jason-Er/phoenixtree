@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.util.processor.Keyframe;
+import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.util.sceneRecyclerView.SceneAdapter;
 import com.example.phoenixtree.util.sceneRecyclerView.SceneLayoutManager;

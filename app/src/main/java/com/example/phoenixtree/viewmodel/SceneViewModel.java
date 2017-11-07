@@ -10,7 +10,7 @@ import android.util.Log;
 import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.repository.StageSceneRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
-import com.example.phoenixtree.util.processor.Keyframe;
+import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.util.processor.AudioProcessor;
 import com.example.phoenixtree.util.processor.KeyframeProcessor;
