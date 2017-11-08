@@ -6,10 +6,15 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.Role4DIR;
-import com.example.phoenixtree.model.Scene4PW;
+import com.example.phoenixtree.dataservice.entity.StageEntity;
+import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.actionscript.ActionScript;
+import com.example.phoenixtree.model.actionscript.Animate;
+import com.example.phoenixtree.model.actionscript.Role;
+import com.example.phoenixtree.model.keyframe.Line;
+import com.example.phoenixtree.model.keyframe.Stage;
 import com.example.phoenixtree.util.PanelInterface;
+import com.example.phoenixtree.model.keyframe.Keyframe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +32,9 @@ import javax.inject.Inject;
 public class KeyframeProcessor implements PanelInterface {
     final String TAG = KeyframeProcessor.class.getName();
 
-    private Scene4PW scene;
-    private MutableLiveData<Keyframe> mutableLiveData = new MediatorLiveData<>();
+    private StageScene scene;
+    private StageEntity stage;
+    public MutableLiveData<Keyframe> keyframeLiveData = new MediatorLiveData<>();
 
     private final long timeInterval = 30;
     private long startTime;
@@ -59,66 +65,66 @@ public class KeyframeProcessor implements PanelInterface {
         };
     }
 
-    public LiveData<Keyframe> setScene(@NonNull Scene4PW scene) {
+    public void setScene(@NonNull StageScene scene) {
         this.scene = scene;
-
-        // TODO: 10/13/2017 need calculate first frame according to action script
-        this.keyframe.roles = null;
-        this.keyframe.mapLines = null;
-        this.keyframe.stage = null;
-        mutableLiveData.setValue(keyframe);
-
-        return mutableLiveData;
     }
 
-    private void firstFrame() {
-        /*
-        ActionScrpit actionScrpit = this.scene.getActionScrpit();
-        List<Role> roleList = actionScrpit.getRoleList();
-        List<Role4DIR> roles = new ArrayList<>();
-        Map<Role4DIR, String> mapLines = new HashMap<>();
-        for(Role role: roleList) {
-            float width = role.getFigure().getWidth() / 2f;
-            float height = role.getFigure().getHeight();
+    public void setStage(@NonNull StageEntity stage) {
+        this.stage = stage;
+    }
 
-            for(Animate animate: role.getAnimateList()) {
-                if(Math.abs(animate.getBegin()) < 1e-5) {
-                    Role4DIR roleT = new Role4DIR();
-                    float x = animate.getFrom()[0];
-                    float y = animate.getFrom()[1];
-                    float z = animate.getFrom()[2];
+    public LiveData<Keyframe> firstFrame() {
+        // TODO: 11/8/2017 need further refactoring
+        ActionScript actionScript = this.scene.actionScriptObject;
+        List<Role> roleList = actionScript.roleList;
+        List<com.example.phoenixtree.model.keyframe.Role> roles = new ArrayList<>();
+        Map<com.example.phoenixtree.model.keyframe.Role, Line> mapLines = new HashMap<>();
+        for(Role role: roleList) {
+            float width = role.figure.width / 2f;
+            float height = role.figure.height;
+
+            for(Animate animate: role.animateList) {
+                if(Math.abs(animate.begin) < 1e-5) {
+                    com.example.phoenixtree.model.keyframe.Role roleT = new com.example.phoenixtree.model.keyframe.Role();
+                    float x = animate.from[0];
+                    float y = animate.from[1];
+                    float z = animate.from[2];
                     float[] roleVerties = {
                             -width + x, y, z,1f,
                             -width + x, y, height+z,1f,
                             width + x,  y, height+z,1f,
                             width + x,  y, z,1f};
 
-                    roleT.setRoleVertices(roleVerties);
-                    roleT.setName(role.getName());
+                    roleT.roleVertices = roleVerties;
+                    roleT.name = role.name;
                     roles.add(roleT);
 
-                    mapLines.put(roleT, "Hello world!");
+                    mapLines.put(roleT, new Line());
                 }
             }
         }
-        keyframe.setRoles(roles);
+        keyframe.roles = roles;
 
-        keyframe.setMapLines(mapLines);
+        keyframe.mapLines = mapLines;
 
-        // TODO: 9/18/2017 stage need further change
+        float halfWidth = stage.width / 2f;
+        float halfLength = stage.length / 2f;
+        float settingHeight = stage.settingHeight;
+
         float[] stageVerties = {
-                -8f, 8f,0f,1f,
-                -8f,-8f,0f,1f,
-                8f,-8f,0f,1f,
-                8f,8f,0f,1f,
-                8f,8f,10f,1f,
-                -8f,8f,10f,1f};
+                -halfWidth, halfLength,0f,1f,
+                -halfWidth,-halfLength,0f,1f,
+                halfWidth,-halfLength,0f,1f,
+                halfWidth,halfLength,0f,1f,
+                halfWidth,halfLength,settingHeight,1f,
+                -halfWidth,halfLength,settingHeight,1f};
         Stage stage = new Stage();
-        stage.setStageVertices(stageVerties);
-        keyframe.setStage(stage);
+        stage.stageVertices =  stageVerties;
+        keyframe.stage = stage;
 
-        keyframeLive.setValue(Resource.success(keyframe));
-        */
+        keyframeLiveData.setValue(keyframe);
+
+        return keyframeLiveData;
     }
 
     @Override

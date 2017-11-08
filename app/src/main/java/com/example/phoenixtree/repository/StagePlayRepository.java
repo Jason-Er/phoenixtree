@@ -24,6 +24,8 @@ import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.actionscript.ActionScript;
+import com.example.phoenixtree.util.JsonUtil;
 import com.example.phoenixtree.util.callbackInterface.PlainCallBack;
 import com.example.phoenixtree.util.RetrievePageInfo;
 
@@ -173,6 +175,8 @@ public class StagePlayRepository {
                                                                             stageScene.actOrdinal = sceneEntity.actOrdinal;
                                                                             stageScene.atrise = sceneEntity.atrise;
                                                                             stageScene.ordinal = sceneEntity.ordinal;
+                                                                            stageScene.actionScript = sceneEntity.actionScript;
+                                                                            stageScene.actionScriptObject = (ActionScript) JsonUtil.stringToObject(sceneEntity.actionScript, ActionScript.class);
                                                                             stageSceneList.add(stageScene);
                                                                         }
                                                                         stagePlay.scenes = stageSceneList;

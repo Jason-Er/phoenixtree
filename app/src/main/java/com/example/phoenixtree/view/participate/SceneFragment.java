@@ -13,11 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.phoenixtree.util.processor.Keyframe;
+import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.util.sceneRecyclerView.SceneAdapter;
 import com.example.phoenixtree.util.sceneRecyclerView.SceneLayoutManager;
-import com.example.phoenixtree.viewmodel.SceneViewModel;
+import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import javax.inject.Inject;
 
@@ -34,7 +34,7 @@ public class SceneFragment extends Fragment {
     ViewModelProvider.Factory viewModelFactory;
 
     public static final String ID_KEY = "id";
-    private SceneViewModel viewModel;
+    private StagePlayViewModel viewModel;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
@@ -55,16 +55,19 @@ public class SceneFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle args = getArguments();
+        viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(StagePlayViewModel.class);
         if (args != null && args.containsKey(ID_KEY)) {
             viewModel.setSceneId(args.getLong(ID_KEY));
         } else {
             viewModel.setSceneId(0L);
         }
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(SceneViewModel.class);
         viewModel.keyframe.observe(this, new Observer<Keyframe>() {
             @Override
             public void onChanged(@Nullable Keyframe keyframe) {
                 Log.i(TAG, "onActivityCreated onChanged");
+                if(keyframe != null) {
+                    ((SceneAdapter) adapter).setKeyframe(keyframe);
+                }
             }
         });
     }

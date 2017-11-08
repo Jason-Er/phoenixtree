@@ -5,12 +5,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
+import android.util.Log;
 
+import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.repository.StageSceneRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
-import com.example.phoenixtree.util.processor.Keyframe;
+import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.Scene4PW;
-import com.example.phoenixtree.repository.SceneRepository;
 import com.example.phoenixtree.util.processor.AudioProcessor;
 import com.example.phoenixtree.util.processor.KeyframeProcessor;
 import com.example.phoenixtree.util.PanelInterface;
@@ -33,9 +34,11 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private final KeyframeProcessor keyframeP;
     private final AudioProcessor audioP;
 
-    private LiveData<Resource<Scene4PW>> sceneLiveData;
+    private LiveData<StageScene> sceneLiveData;
     @Inject
-    public SceneViewModel(final SceneRepository repository, KeyframeProcessor keyframeProcessor, AudioProcessor audioProcessor) {
+    public SceneViewModel(final StageSceneRepository repository,
+                          KeyframeProcessor keyframeProcessor,
+                          AudioProcessor audioProcessor) {
         keyframeP = keyframeProcessor;
         audioP = audioProcessor;
         keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
@@ -45,10 +48,11 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
                     return AbsentLiveData.create();
                 } else {
                     sceneLiveData = repository.loadScene(input);
-                    return Transformations.switchMap(sceneLiveData, new Function<Resource<Scene4PW>, LiveData<Keyframe>>() {
+                    return Transformations.switchMap(sceneLiveData, new Function<StageScene, LiveData<Keyframe>>() {
                         @Override
-                        public LiveData<Keyframe> apply(Resource<Scene4PW> scene4PWResource) {
-                            return keyframeP.setScene(scene4PWResource.data);
+                        public LiveData<Keyframe> apply(StageScene scene) {
+                            keyframeP.setScene(scene);
+                            return keyframeP.firstFrame();
                         }
                     });
                 }
