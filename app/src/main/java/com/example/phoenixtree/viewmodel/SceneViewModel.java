@@ -34,7 +34,6 @@ public class SceneViewModel extends ViewModel implements PanelInterface {
     private final KeyframeProcessor keyframeP;
     private final AudioProcessor audioP;
 
-    // private LiveData<Keyframe> keyframeLiveData;
     private LiveData<StageScene> sceneLiveData;
     @Inject
     public SceneViewModel(final StageSceneRepository repository,

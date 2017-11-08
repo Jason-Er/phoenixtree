@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class StageScene extends StageSceneEntity {
-    public ActionScript actionScrpit;
+    public ActionScript actionScriptObject;
     public List<StageLineEntity> stageLines;
     public List<StageLineLocalEntity> stageLinesLocal;
 }

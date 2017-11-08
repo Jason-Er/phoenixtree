@@ -17,7 +17,6 @@ import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.util.sceneRecyclerView.SceneAdapter;
 import com.example.phoenixtree.util.sceneRecyclerView.SceneLayoutManager;
-import com.example.phoenixtree.viewmodel.SceneViewModel;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import javax.inject.Inject;

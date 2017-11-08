@@ -6,6 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.phoenixtree.dataservice.entity.StageEntity;
 import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 import com.example.phoenixtree.model.actionscript.Animate;
@@ -32,6 +33,7 @@ public class KeyframeProcessor implements PanelInterface {
     final String TAG = KeyframeProcessor.class.getName();
 
     private StageScene scene;
+    private StageEntity stage;
     public MutableLiveData<Keyframe> keyframeLiveData = new MediatorLiveData<>();
 
     private final long timeInterval = 30;
@@ -67,9 +69,13 @@ public class KeyframeProcessor implements PanelInterface {
         this.scene = scene;
     }
 
+    public void setStage(@NonNull StageEntity stage) {
+        this.stage = stage;
+    }
+
     public LiveData<Keyframe> firstFrame() {
-        // TODO: 10/13/2017 need calculate first frame according to action script
-        ActionScript actionScript = this.scene.actionScrpit;
+        // TODO: 11/8/2017 need further refactoring
+        ActionScript actionScript = this.scene.actionScriptObject;
         List<Role> roleList = actionScript.roleList;
         List<com.example.phoenixtree.model.keyframe.Role> roles = new ArrayList<>();
         Map<com.example.phoenixtree.model.keyframe.Role, Line> mapLines = new HashMap<>();
@@ -101,20 +107,22 @@ public class KeyframeProcessor implements PanelInterface {
 
         keyframe.mapLines = mapLines;
 
-        // TODO: 9/18/2017 stage need further change
+        float halfWidth = stage.width / 2f;
+        float halfLength = stage.length / 2f;
+        float settingHeight = stage.settingHeight;
+
         float[] stageVerties = {
-                -8f, 8f,0f,1f,
-                -8f,-8f,0f,1f,
-                8f,-8f,0f,1f,
-                8f,8f,0f,1f,
-                8f,8f,10f,1f,
-                -8f,8f,10f,1f};
+                -halfWidth, halfLength,0f,1f,
+                -halfWidth,-halfLength,0f,1f,
+                halfWidth,-halfLength,0f,1f,
+                halfWidth,halfLength,0f,1f,
+                halfWidth,halfLength,settingHeight,1f,
+                -halfWidth,halfLength,settingHeight,1f};
         Stage stage = new Stage();
         stage.stageVertices =  stageVerties;
         keyframe.stage = stage;
 
         keyframeLiveData.setValue(keyframe);
-
 
         return keyframeLiveData;
     }
