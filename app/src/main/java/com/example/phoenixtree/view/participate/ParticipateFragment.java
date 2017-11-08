@@ -16,7 +16,7 @@ import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.view.FragmentNavigation;
-import com.example.phoenixtree.viewmodel.ParticipateViewModel;
+import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import javax.inject.Inject;
 
@@ -28,7 +28,7 @@ import dagger.android.support.AndroidSupportInjection;
 public class ParticipateFragment extends Fragment {
 
     final private static String TAG = ParticipateFragment.class.getName();
-    private ParticipateViewModel viewModel;
+    private StagePlayViewModel viewModel;
     public static final String ID_KEY = "id";
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -40,7 +40,7 @@ public class ParticipateFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(ParticipateViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(StagePlayViewModel.class);
         Bundle args = getArguments();
         if (args != null && args.containsKey(ID_KEY)) {
             viewModel.setPlayId(args.getLong(ID_KEY));
