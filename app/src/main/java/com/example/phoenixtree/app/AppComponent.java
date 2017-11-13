@@ -29,10 +29,5 @@ public interface AppComponent {
     }
 
     void inject(PhoenixtreeApplication app);
-    /*
-    void inject(PhoenixtreeApplication app);
 
-    void inject(ParticipateFragment participateFragment);
-    void inject(SceneFragment sceneFragment);
-    */
 }

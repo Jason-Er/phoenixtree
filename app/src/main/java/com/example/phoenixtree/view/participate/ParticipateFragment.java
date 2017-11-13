@@ -92,4 +92,9 @@ public class ParticipateFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
 }

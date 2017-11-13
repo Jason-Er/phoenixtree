@@ -56,7 +56,7 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
                 }
             }
         });
-
+        /*
         Transformations.switchMap(play, new Function<Resource<StagePlay>, LiveData<Object>>() {
             @Override
             public LiveData<Object> apply(Resource<StagePlay> input) {
@@ -69,7 +69,7 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
                 return null;
             }
         });
-
+        */
         keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
             @Override
             public LiveData<Keyframe> apply(Long input) {
@@ -78,6 +78,7 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
                     StagePlay play = resource.data;
                     for (StageScene scene : play.scenes) {
                         if (scene.id == input) {
+                            keyframeP.setStage(play.stage);
                             keyframeP.setScene(scene);
                             return keyframeP.firstFrame();
                         }
