@@ -1,7 +1,6 @@
 package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -127,12 +126,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        fragmentNavigation.storeState(outState);
     }
 
 }

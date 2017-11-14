@@ -18,6 +18,8 @@ import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.view.FragmentNavigation;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
+import java.util.MissingResourceException;
+
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
@@ -30,7 +32,7 @@ public class ParticipateFragment extends Fragment {
     final private static String TAG = ParticipateFragment.class.getName();
     private StagePlayViewModel viewModel;
     private static final String ID_KEY = "id";
-    private long stagePlayId;
+    // private long stagePlayId;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
@@ -39,17 +41,15 @@ public class ParticipateFragment extends Fragment {
     SceneNavigation sceneNavigation;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(StagePlayViewModel.class);
         Bundle args = getArguments();
         if (args != null && args.containsKey(ID_KEY)) {
-            stagePlayId = args.getLong(ID_KEY);
-            viewModel.setPlayId(stagePlayId);
-
+            viewModel.setPlayId( args.getLong(ID_KEY) );
         } else {
-            viewModel.setPlayId(1L);
-            stagePlayId = 1L;
+            // TODO: 11/14/2017 throw exception or show custom dialog
+            throw new MissingResourceException("ParticipateFragment key: "+ ID_KEY + " should not be NULL","Bundle",ID_KEY);
         }
 
         viewModel.play.observe(this, new Observer<Resource<StagePlay>>() {
@@ -60,7 +60,8 @@ public class ParticipateFragment extends Fragment {
                     case SUCCESS:
                         StagePlay play = stagePlayResource.data;
                         sceneNavigation.setStageScenes(play.scenes);
-                        sceneNavigation.navigateToFirst();
+                        if(savedInstanceState == null)
+                            sceneNavigation.navigateToFirst();
                         break;
                     case ERROR:
 
@@ -96,9 +97,4 @@ public class ParticipateFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong(ID_KEY, stagePlayId);
-    }
 }
