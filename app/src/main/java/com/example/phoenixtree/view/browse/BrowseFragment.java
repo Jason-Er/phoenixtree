@@ -66,7 +66,6 @@ public class BrowseFragment extends Fragment {
                             ((BrowseAdapter)adapter).setDataset(resource.data.content);
                         }
 
-
                         break;
                     case ERROR:
 

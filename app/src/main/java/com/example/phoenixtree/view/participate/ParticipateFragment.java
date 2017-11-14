@@ -29,7 +29,8 @@ public class ParticipateFragment extends Fragment {
 
     final private static String TAG = ParticipateFragment.class.getName();
     private StagePlayViewModel viewModel;
-    public static final String ID_KEY = "id";
+    private static final String ID_KEY = "id";
+    private long stagePlayId;
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     @Inject
@@ -43,9 +44,12 @@ public class ParticipateFragment extends Fragment {
         viewModel = ViewModelProviders.of(getActivity(), viewModelFactory).get(StagePlayViewModel.class);
         Bundle args = getArguments();
         if (args != null && args.containsKey(ID_KEY)) {
-            viewModel.setPlayId(args.getLong(ID_KEY));
+            stagePlayId = args.getLong(ID_KEY);
+            viewModel.setPlayId(stagePlayId);
+
         } else {
-            viewModel.setPlayId(0);
+            viewModel.setPlayId(1L);
+            stagePlayId = 1L;
         }
 
         viewModel.play.observe(this, new Observer<Resource<StagePlay>>() {
@@ -95,6 +99,6 @@ public class ParticipateFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
+        outState.putLong(ID_KEY, stagePlayId);
     }
 }
