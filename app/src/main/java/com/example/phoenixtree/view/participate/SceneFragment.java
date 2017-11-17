@@ -19,6 +19,8 @@ import com.example.phoenixtree.util.sceneRecyclerView.SceneAdapter;
 import com.example.phoenixtree.util.sceneRecyclerView.SceneLayoutManager;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
+import java.util.MissingResourceException;
+
 import javax.inject.Inject;
 
 import dagger.android.support.AndroidSupportInjection;
@@ -33,7 +35,7 @@ public class SceneFragment extends Fragment {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
-    public static final String ID_KEY = "id";
+    private static final String ID_KEY = "id";
     private StagePlayViewModel viewModel;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -59,7 +61,8 @@ public class SceneFragment extends Fragment {
         if (args != null && args.containsKey(ID_KEY)) {
             viewModel.setSceneId(args.getLong(ID_KEY));
         } else {
-            viewModel.setSceneId(0L);
+            // TODO: 11/14/2017 throw exception or show custom dialog
+            throw new MissingResourceException("SceneFragment key: "+ ID_KEY + " should not be NULL","Bundle",ID_KEY);
         }
         viewModel.keyframe.observe(this, new Observer<Keyframe>() {
             @Override

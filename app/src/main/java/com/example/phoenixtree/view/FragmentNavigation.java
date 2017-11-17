@@ -14,9 +14,15 @@ import javax.inject.Inject;
  * Created by ej on 9/4/2017.
  */
 
+@PerActivity
 public class FragmentNavigation {
+
     private final int containerId;
     private final FragmentManager fragmentManager;
+
+    private final String BROWSE = "browse";
+    private final String PARTICIPATE = "participate";
+
     @Inject
     public FragmentNavigation(MainActivity mainActivity) {
         this.containerId = R.id.main_container;
@@ -25,18 +31,16 @@ public class FragmentNavigation {
 
     public void navigateToBrowse() {
         BrowseFragment fragment = new BrowseFragment();
-        String tag = "browse";
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
+                .replace(containerId, fragment, BROWSE)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
     public void navigateToParticipate(long stagePlayId) {
         ParticipateFragment fragment = ParticipateFragment.create(stagePlayId);
-        String tag = "participate" + stagePlayId;
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
+                .replace(containerId, fragment, PARTICIPATE + stagePlayId)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
