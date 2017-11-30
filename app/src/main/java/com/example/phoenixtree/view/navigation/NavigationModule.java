@@ -17,7 +17,7 @@ public class NavigationModule {
     @PerActivity
     @Provides
     ViewNavigationInterface provideViewNavigationInterface(MainActivity mainActivity) {
-        return new FragmentNavigation(mainActivity);
+        return new PlayerNavigation(mainActivity);
     }
 
 }

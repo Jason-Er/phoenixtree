@@ -25,14 +25,14 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector {
+        implements NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector, ViewNavigationInterface {
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
     @Type("role1")
-    ViewNavigationInterface fragmentNavigation;
+    ViewNavigationInterface navigationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         if(savedInstanceState == null)
-            fragmentNavigation.navigateToBrowse();
+            navigateToBrowse();
 
     }
 
@@ -118,4 +118,18 @@ public class MainActivity extends AppCompatActivity
         return fragmentDispatchingAndroidInjector;
     }
 
+    @Override
+    public void navigateToBrowse() {
+        navigationController.navigateToBrowse();
+    }
+
+    @Override
+    public void navigateToParticipate(long stagePlayId) {
+        navigationController.navigateToParticipate(stagePlayId);
+    }
+
+    @Override
+    public void navigateToCompose(long stagePlayId) {
+        navigationController.navigateToCompose(stagePlayId);
+    }
 }

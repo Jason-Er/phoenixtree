@@ -15,7 +15,7 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class FragmentNavigation implements ViewNavigationInterface {
+public class DirectorNavigation implements ViewNavigationInterface {
 
     private final int containerId;
     private final FragmentManager fragmentManager;
@@ -24,7 +24,7 @@ public class FragmentNavigation implements ViewNavigationInterface {
     private final String PARTICIPATE = "participate";
 
     @Inject
-    public FragmentNavigation(MainActivity mainActivity) {
+    public DirectorNavigation(MainActivity mainActivity) {
         this.containerId = R.id.main_container;
         this.fragmentManager = mainActivity.getSupportFragmentManager();
     }
