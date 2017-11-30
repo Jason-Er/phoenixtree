@@ -1,6 +1,7 @@
 package com.example.phoenixtree.view.main;
 
 import com.example.phoenixtree.di.label.PerActivity;
+import com.example.phoenixtree.view.navigation.NavigationModule;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;
@@ -10,7 +11,9 @@ import dagger.android.AndroidInjector;
  */
 
 @PerActivity
-@Subcomponent(modules = {MainActivityFragmentProvider.class})
+@Subcomponent(modules = {
+        MainActivityFragmentProvider.class,
+        NavigationModule.class})
 public interface MainActivityComponent extends AndroidInjector<MainActivity> {
     @Subcomponent.Builder
     abstract class Builder extends AndroidInjector.Builder<MainActivity> {}

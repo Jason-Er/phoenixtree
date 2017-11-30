@@ -19,7 +19,7 @@ import android.view.WindowManager;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
-import com.example.phoenixtree.view.FragmentNavigation;
+import com.example.phoenixtree.view.navigation.FragmentNavigation;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import java.util.MissingResourceException;

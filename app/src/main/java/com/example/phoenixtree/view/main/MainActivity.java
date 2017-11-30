@@ -1,10 +1,7 @@
 package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +13,8 @@ import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
 
-import com.example.phoenixtree.view.FragmentNavigation;
+import com.example.phoenixtree.di.label.Type;
+import com.example.phoenixtree.view.navigation.ViewNavigationInterface;
 
 import javax.inject.Inject;
 
@@ -33,7 +31,8 @@ public class MainActivity extends AppCompatActivity
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    FragmentNavigation fragmentNavigation;
+    @Type("role1")
+    ViewNavigationInterface fragmentNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

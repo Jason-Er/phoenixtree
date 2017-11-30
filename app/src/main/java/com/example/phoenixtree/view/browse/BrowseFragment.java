@@ -21,7 +21,7 @@ import com.example.phoenixtree.util.PageRequest;
 import com.example.phoenixtree.util.RetrievePageInfo;
 import com.example.phoenixtree.util.browseRecyclerView.BrowseAdapter;
 import com.example.phoenixtree.util.callbackInterface.OnClickCallBack;
-import com.example.phoenixtree.view.FragmentNavigation;
+import com.example.phoenixtree.view.navigation.FragmentNavigation;
 import com.example.phoenixtree.viewmodel.BrowseViewModel;
 
 import java.util.List;

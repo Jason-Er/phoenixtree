@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view;
+package com.example.phoenixtree.view.navigation;
 
 import android.support.v4.app.FragmentManager;
 
@@ -15,7 +15,7 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class FragmentNavigation {
+public class FragmentNavigation implements ViewNavigationInterface {
 
     private final int containerId;
     private final FragmentManager fragmentManager;
@@ -29,6 +29,7 @@ public class FragmentNavigation {
         this.fragmentManager = mainActivity.getSupportFragmentManager();
     }
 
+    @Override
     public void navigateToBrowse() {
         BrowseFragment fragment = new BrowseFragment();
         fragmentManager.beginTransaction()
@@ -37,12 +38,18 @@ public class FragmentNavigation {
                 .commitAllowingStateLoss();
     }
 
+    @Override
     public void navigateToParticipate(long stagePlayId) {
         ParticipateFragment fragment = ParticipateFragment.create(stagePlayId);
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, PARTICIPATE + stagePlayId)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
+    }
+
+    @Override
+    public void navigateToCompose(long stagePlayId) {
+
     }
 
 }
