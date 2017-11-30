@@ -25,13 +25,14 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector, ViewNavigationInterface {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        HasSupportFragmentInjector, ViewNavigationInterface {
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    @Type("role1")
+    @Type("controller")
     ViewNavigationInterface navigationController;
 
     @Override

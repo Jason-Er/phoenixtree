@@ -13,11 +13,33 @@ import dagger.Provides;
 @Module
 public class NavigationModule {
 
-    @Type("role1")
+    @Type("player")
     @PerActivity
     @Provides
-    ViewNavigationInterface provideViewNavigationInterface(MainActivity mainActivity) {
+    ViewNavigationInterface providePlayerNavigation(MainActivity mainActivity) {
         return new PlayerNavigation(mainActivity);
     }
 
+    @Type("writer")
+    @PerActivity
+    @Provides
+    ViewNavigationInterface provideWriterNavigation(MainActivity mainActivity) {
+        return new WriterNavigation(mainActivity);
+    }
+
+    @Type("director")
+    @PerActivity
+    @Provides
+    ViewNavigationInterface provideDirectorNavigation(MainActivity mainActivity) {
+        return new DirectorNavigation(mainActivity);
+    }
+
+    @Type("controller")
+    @PerActivity
+    @Provides
+    ViewNavigationInterface provideControllerNavigation(@Type("player") ViewNavigationInterface playerNavigation,
+                                                      @Type("writer") ViewNavigationInterface writerNavigation,
+                                                      @Type("director") ViewNavigationInterface directorNavigation) {
+        return new NavigationController(playerNavigation, writerNavigation, directorNavigation);
+    }
 }

@@ -36,7 +36,7 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class BrowseFragment extends Fragment {
 
-    final String TAG = BrowseFragment.class.getName();
+    final String TAG = "BrowseFragment";
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
