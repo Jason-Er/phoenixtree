@@ -1,5 +1,6 @@
 package com.example.phoenixtree.view.navigation;
 
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 
 import com.example.phoenixtree.R;
@@ -30,7 +31,7 @@ public class WriterNavigation implements ViewNavigationInterface {
     }
 
     @Override
-    public void navigateToBrowse() {
+    public void navigateToBrowse(NavigationView navigationView) {
         BrowseFragment fragment = new BrowseFragment();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, BROWSE)

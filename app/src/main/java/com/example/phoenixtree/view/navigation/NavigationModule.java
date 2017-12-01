@@ -34,12 +34,4 @@ public class NavigationModule {
         return new DirectorNavigation(mainActivity);
     }
 
-    @Type("controller")
-    @PerActivity
-    @Provides
-    ViewNavigationInterface provideControllerNavigation(@Type("player") ViewNavigationInterface playerNavigation,
-                                                      @Type("writer") ViewNavigationInterface writerNavigation,
-                                                      @Type("director") ViewNavigationInterface directorNavigation) {
-        return new NavigationController(playerNavigation, writerNavigation, directorNavigation);
-    }
 }

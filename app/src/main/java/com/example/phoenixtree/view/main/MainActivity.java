@@ -1,6 +1,7 @@
 package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import com.example.phoenixtree.R;
 
 import com.example.phoenixtree.di.label.Type;
+import com.example.phoenixtree.view.navigation.NavigationController;
 import com.example.phoenixtree.view.navigation.ViewNavigationInterface;
 
 import javax.inject.Inject;
@@ -28,12 +30,13 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HasSupportFragmentInjector, ViewNavigationInterface {
 
+    private NavigationView navigationView;
+
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    @Type("controller")
-    ViewNavigationInterface navigationController;
+    NavigationController navigationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +52,11 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if(savedInstanceState == null)
-            navigateToBrowse();
+            navigateToBrowse(navigationView);
 
     }
 
@@ -120,8 +123,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void navigateToBrowse() {
-        navigationController.navigateToBrowse();
+    public void navigateToBrowse(@NonNull NavigationView navigationView) {
+        navigationController.navigateToBrowse(navigationView);
     }
 
     @Override
@@ -132,5 +135,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void navigateToCompose(long stagePlayId) {
         navigationController.navigateToCompose(stagePlayId);
+    }
+
+    public NavigationView getNavigationView() {
+        return navigationView;
     }
 }

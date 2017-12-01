@@ -1,5 +1,7 @@
 package com.example.phoenixtree.view.navigation;
 
+import android.support.design.widget.NavigationView;
+
 import com.example.phoenixtree.di.label.PerActivity;
 import com.example.phoenixtree.di.label.Type;
 
@@ -18,7 +20,9 @@ public class NavigationController implements ViewNavigationInterface {
     private ViewNavigationInterface currentNavigation;
 
     @Inject
-    public NavigationController(@Type("player") ViewNavigationInterface playerNavigation, @Type("writer") ViewNavigationInterface writerNavigation, @Type("director") ViewNavigationInterface directorNavigation) {
+    public NavigationController(@Type("player") ViewNavigationInterface playerNavigation,
+                                @Type("writer") ViewNavigationInterface writerNavigation,
+                                @Type("director") ViewNavigationInterface directorNavigation) {
         this.playerNavigation = playerNavigation;
         this.writerNavigation = writerNavigation;
         this.directorNavigation = directorNavigation;
@@ -38,8 +42,8 @@ public class NavigationController implements ViewNavigationInterface {
     }
 
     @Override
-    public void navigateToBrowse() {
-        currentNavigation.navigateToBrowse();
+    public void navigateToBrowse(NavigationView navigationView) {
+        currentNavigation.navigateToBrowse(navigationView);
     }
 
     @Override

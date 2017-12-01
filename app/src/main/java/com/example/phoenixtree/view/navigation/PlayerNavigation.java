@@ -1,6 +1,12 @@
 package com.example.phoenixtree.view.navigation;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.di.label.PerActivity;
@@ -30,12 +36,16 @@ public class PlayerNavigation implements ViewNavigationInterface {
     }
 
     @Override
-    public void navigateToBrowse() {
+    public void navigateToBrowse(@NonNull NavigationView navigationView) {
         BrowseFragment fragment = new BrowseFragment();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, BROWSE)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
+
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.player_browse_drawer);
+
     }
 
     @Override
@@ -49,7 +59,7 @@ public class PlayerNavigation implements ViewNavigationInterface {
 
     @Override
     public void navigateToCompose(long stagePlayId) {
-
+        throw new UnsupportedOperationException();
     }
 
 }
