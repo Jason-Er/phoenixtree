@@ -1,10 +1,7 @@
 package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +13,7 @@ import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
 
-import com.example.phoenixtree.view.FragmentNavigation;
+import com.example.phoenixtree.view.navigation.NavigationController;
 
 import javax.inject.Inject;
 
@@ -27,13 +24,16 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HasSupportFragmentInjector {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        HasSupportFragmentInjector {
+
+    private NavigationView navigationView;
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    FragmentNavigation fragmentNavigation;
+    NavigationController navigationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +49,13 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationController.setNavigationView(navigationView);
+
         if(savedInstanceState == null)
-            fragmentNavigation.navigateToBrowse();
+            navigateToBrowse();
 
     }
 
@@ -119,4 +121,20 @@ public class MainActivity extends AppCompatActivity
         return fragmentDispatchingAndroidInjector;
     }
 
+    // navigation to other fragments
+    public void navigateToBrowse() {
+        navigationController.navigateToBrowse();
+    }
+
+    public void navigateToParticipate(long stagePlayId) {
+        navigationController.navigateToParticipate(stagePlayId);
+    }
+
+    public void navigateToCompose(long stagePlayId) {
+        navigationController.navigateToCompose(stagePlayId);
+    }
+
+    public NavigationView getNavigationView() {
+        return navigationView;
+    }
 }

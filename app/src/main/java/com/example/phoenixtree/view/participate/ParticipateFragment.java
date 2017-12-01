@@ -19,7 +19,6 @@ import android.view.WindowManager;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
-import com.example.phoenixtree.view.FragmentNavigation;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import java.util.MissingResourceException;
@@ -33,14 +32,13 @@ import dagger.android.support.AndroidSupportInjection;
  */
 public class ParticipateFragment extends Fragment {
 
-    final private static String TAG = ParticipateFragment.class.getName();
+    final private static String TAG = "ParticipateFragment";
     private StagePlayViewModel viewModel;
     private static final String ID_KEY = "id";
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    @Inject
-    FragmentNavigation fragmentNavigation;
+
     @Inject
     SceneNavigation sceneNavigation;
 
