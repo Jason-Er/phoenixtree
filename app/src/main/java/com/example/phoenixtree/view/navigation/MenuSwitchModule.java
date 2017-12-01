@@ -10,27 +10,27 @@ import dagger.Provides;
  * Created by ej on 11/30/2017.
  */
 @Module
-public class NavigationModule {
+public class MenuSwitchModule {
 
     @Type("player")
     @PerActivity
     @Provides
-    MenuSwitchInterface providePlayerNavigation() {
-        return new PlayerNavigation();
+    MenuSwitchInterface providePlayerMenuSwitch() {
+        return new PlayerMenuSwitch();
     }
 
     @Type("writer")
     @PerActivity
     @Provides
-    MenuSwitchInterface provideWriterNavigation() {
-        return new WriterNavigation();
+    MenuSwitchInterface provideWriterMenuSwitch() {
+        return new WriterMenuSwitch();
     }
 
     @Type("director")
     @PerActivity
     @Provides
-    MenuSwitchInterface provideDirectorNavigation() {
-        return new DirectorNavigation();
+    MenuSwitchInterface provideDirectorMenuSwitch() {
+        return new DirectorMenuSwitch();
     }
 
 }

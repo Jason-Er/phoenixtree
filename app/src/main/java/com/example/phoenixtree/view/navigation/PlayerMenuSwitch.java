@@ -2,13 +2,9 @@ package com.example.phoenixtree.view.navigation;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.di.label.PerActivity;
-import com.example.phoenixtree.view.browse.BrowseFragment;
-import com.example.phoenixtree.view.main.MainActivity;
-import com.example.phoenixtree.view.participate.ParticipateFragment;
 
 import javax.inject.Inject;
 
@@ -17,22 +13,26 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class WriterNavigation implements MenuSwitchInterface {
+public class PlayerMenuSwitch implements MenuSwitchInterface {
 
     @Inject
-    public WriterNavigation() {
+    public PlayerMenuSwitch() {
     }
 
     @Override
     public void switchToBrowse(@NonNull NavigationView navigationView) {
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.player_browse_drawer);
     }
 
     @Override
     public void switchToParticipate(@NonNull NavigationView navigationView) {
+
     }
 
     @Override
     public void switchToCompose(@NonNull NavigationView navigationView) {
+        throw new UnsupportedOperationException();
     }
 
 }

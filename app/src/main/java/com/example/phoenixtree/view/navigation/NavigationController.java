@@ -24,9 +24,9 @@ public class NavigationController {
     private final String BROWSE = "browse";
     private final String PARTICIPATE = "participate";
 
-    private final MenuSwitchInterface playerNavigation;
-    private final MenuSwitchInterface writerNavigation;
-    private final MenuSwitchInterface directorNavigation;
+    private final MenuSwitchInterface playerMenuSwitch;
+    private final MenuSwitchInterface writerMenuSwitch;
+    private final MenuSwitchInterface directorMenuSwitch;
 
     private MenuSwitchInterface menuSwitch;
 
@@ -35,29 +35,29 @@ public class NavigationController {
     @Inject
     public NavigationController(
             MainActivity mainActivity,
-            @Type("player") MenuSwitchInterface playerNavigation,
-            @Type("writer") MenuSwitchInterface writerNavigation,
-            @Type("director") MenuSwitchInterface directorNavigation) {
+            @Type("player") MenuSwitchInterface playerMenuSwitch,
+            @Type("writer") MenuSwitchInterface writerMenuSwitch,
+            @Type("director") MenuSwitchInterface directorMenuSwitch) {
 
         this.containerId = R.id.main_container;
         this.fragmentManager = mainActivity.getSupportFragmentManager();
 
-        this.playerNavigation = playerNavigation;
-        this.writerNavigation = writerNavigation;
-        this.directorNavigation = directorNavigation;
-        menuSwitch = playerNavigation;
+        this.playerMenuSwitch = playerMenuSwitch;
+        this.writerMenuSwitch = writerMenuSwitch;
+        this.directorMenuSwitch = directorMenuSwitch;
+        menuSwitch = playerMenuSwitch;
     }
 
     public void switchToPlayerNavigation() {
-        menuSwitch = playerNavigation;
+        menuSwitch = playerMenuSwitch;
     }
 
     public void switchToWriterNavigation() {
-        menuSwitch = writerNavigation;
+        menuSwitch = writerMenuSwitch;
     }
 
     public void switchToDirectorNavigation() {
-        menuSwitch = directorNavigation;
+        menuSwitch = directorMenuSwitch;
     }
 
     public void navigateToBrowse() {

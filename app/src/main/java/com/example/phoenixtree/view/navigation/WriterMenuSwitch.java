@@ -17,25 +17,22 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class DirectorNavigation implements MenuSwitchInterface {
+public class WriterMenuSwitch implements MenuSwitchInterface {
 
     @Inject
-    public DirectorNavigation() {
+    public WriterMenuSwitch() {
     }
 
     @Override
     public void switchToBrowse(@NonNull NavigationView navigationView) {
-
     }
 
     @Override
     public void switchToParticipate(@NonNull NavigationView navigationView) {
-
     }
 
     @Override
     public void switchToCompose(@NonNull NavigationView navigationView) {
-
     }
 
 }
