@@ -1,5 +1,6 @@
 package com.example.phoenixtree.view.navigation;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 
@@ -16,41 +17,22 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class WriterNavigation implements ViewNavigationInterface {
-
-    private final int containerId;
-    private final FragmentManager fragmentManager;
-
-    private final String BROWSE = "browse";
-    private final String PARTICIPATE = "participate";
+public class WriterNavigation implements MenuSwitchInterface {
 
     @Inject
-    public WriterNavigation(MainActivity mainActivity) {
-        this.containerId = R.id.main_container;
-        this.fragmentManager = mainActivity.getSupportFragmentManager();
+    public WriterNavigation() {
     }
 
     @Override
-    public void navigateToBrowse(NavigationView navigationView) {
-        BrowseFragment fragment = new BrowseFragment();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, BROWSE)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+    public void switchToBrowse(@NonNull NavigationView navigationView) {
     }
 
     @Override
-    public void navigateToParticipate(long stagePlayId) {
-        ParticipateFragment fragment = ParticipateFragment.create(stagePlayId);
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, PARTICIPATE + stagePlayId)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+    public void switchToParticipate(@NonNull NavigationView navigationView) {
     }
 
     @Override
-    public void navigateToCompose(long stagePlayId) {
-
+    public void switchToCompose(@NonNull NavigationView navigationView) {
     }
 
 }

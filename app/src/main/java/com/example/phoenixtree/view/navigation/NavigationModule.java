@@ -2,7 +2,6 @@ package com.example.phoenixtree.view.navigation;
 
 import com.example.phoenixtree.di.label.PerActivity;
 import com.example.phoenixtree.di.label.Type;
-import com.example.phoenixtree.view.main.MainActivity;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,22 +15,22 @@ public class NavigationModule {
     @Type("player")
     @PerActivity
     @Provides
-    ViewNavigationInterface providePlayerNavigation(MainActivity mainActivity) {
-        return new PlayerNavigation(mainActivity);
+    MenuSwitchInterface providePlayerNavigation() {
+        return new PlayerNavigation();
     }
 
     @Type("writer")
     @PerActivity
     @Provides
-    ViewNavigationInterface provideWriterNavigation(MainActivity mainActivity) {
-        return new WriterNavigation(mainActivity);
+    MenuSwitchInterface provideWriterNavigation() {
+        return new WriterNavigation();
     }
 
     @Type("director")
     @PerActivity
     @Provides
-    ViewNavigationInterface provideDirectorNavigation(MainActivity mainActivity) {
-        return new DirectorNavigation(mainActivity);
+    MenuSwitchInterface provideDirectorNavigation() {
+        return new DirectorNavigation();
     }
 
 }

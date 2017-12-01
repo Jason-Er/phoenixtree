@@ -1,7 +1,6 @@
 package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,9 +13,7 @@ import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
 
-import com.example.phoenixtree.di.label.Type;
 import com.example.phoenixtree.view.navigation.NavigationController;
-import com.example.phoenixtree.view.navigation.ViewNavigationInterface;
 
 import javax.inject.Inject;
 
@@ -28,7 +25,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        HasSupportFragmentInjector, ViewNavigationInterface {
+        HasSupportFragmentInjector {
 
     private NavigationView navigationView;
 
@@ -55,8 +52,10 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationController.setNavigationView(navigationView);
+
         if(savedInstanceState == null)
-            navigateToBrowse(navigationView);
+            navigateToBrowse();
 
     }
 
@@ -122,17 +121,15 @@ public class MainActivity extends AppCompatActivity
         return fragmentDispatchingAndroidInjector;
     }
 
-    @Override
-    public void navigateToBrowse(@NonNull NavigationView navigationView) {
-        navigationController.navigateToBrowse(navigationView);
+    // navigation to other fragments
+    public void navigateToBrowse() {
+        navigationController.navigateToBrowse();
     }
 
-    @Override
     public void navigateToParticipate(long stagePlayId) {
         navigationController.navigateToParticipate(stagePlayId);
     }
 
-    @Override
     public void navigateToCompose(long stagePlayId) {
         navigationController.navigateToCompose(stagePlayId);
     }

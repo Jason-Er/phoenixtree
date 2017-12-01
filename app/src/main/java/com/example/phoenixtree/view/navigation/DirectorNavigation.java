@@ -17,40 +17,24 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class DirectorNavigation implements ViewNavigationInterface {
-
-    private final int containerId;
-    private final FragmentManager fragmentManager;
-
-    private final String BROWSE = "browse";
-    private final String PARTICIPATE = "participate";
+public class DirectorNavigation implements MenuSwitchInterface {
 
     @Inject
-    public DirectorNavigation(MainActivity mainActivity) {
-        this.containerId = R.id.main_container;
-        this.fragmentManager = mainActivity.getSupportFragmentManager();
+    public DirectorNavigation() {
     }
 
     @Override
-    public void navigateToBrowse(@NonNull NavigationView navigationView) {
-        BrowseFragment fragment = new BrowseFragment();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, BROWSE)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+    public void switchToBrowse(@NonNull NavigationView navigationView) {
+
     }
 
     @Override
-    public void navigateToParticipate(long stagePlayId) {
-        ParticipateFragment fragment = ParticipateFragment.create(stagePlayId);
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, PARTICIPATE + stagePlayId)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+    public void switchToParticipate(@NonNull NavigationView navigationView) {
+
     }
 
     @Override
-    public void navigateToCompose(long stagePlayId) {
+    public void switchToCompose(@NonNull NavigationView navigationView) {
 
     }
 
