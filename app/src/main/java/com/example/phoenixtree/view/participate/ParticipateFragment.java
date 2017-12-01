@@ -32,7 +32,7 @@ import dagger.android.support.AndroidSupportInjection;
  */
 public class ParticipateFragment extends Fragment {
 
-    final private static String TAG = ParticipateFragment.class.getName();
+    final private static String TAG = "ParticipateFragment";
     private StagePlayViewModel viewModel;
     private static final String ID_KEY = "id";
 

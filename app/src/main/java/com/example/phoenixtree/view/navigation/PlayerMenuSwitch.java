@@ -27,7 +27,8 @@ public class PlayerMenuSwitch implements MenuSwitchInterface {
 
     @Override
     public void switchToParticipate(@NonNull NavigationView navigationView) {
-
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.player_participate_drawer);
     }
 
     @Override

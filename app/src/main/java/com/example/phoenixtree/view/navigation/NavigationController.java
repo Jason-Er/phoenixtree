@@ -8,6 +8,7 @@ import com.example.phoenixtree.R;
 import com.example.phoenixtree.di.label.PerActivity;
 import com.example.phoenixtree.di.label.Type;
 import com.example.phoenixtree.view.browse.BrowseFragment;
+import com.example.phoenixtree.view.compose.ComposeFragment;
 import com.example.phoenixtree.view.main.MainActivity;
 import com.example.phoenixtree.view.participate.ParticipateFragment;
 
@@ -23,6 +24,7 @@ public class NavigationController {
     private final FragmentManager fragmentManager;
     private final String BROWSE = "browse";
     private final String PARTICIPATE = "participate";
+    private final String COMPOSE = "compose";
 
     private final MenuSwitchInterface playerMenuSwitch;
     private final MenuSwitchInterface writerMenuSwitch;
@@ -81,6 +83,12 @@ public class NavigationController {
     }
 
     public void navigateToCompose(long stagePlayId) {
+        ComposeFragment fragment = ComposeFragment.create(stagePlayId);
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment, COMPOSE + stagePlayId)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+
         menuSwitch.switchToCompose(navigationView);
     }
 
