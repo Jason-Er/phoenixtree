@@ -1,14 +1,10 @@
-package com.example.phoenixtree.view.navigation;
+package com.example.phoenixtree.view.drawerNavigation;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.di.label.PerActivity;
-import com.example.phoenixtree.view.browse.BrowseFragment;
-import com.example.phoenixtree.view.main.MainActivity;
-import com.example.phoenixtree.view.participate.ParticipateFragment;
 
 import javax.inject.Inject;
 
@@ -17,28 +13,27 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class DirectorMenuSwitch implements MenuSwitchInterface {
+public class PlayerMenuSwitch implements MenuSwitchInterface {
 
     @Inject
-    public DirectorMenuSwitch() {
+    public PlayerMenuSwitch() {
     }
 
     @Override
     public void switchToBrowse(@NonNull NavigationView navigationView) {
         navigationView.getMenu().clear();
-        navigationView.inflateMenu(R.menu.director_browse_drawer);
+        navigationView.inflateMenu(R.menu.player_browse_drawer);
     }
 
     @Override
     public void switchToParticipate(@NonNull NavigationView navigationView) {
         navigationView.getMenu().clear();
-        navigationView.inflateMenu(R.menu.director_participate_drawer);
+        navigationView.inflateMenu(R.menu.player_participate_drawer);
     }
 
     @Override
     public void switchToCompose(@NonNull NavigationView navigationView) {
-        navigationView.getMenu().clear();
-        navigationView.inflateMenu(R.menu.director_compose_drawer);
+        throw new UnsupportedOperationException();
     }
 
 }

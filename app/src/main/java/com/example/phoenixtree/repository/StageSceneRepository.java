@@ -10,6 +10,7 @@ import com.example.phoenixtree.dataservice.entity.StageLineEntity;
 import com.example.phoenixtree.dataservice.entity.StageSceneEntity;
 import com.example.phoenixtree.dataservice.local.StageLineEntityDao;
 import com.example.phoenixtree.dataservice.local.StageSceneEntityDao;
+import com.example.phoenixtree.model.StageLine;
 import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 import com.example.phoenixtree.util.JsonUtil;
@@ -66,10 +67,10 @@ public class StageSceneRepository {
                             scene.ordinal = sceneEntity.ordinal;
                             scene.actionScript = sceneEntity.actionScript;
                             scene.actionScriptObject = (ActionScript)JsonUtil.stringToObject(sceneEntity.actionScript, ActionScript.class);
-                            final LiveData<List<StageLineEntity>> lineEntityLiveData = lineEntityDao.retrieveAllByStageSceneIdLive(sceneId);
-                            sceneMediatorLiveData.addSource(lineEntityLiveData, new Observer<List<StageLineEntity>>() {
+                            final LiveData<List<StageLine>> lineEntityLiveData = lineEntityDao.retrieveAllByStageSceneIdLive(sceneId);
+                            sceneMediatorLiveData.addSource(lineEntityLiveData, new Observer<List<StageLine>>() {
                                 @Override
-                                public void onChanged(@Nullable List<StageLineEntity> lineEntities) {
+                                public void onChanged(@Nullable List<StageLine> lineEntities) {
                                     sceneMediatorLiveData.removeSource(lineEntityLiveData);
                                     scene.stageLines = lineEntities;
                                     sceneMediatorLiveData.setValue(scene);

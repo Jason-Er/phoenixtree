@@ -45,6 +45,8 @@ public class ComposeFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private StagePlay stagePlay;
+
     @Override
     public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -60,13 +62,15 @@ public class ComposeFragment extends Fragment {
         viewModel.play.observe(this, new Observer<Resource<StagePlay>>() {
             @Override
             public void onChanged(@Nullable Resource<StagePlay> stagePlayResource) {
-                Log.i(TAG, "onAttach onChanged");
                 switch (stagePlayResource.status) {
                     case SUCCESS:
-                        StagePlay play = stagePlayResource.data;
+                        Log.i(TAG, "play data success");
+                        stagePlay = stagePlayResource.data;
                         // sceneNavigation.setStageScenes(play.scenes);
                         if(savedInstanceState == null);
                            // sceneNavigation.navigateToFirst();
+
+                        ((ComposeAdapter)adapter).setDataset(stagePlay.scenes.get(0).stageLines);
                         break;
                     case ERROR:
 

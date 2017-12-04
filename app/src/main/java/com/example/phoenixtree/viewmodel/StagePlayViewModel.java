@@ -13,6 +13,7 @@ import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.model.Status;
 import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.repository.StagePlayRepository;
+import com.example.phoenixtree.repository.StageSceneRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
 import com.example.phoenixtree.util.PanelInterface;
 import com.example.phoenixtree.util.processor.AudioProcessor;
@@ -32,6 +33,7 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
     private final MutableLiveData<Long> sceneId = new MutableLiveData<>();
 
     public final LiveData<Resource<StagePlay>> play;
+    public final LiveData<StageScene> scene;
     public final LiveData<Keyframe> keyframe;
     private final MutableLiveData<Keyframe> keyframeMutableLiveData = new MediatorLiveData<>();
 
@@ -39,7 +41,8 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
     private final AudioProcessor audioP;
 
     @Inject
-    public StagePlayViewModel(final StagePlayRepository repository,
+    public StagePlayViewModel(final StagePlayRepository playRepository,
+                              final StageSceneRepository sceneRepository,
                               KeyframeProcessor keyframeProcessor,
                               AudioProcessor audioProcessor) {
 
@@ -52,10 +55,21 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
                 if(playId == null) {
                     return AbsentLiveData.create();
                 } else {
-                    return repository.loadPlay(input);
+                    return playRepository.loadPlay(input);
                 }
             }
         });
+
+        scene = Transformations.switchMap(sceneId, new Function<Long, LiveData<StageScene>>() {
+                    @Override
+                    public LiveData<StageScene> apply(Long input) {
+                        if(sceneId == null) {
+                            return AbsentLiveData.create();
+                        } else {
+                            return sceneRepository.loadScene(input);
+                        }
+                    }
+                });
         /*
         Transformations.switchMap(play, new Function<Resource<StagePlay>, LiveData<Object>>() {
             @Override
@@ -70,24 +84,24 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
             }
         });
         */
-        keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
-            @Override
-            public LiveData<Keyframe> apply(Long input) {
-                Resource<StagePlay> resource = play.getValue();
-                if(resource != null && resource.status == Status.SUCCESS) {
-                    StagePlay play = resource.data;
-                    for (StageScene scene : play.scenes) {
-                        if (scene.id == input) {
-                            keyframeP.setStage(play.stage);
-                            keyframeP.setScene(scene);
-                            return keyframeP.firstFrame();
+                keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
+                    @Override
+                    public LiveData<Keyframe> apply(Long input) {
+                        Resource<StagePlay> resource = play.getValue();
+                        if (resource != null && resource.status == Status.SUCCESS) {
+                            StagePlay play = resource.data;
+                            for (StageScene scene : play.scenes) {
+                                if (scene.id == input) {
+                                    keyframeP.setStage(play.stage);
+                                    keyframeP.setScene(scene);
+                                    return keyframeP.firstFrame();
+                                }
+                            }
                         }
+                        keyframeMutableLiveData.setValue(null);
+                        return keyframeMutableLiveData;
                     }
-                }
-                keyframeMutableLiveData.setValue(null);
-                return keyframeMutableLiveData;
-            }
-        });
+                });
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view.navigation;
+package com.example.phoenixtree.view.drawerNavigation;
 
 import com.example.phoenixtree.di.label.PerActivity;
 import com.example.phoenixtree.di.label.Type;

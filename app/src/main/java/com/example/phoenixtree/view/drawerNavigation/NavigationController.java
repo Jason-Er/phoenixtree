@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view.navigation;
+package com.example.phoenixtree.view.drawerNavigation;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;

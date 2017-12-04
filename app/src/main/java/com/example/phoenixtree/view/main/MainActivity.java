@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
 
-import com.example.phoenixtree.view.navigation.NavigationController;
+import com.example.phoenixtree.view.drawerNavigation.NavigationController;
 
 import javax.inject.Inject;
 

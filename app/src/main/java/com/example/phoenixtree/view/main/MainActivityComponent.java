@@ -1,7 +1,7 @@
 package com.example.phoenixtree.view.main;
 
 import com.example.phoenixtree.di.label.PerActivity;
-import com.example.phoenixtree.view.navigation.MenuSwitchModule;
+import com.example.phoenixtree.view.drawerNavigation.MenuSwitchModule;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjector;

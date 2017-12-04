@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view.participate;
+package com.example.phoenixtree.view.sceneNavigation;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.view.main.MainActivity;
+import com.example.phoenixtree.view.participate.SceneFragment;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import javax.inject.Inject;
  * Created by ej on 10/30/2017.
  */
 
-class SceneNavigation {
+public class SceneNavigation {
     private final int containerId;
     private final FragmentManager fragmentManager;
     private List<StageScene> stageScenes;

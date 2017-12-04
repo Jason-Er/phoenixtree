@@ -1,6 +1,5 @@
 package com.example.phoenixtree.view.participate;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
@@ -15,13 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.util.UICommon;
-import com.example.phoenixtree.view.main.MainActivity;
+import com.example.phoenixtree.view.sceneNavigation.SceneNavigation;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import java.util.MissingResourceException;
@@ -38,6 +36,8 @@ public class ParticipateFragment extends Fragment {
     final private static String TAG = "ParticipateFragment";
     private StagePlayViewModel viewModel;
     private static final String ID_KEY = "id";
+
+    private StagePlay stagePlay;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -63,8 +63,8 @@ public class ParticipateFragment extends Fragment {
                 Log.i(TAG, "onAttach onChanged");
                 switch (stagePlayResource.status) {
                     case SUCCESS:
-                        StagePlay play = stagePlayResource.data;
-                        sceneNavigation.setStageScenes(play.scenes);
+                        stagePlay = stagePlayResource.data;
+                        sceneNavigation.setStageScenes(stagePlay.scenes);
                         if(savedInstanceState == null)
                             sceneNavigation.navigateToFirst();
                         break;
