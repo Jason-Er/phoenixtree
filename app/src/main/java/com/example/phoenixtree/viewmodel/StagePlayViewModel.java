@@ -15,7 +15,7 @@ import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.repository.StagePlayRepository;
 import com.example.phoenixtree.repository.StageSceneRepository;
 import com.example.phoenixtree.util.AbsentLiveData;
-import com.example.phoenixtree.util.PanelInterface;
+import com.example.phoenixtree.util.commonInterface.PanelInterface;
 import com.example.phoenixtree.util.processor.AudioProcessor;
 import com.example.phoenixtree.util.processor.KeyframeProcessor;
 

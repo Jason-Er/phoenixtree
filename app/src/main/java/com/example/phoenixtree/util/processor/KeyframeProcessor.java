@@ -13,7 +13,7 @@ import com.example.phoenixtree.model.actionscript.Animate;
 import com.example.phoenixtree.model.actionscript.Role;
 import com.example.phoenixtree.model.keyframe.Line;
 import com.example.phoenixtree.model.keyframe.Stage;
-import com.example.phoenixtree.util.PanelInterface;
+import com.example.phoenixtree.util.commonInterface.PanelInterface;
 import com.example.phoenixtree.model.keyframe.Keyframe;
 
 import java.util.ArrayList;
