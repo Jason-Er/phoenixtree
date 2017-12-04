@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
-import com.example.phoenixtree.util.callbackInterface.OnClickCallBack;
+import com.example.phoenixtree.util.commonInterface.OnClickCallBack;
 
 /**
  * Created by ej on 10/27/2017.

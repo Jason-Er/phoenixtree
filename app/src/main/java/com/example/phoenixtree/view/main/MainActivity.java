@@ -98,10 +98,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_compose) {
-            // TODO: 12/4/2017 stagePlayId must change according to real parameter
-            navigateToCompose(1);
+            navigateToCompose( navigationController.getCurrentStagePlayId() );
         } else if (id == R.id.nav_participate) {
-            navigateToParticipate(1);
+            navigateToParticipate( navigationController.getCurrentStagePlayId() );
         } else if (id == R.id.nav_login) {
 
         }

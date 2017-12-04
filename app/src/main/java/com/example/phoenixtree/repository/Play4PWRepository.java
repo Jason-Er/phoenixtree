@@ -22,7 +22,7 @@ import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.Scene4PW;
-import com.example.phoenixtree.util.callbackInterface.PlainCallBack;
+import com.example.phoenixtree.util.commonInterface.PlainCallBack;
 
 import java.util.ArrayList;
 import java.util.Iterator;

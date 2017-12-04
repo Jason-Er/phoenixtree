@@ -27,7 +27,7 @@ import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 import com.example.phoenixtree.util.JsonUtil;
-import com.example.phoenixtree.util.callbackInterface.PlainCallBack;
+import com.example.phoenixtree.util.commonInterface.PlainCallBack;
 import com.example.phoenixtree.util.RetrievePageInfo;
 
 import java.util.ArrayList;

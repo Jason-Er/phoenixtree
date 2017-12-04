@@ -18,6 +18,7 @@ import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.util.UICommon;
+import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.util.composeRecyclerView.ComposeAdapter;
 import com.example.phoenixtree.util.composeRecyclerView.ComposeLayoutManager;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
@@ -32,7 +33,7 @@ import dagger.android.support.AndroidSupportInjection;
  * Created by ej on 11/30/2017.
  */
 
-public class ComposeFragment extends Fragment {
+public class ComposeFragment extends Fragment implements StagePlayInfo {
 
     private static final String TAG = "ComposeFragment";
     private static final String ID_KEY = "id";
@@ -117,5 +118,10 @@ public class ComposeFragment extends Fragment {
         args.putLong(ID_KEY, stagePlayId);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public long getStagePlayID() {
+        return stagePlay == null? 0L : stagePlay.stageId;
     }
 }

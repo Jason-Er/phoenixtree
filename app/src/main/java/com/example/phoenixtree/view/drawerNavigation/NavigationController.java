@@ -2,11 +2,13 @@ package com.example.phoenixtree.view.drawerNavigation;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.di.label.PerActivity;
 import com.example.phoenixtree.di.label.Type;
+import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.view.browse.BrowseFragment;
 import com.example.phoenixtree.view.compose.ComposeFragment;
 import com.example.phoenixtree.view.main.MainActivity;
@@ -30,8 +32,8 @@ public class NavigationController {
     private final MenuSwitchInterface writerMenuSwitch;
     private final MenuSwitchInterface directorMenuSwitch;
 
+    private Fragment currentFragment;
     private MenuSwitchInterface menuSwitch;
-
     private NavigationView navigationView;
 
     @Inject
@@ -63,19 +65,18 @@ public class NavigationController {
     }
 
     public void navigateToBrowse() {
-        BrowseFragment fragment = new BrowseFragment();
+        currentFragment = new BrowseFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, BROWSE)
+                .replace(containerId, currentFragment, BROWSE)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
-
         menuSwitch.switchToBrowse(navigationView);
     }
 
     public void navigateToParticipate(long stagePlayId) {
-        ParticipateFragment fragment = ParticipateFragment.create(stagePlayId);
+        currentFragment = ParticipateFragment.create(stagePlayId);
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, PARTICIPATE + stagePlayId)
+                .replace(containerId, currentFragment, PARTICIPATE + stagePlayId)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
 
@@ -83,16 +84,25 @@ public class NavigationController {
     }
 
     public void navigateToCompose(long stagePlayId) {
-        ComposeFragment fragment = ComposeFragment.create(stagePlayId);
+        currentFragment = ComposeFragment.create(stagePlayId);
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, COMPOSE + stagePlayId)
+                .replace(containerId, currentFragment, COMPOSE + stagePlayId)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
 
         menuSwitch.switchToCompose(navigationView);
     }
 
+    public long getCurrentStagePlayId() {
+        if(currentFragment instanceof StagePlayInfo ) {
+            return ((StagePlayInfo) currentFragment).getStagePlayID();
+        } else {
+            throw new UnsupportedOperationException();
+        }
+    }
+
     public void setNavigationView(@NonNull NavigationView navigationView) {
         this.navigationView = navigationView;
     }
+
 }

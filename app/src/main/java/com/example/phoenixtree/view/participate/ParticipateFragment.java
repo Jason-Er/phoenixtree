@@ -19,6 +19,7 @@ import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.util.UICommon;
+import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.view.sceneNavigation.SceneNavigation;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
@@ -31,7 +32,7 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ParticipateFragment extends Fragment {
+public class ParticipateFragment extends Fragment implements StagePlayInfo {
 
     final private static String TAG = "ParticipateFragment";
     private StagePlayViewModel viewModel;
@@ -122,4 +123,8 @@ public class ParticipateFragment extends Fragment {
     }
 
 
+    @Override
+    public long getStagePlayID() {
+        return stagePlay == null? 0L : stagePlay.stageId;
+    }
 }

@@ -1,17 +1,15 @@
 package com.example.phoenixtree.util.browseRecyclerView;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
-import com.example.phoenixtree.util.callbackInterface.OnClickCallBack;
+import com.example.phoenixtree.util.commonInterface.OnClickCallBack;
 
 import java.util.List;
 

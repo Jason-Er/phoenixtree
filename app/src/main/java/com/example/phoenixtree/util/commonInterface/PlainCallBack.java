@@ -1,4 +1,4 @@
-package com.example.phoenixtree.util.callbackInterface;
+package com.example.phoenixtree.util.commonInterface;
 
 /**
  * Created by ej on 10/12/2017.
