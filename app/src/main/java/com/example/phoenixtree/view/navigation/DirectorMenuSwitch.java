@@ -25,17 +25,20 @@ public class DirectorMenuSwitch implements MenuSwitchInterface {
 
     @Override
     public void switchToBrowse(@NonNull NavigationView navigationView) {
-
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.director_browse_drawer);
     }
 
     @Override
     public void switchToParticipate(@NonNull NavigationView navigationView) {
-
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.director_participate_drawer);
     }
 
     @Override
     public void switchToCompose(@NonNull NavigationView navigationView) {
-
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.director_compose_drawer);
     }
 
 }

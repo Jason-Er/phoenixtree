@@ -47,7 +47,7 @@ public class NavigationController {
         this.playerMenuSwitch = playerMenuSwitch;
         this.writerMenuSwitch = writerMenuSwitch;
         this.directorMenuSwitch = directorMenuSwitch;
-        menuSwitch = playerMenuSwitch;
+        menuSwitch = directorMenuSwitch;
     }
 
     public void switchToPlayerNavigation() {

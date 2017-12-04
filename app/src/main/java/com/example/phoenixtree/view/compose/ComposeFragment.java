@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
+import com.example.phoenixtree.util.UICommon;
 import com.example.phoenixtree.util.composeRecyclerView.ComposeAdapter;
 import com.example.phoenixtree.util.composeRecyclerView.ComposeLayoutManager;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
@@ -63,7 +65,7 @@ public class ComposeFragment extends Fragment {
                     case SUCCESS:
                         StagePlay play = stagePlayResource.data;
                         // sceneNavigation.setStageScenes(play.scenes);
-                        if(savedInstanceState == null)
+                        if(savedInstanceState == null);
                            // sceneNavigation.navigateToFirst();
                         break;
                     case ERROR:
@@ -81,6 +83,8 @@ public class ComposeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "ComposeFragment onCreateView");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+        UICommon.hideSystemUI(getActivity());
         // Inflate the layout for this fragment
         recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_scene, container, false);
         recyclerView.setHasFixedSize(true);
@@ -100,6 +104,7 @@ public class ComposeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        UICommon.showSystemUI(getActivity());
     }
 
     public static ComposeFragment create(long stagePlayId) {
