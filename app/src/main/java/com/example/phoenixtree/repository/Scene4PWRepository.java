@@ -25,8 +25,8 @@ import javax.inject.Singleton;
  * Created by ej on 9/1/2017.
  */
 @Singleton
-public class SceneRepository {
-    private final String TAG = SceneRepository.class.getName();
+public class Scene4PWRepository {
+    private final String TAG = Scene4PWRepository.class.getName();
     private final AppExecutors appExecutors;
     private final SceneEntityDao sceneEntityDao;
     private final LineEntityDao lineEntityDao;
@@ -34,9 +34,9 @@ public class SceneRepository {
     private MediatorLiveData<Scene4PW> scene4PWLiveData;
 
     @Inject
-    public SceneRepository(SceneEntityDao sceneEntityDao,
-                           LineEntityDao lineEntityDao,
-                           AppExecutors appExecutors) {
+    public Scene4PWRepository(SceneEntityDao sceneEntityDao,
+                              LineEntityDao lineEntityDao,
+                              AppExecutors appExecutors) {
         this.appExecutors = appExecutors;
         this.sceneEntityDao = sceneEntityDao;
         this.lineEntityDao = lineEntityDao;

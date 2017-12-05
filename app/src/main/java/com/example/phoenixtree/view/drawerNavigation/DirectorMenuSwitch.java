@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view.navigation;
+package com.example.phoenixtree.view.drawerNavigation;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,27 +13,28 @@ import javax.inject.Inject;
  */
 
 @PerActivity
-public class PlayerMenuSwitch implements MenuSwitchInterface {
+public class DirectorMenuSwitch implements MenuSwitchInterface {
 
     @Inject
-    public PlayerMenuSwitch() {
+    public DirectorMenuSwitch() {
     }
 
     @Override
     public void switchToBrowse(@NonNull NavigationView navigationView) {
         navigationView.getMenu().clear();
-        navigationView.inflateMenu(R.menu.player_browse_drawer);
+        navigationView.inflateMenu(R.menu.director_browse_drawer);
     }
 
     @Override
     public void switchToParticipate(@NonNull NavigationView navigationView) {
         navigationView.getMenu().clear();
-        navigationView.inflateMenu(R.menu.player_participate_drawer);
+        navigationView.inflateMenu(R.menu.director_participate_drawer);
     }
 
     @Override
     public void switchToCompose(@NonNull NavigationView navigationView) {
-        throw new UnsupportedOperationException();
+        navigationView.getMenu().clear();
+        navigationView.inflateMenu(R.menu.director_compose_drawer);
     }
 
 }

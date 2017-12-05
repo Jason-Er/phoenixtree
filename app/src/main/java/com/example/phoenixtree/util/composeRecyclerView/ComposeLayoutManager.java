@@ -283,7 +283,7 @@ public class ComposeLayoutManager extends RecyclerView.LayoutManager {
             layoutRectInfo = new ArrayList<>();
             layoutRowInfo = new HashMap();
             Rect rect;
-            while (rightOffset <= getHorizontalSpace()) {
+            while (rightOffset <= getHorizontalSpace() && index < getItemCount()) {
                 Log.i(TAG, "index: " + index + " rightOffset: " + rightOffset);
                 indexSet.add(index);
                 rect = measureViewWithMarginsByIndex(index, layoutRowInfo, layoutRectInfo, recycler);

@@ -22,11 +22,12 @@ import com.example.phoenixtree.dataservice.local.UserEntityDao;
 import com.example.phoenixtree.dataservice.remote.ApiResponse;
 import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.model.Resource;
+import com.example.phoenixtree.model.StageLine;
 import com.example.phoenixtree.model.StagePlay;
 import com.example.phoenixtree.model.StageScene;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 import com.example.phoenixtree.util.JsonUtil;
-import com.example.phoenixtree.util.callbackInterface.PlainCallBack;
+import com.example.phoenixtree.util.commonInterface.PlainCallBack;
 import com.example.phoenixtree.util.RetrievePageInfo;
 
 import java.util.ArrayList;
@@ -106,10 +107,10 @@ public class StagePlayRepository {
             private void traverseScenelist(final Iterator iterator, final MediatorLiveData<StagePlay> stagePlayLiveData, final PlainCallBack callback) {
                 if(iterator.hasNext()) {
                     final StageScene stageScene = (StageScene) iterator.next();
-                    final LiveData<List<StageLineEntity>> linelistLiveData = lineEntityDao.retrieveAllByStageSceneIdLive(stageScene.id);
-                    stagePlayLiveData.addSource(linelistLiveData, new Observer<List<StageLineEntity>>() {
+                    final LiveData<List<StageLine>> linelistLiveData = lineEntityDao.retrieveAllByStageSceneIdLive(stageScene.id);
+                    stagePlayLiveData.addSource(linelistLiveData, new Observer<List<StageLine>>() {
                         @Override
-                        public void onChanged(@android.support.annotation.Nullable List<StageLineEntity> lineEntities) {
+                        public void onChanged(@android.support.annotation.Nullable List<StageLine> lineEntities) {
                             stagePlayLiveData.removeSource(linelistLiveData);
                             stageScene.stageLines = lineEntities;
                             traverseScenelist(iterator, stagePlayLiveData, callback);

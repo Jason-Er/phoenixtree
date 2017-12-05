@@ -2,7 +2,7 @@ package com.example.phoenixtree.util.processor;
 
 import android.util.Log;
 
-import com.example.phoenixtree.util.PanelInterface;
+import com.example.phoenixtree.util.commonInterface.PanelInterface;
 
 import javax.inject.Inject;
 

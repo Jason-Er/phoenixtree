@@ -1,4 +1,4 @@
-package com.example.phoenixtree.util;
+package com.example.phoenixtree.util.commonInterface;
 
 /**
  * Created by ej on 8/30/2017.

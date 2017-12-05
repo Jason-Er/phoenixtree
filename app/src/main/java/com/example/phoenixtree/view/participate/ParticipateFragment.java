@@ -14,11 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
+import com.example.phoenixtree.util.UICommon;
+import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
+import com.example.phoenixtree.view.sceneNavigation.SceneNavigation;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import java.util.MissingResourceException;
@@ -30,11 +32,13 @@ import dagger.android.support.AndroidSupportInjection;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ParticipateFragment extends Fragment {
+public class ParticipateFragment extends Fragment implements StagePlayInfo {
 
     final private static String TAG = "ParticipateFragment";
     private StagePlayViewModel viewModel;
     private static final String ID_KEY = "id";
+
+    private StagePlay stagePlay;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -60,8 +64,8 @@ public class ParticipateFragment extends Fragment {
                 Log.i(TAG, "onAttach onChanged");
                 switch (stagePlayResource.status) {
                     case SUCCESS:
-                        StagePlay play = stagePlayResource.data;
-                        sceneNavigation.setStageScenes(play.scenes);
+                        stagePlay = stagePlayResource.data;
+                        sceneNavigation.setStageScenes(stagePlay.scenes);
                         if(savedInstanceState == null)
                             sceneNavigation.navigateToFirst();
                         break;
@@ -82,7 +86,7 @@ public class ParticipateFragment extends Fragment {
                              Bundle savedInstanceState) {
         Log.i(TAG, "ParticipateFragment onCreateView");
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        hideSystemUI();
+        UICommon.hideSystemUI(getActivity());
         View root = inflater.inflate(R.layout.fragment_participate, container, false);
 
         FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
@@ -114,34 +118,13 @@ public class ParticipateFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        showSystemUI();
+        UICommon.showSystemUI(getActivity());
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 
-    // This snippet hides the system bars.
-    private void hideSystemUI() {
-        getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
-                | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-    }
 
-    // This snippet shows the system bars. It does this by removing all the flags
-    // except for the ones that make the content appear under the system bars.
-    private void showSystemUI() {
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
-                | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        getActivity().getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    @Override
+    public long getStagePlayID() {
+        return stagePlay == null? 0L : stagePlay.stageId;
     }
 }

@@ -7,6 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import com.example.phoenixtree.dataservice.entity.StageLineEntity;
+import com.example.phoenixtree.model.StageLine;
 
 import java.util.List;
 
@@ -25,5 +26,5 @@ public interface StageLineEntityDao {
     @Query("SELECT * FROM stage_line WHERE id = :id")
     StageLineEntity retrieveById(long id);
     @Query("SELECT * FROM stage_line WHERE stage_scene_id = :stageSceneId order by ordinal asc")
-    LiveData<List<StageLineEntity>> retrieveAllByStageSceneIdLive(long stageSceneId);
+    LiveData<List<StageLine>> retrieveAllByStageSceneIdLive(long stageSceneId);
 }
