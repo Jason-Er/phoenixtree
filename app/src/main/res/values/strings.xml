@@ -13,4 +13,8 @@
     <string name="participate">Participate</string>
     <string name="login">Login</string>
 
+    <string name="bottom_bar_pre">bottom bar pre scene</string>
+    <string name="bottom_bar_play">bottom bar play scene</string>
+    <string name="bottom_bar_next">bottom bar next scene</string>
+
 </resources>
