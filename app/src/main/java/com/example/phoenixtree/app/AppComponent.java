@@ -2,9 +2,6 @@ package com.example.phoenixtree.app;
 
 import android.app.Application;
 
-import com.example.phoenixtree.view.participate.ParticipateFragment;
-import com.example.phoenixtree.view.participate.SceneFragment;
-
 import javax.inject.Singleton;
 
 import dagger.BindsInstance;

@@ -91,7 +91,7 @@ public class ComposeFragment extends Fragment implements StagePlayInfo {
         ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
         UICommon.hideSystemUI(getActivity());
         // Inflate the layout for this fragment
-        recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_scene, container, false);
+        recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_recycler, container, false);
         recyclerView.setHasFixedSize(true);
         layoutManager = new ComposeLayoutManager();
         recyclerView.setLayoutManager(layoutManager);

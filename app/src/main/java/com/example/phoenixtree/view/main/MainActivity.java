@@ -19,6 +19,7 @@ import com.example.phoenixtree.view.drawerNavigation.NavigationController;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import dagger.android.AndroidInjection;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity
         HasSupportFragmentInjector {
 
     private final String TAG = "MainActivity";
-    private NavigationView navigationView;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        // navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationController.setNavigationView(navigationView);

@@ -80,8 +80,8 @@ public class BrowseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
-        View root =  inflater.inflate(R.layout.fragment_browse, container, false);
-        recyclerView = (RecyclerView)root.findViewById(R.id.fragment_browse_recycler);
+        recyclerView =  (RecyclerView)inflater.inflate(R.layout.fragment_recycler, container, false);
+        // recyclerView = (RecyclerView)root.findViewById(R.id.fragment_browse_recycler);
         int spanCount = 2;
         layoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
@@ -92,7 +92,7 @@ public class BrowseFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(adapter);
-        return root;
+        return recyclerView;
     }
 
     @Override
