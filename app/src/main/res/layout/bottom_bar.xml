@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.example.phoenixtree.view.bottomBar.PlayerControlBar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
+    android:layout_height="@dimen/player_control_bar_size"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom"
     android:background="@color/colorPrimaryDark"
     android:orientation="horizontal"
+    android:visibility="gone"
     android:id="@+id/bottom_bar"
     android:elevation="4dp"
     android:weightSum="3">
