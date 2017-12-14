@@ -1,6 +1,7 @@
 package com.example.phoenixtree.util;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -9,6 +10,13 @@ import android.view.WindowManager;
  */
 
 public class UICommon {
+    public static boolean isViewContains(View view, int rx, int ry) {
+        //int[] l = new int[2];
+        //view.getLocationOnScreen(l);
+        Rect rect = new Rect();//new Rect(l[0], l[1], l[0] + view.getWidth(), l[1] + view.getHeight());
+        view.getGlobalVisibleRect(rect);
+        return rect.contains(rx, ry);
+    }
     // This snippet hides the system bars.
     static public void hideSystemUI(Activity activity) {
         activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN
