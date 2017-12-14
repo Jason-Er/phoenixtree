@@ -37,7 +37,8 @@ public class PlayerControlBarBehavior extends CoordinatorLayout.Behavior<PlayerC
                 }
                 break;
         }
-        return isNeedIntercept;
+        // return isNeedIntercept;
+        return false;
     }
 
     @Override
@@ -67,6 +68,6 @@ public class PlayerControlBarBehavior extends CoordinatorLayout.Behavior<PlayerC
                 }
                 break;
         }
-        return true;
+        return false;
     }
 }
