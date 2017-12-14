@@ -8,8 +8,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import com.example.phoenixtree.R;
 
@@ -17,6 +19,8 @@ import com.example.phoenixtree.view.drawerNavigation.NavigationController;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HasSupportFragmentInjector {
 
+    private final String TAG = "MainActivity";
     private NavigationView navigationView;
 
     @Inject
@@ -35,11 +40,14 @@ public class MainActivity extends AppCompatActivity
     @Inject
     NavigationController navigationController;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(MainActivity.this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -130,5 +138,20 @@ public class MainActivity extends AppCompatActivity
 
     public NavigationView getNavigationView() {
         return navigationView;
+    }
+
+    @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next})
+    public void responseButtonOnClick(ImageButton button) {
+        switch (button.getId()) {
+            case R.id.btn_player_control_pre:
+                Log.i(TAG, "click on pre");
+                break;
+            case R.id.btn_player_control_play:
+                Log.i(TAG, "click on play");
+                break;
+            case R.id.btn_player_control_next:
+                Log.i(TAG, "click on next");
+                break;
+        }
     }
 }
