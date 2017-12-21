@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(MainActivity.this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_account_circle_white_24px));
         setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
