@@ -102,8 +102,6 @@ public class ParticipateFragment extends Fragment implements StagePlayInfo {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "ParticipateFragment onCreateView");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        UICommon.hideSystemUI(getActivity());
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler, container, false);
         recyclerView.setHasFixedSize(true);
         layoutManager = new SceneLayoutManager();
@@ -126,14 +124,6 @@ public class ParticipateFragment extends Fragment implements StagePlayInfo {
         fragment.setArguments(args);
         return fragment;
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        UICommon.showSystemUI(getActivity());
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-    }
-
 
     @Override
     public long getStagePlayID() {

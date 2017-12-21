@@ -34,6 +34,8 @@ public class NavigationController {
     private final MenuSwitchInterface directorMenuSwitch;
     private final BottomBarController bottomBarController;
     private final CatalogueController catalogueController;
+    private final SystemUIController systemUIController;
+    private final ToolBarController toolBarController;
 
     private Fragment currentFragment;
     private MenuSwitchInterface menuSwitch;
@@ -47,6 +49,8 @@ public class NavigationController {
             MainActivity mainActivity,
             BottomBarController bottomBarController,
             CatalogueController catalogueController,
+            SystemUIController systemUIController,
+            ToolBarController toolBarController,
             @Type("player") MenuSwitchInterface playerMenuSwitch,
             @Type("writer") MenuSwitchInterface writerMenuSwitch,
             @Type("director") MenuSwitchInterface directorMenuSwitch) {
@@ -56,6 +60,8 @@ public class NavigationController {
 
         this.bottomBarController = bottomBarController;
         this.catalogueController = catalogueController;
+        this.systemUIController = systemUIController;
+        this.toolBarController = toolBarController;
         this.playerMenuSwitch = playerMenuSwitch;
         this.writerMenuSwitch = writerMenuSwitch;
         this.directorMenuSwitch = directorMenuSwitch;
@@ -83,6 +89,8 @@ public class NavigationController {
         menuSwitch.switchToBrowse(navigationView);
         bottomBarController.unLoadBottomBar(coordinatorLayout);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
+        systemUIController.show();
+        toolBarController.show();
     }
 
     public void navigateToParticipate(long stagePlayId) {
@@ -94,6 +102,9 @@ public class NavigationController {
         menuSwitch.switchToParticipate(navigationView);
         bottomBarController.loadBottomBar(coordinatorLayout);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
+        systemUIController.hide();
+        toolBarController.hide();
+
     }
 
     public void navigateToCompose(long stagePlayId) {
@@ -105,6 +116,8 @@ public class NavigationController {
         menuSwitch.switchToCompose(navigationView);
         bottomBarController.loadBottomBar(coordinatorLayout);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
+        systemUIController.hide();
+        toolBarController.hide();
     }
 
     public long getCurrentStagePlayId() {
