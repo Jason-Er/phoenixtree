@@ -85,15 +85,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_login, menu);
         return true;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_login) {
-            Log.i(TAG, "Click login");
+            navigateToLogin();
             return true;
         }
 
@@ -152,6 +149,10 @@ public class MainActivity extends AppCompatActivity
 
     public void navigateToCompose(long stagePlayId) {
         navigationController.navigateToCompose(stagePlayId);
+    }
+
+    public void navigateToLogin() {
+        navigationController.navigateToLogin();
     }
 
     public NavigationView getNavigationView() {

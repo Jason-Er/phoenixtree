@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
@@ -12,6 +13,7 @@ import com.example.phoenixtree.di.label.Type;
 import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.view.browse.BrowseFragment;
 import com.example.phoenixtree.view.compose.ComposeFragment;
+import com.example.phoenixtree.view.login.LoginFragment;
 import com.example.phoenixtree.view.main.MainActivity;
 import com.example.phoenixtree.view.participate.ParticipateFragment;
 
@@ -23,11 +25,13 @@ import javax.inject.Inject;
 @PerActivity
 public class NavigationController {
 
+    private final String TAG = "NavigationController";
     private final int containerId;
     private final FragmentManager fragmentManager;
     private final String BROWSE = "browse";
     private final String PARTICIPATE = "participate";
     private final String COMPOSE = "compose";
+    private final String LOGIN = "login";
 
     private final MenuSwitchInterface playerMenuSwitch;
     private final MenuSwitchInterface writerMenuSwitch;
@@ -118,6 +122,20 @@ public class NavigationController {
         catalogueController.loadStagePlayCatalogue(drawerLayout);
         systemUIController.hide();
         toolBarController.hide();
+    }
+
+    public void navigateToLogin() {
+        Log.i(TAG, "navigateToLogin");
+        currentFragment = new LoginFragment();
+        fragmentManager.beginTransaction()
+                .replace(containerId, currentFragment, LOGIN)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+        menuSwitch.switchToCompose(navigationView);
+        bottomBarController.unLoadBottomBar(coordinatorLayout);
+        catalogueController.unLoadStagePlayCatalogue(drawerLayout);
+        systemUIController.show();
+        toolBarController.show();
     }
 
     public long getCurrentStagePlayId() {
