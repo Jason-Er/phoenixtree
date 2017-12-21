@@ -28,7 +28,7 @@ public class BottomBarController {
 
         if( mainActivity.findViewById(R.id.bottom_bar) == null ) {
             LayoutInflater inflater = mainActivity.getLayoutInflater();
-            View layout = inflater.inflate(R.layout.bottom_bar, null);
+            View layout = inflater.inflate(R.layout.bottom_bar, coordinatorLayout, false);
             coordinatorLayout.addView(layout);
         }
 
