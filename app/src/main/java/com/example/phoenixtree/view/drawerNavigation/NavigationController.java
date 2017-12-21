@@ -1,10 +1,10 @@
 package com.example.phoenixtree.view.drawerNavigation;
 
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.di.label.PerActivity;
@@ -32,18 +32,21 @@ public class NavigationController {
     private final MenuSwitchInterface playerMenuSwitch;
     private final MenuSwitchInterface writerMenuSwitch;
     private final MenuSwitchInterface directorMenuSwitch;
+    private final BottomBarController bottomBarController;
+    private final CatalogueController catalogueController;
 
     private Fragment currentFragment;
     private MenuSwitchInterface menuSwitch;
-    private BottomBarController bottomBarController;
 
     private NavigationView navigationView;
-    private CoordinatorLayout coordinatorLayout;
+    private ViewGroup coordinatorLayout;
+    private ViewGroup drawerLayout;
 
     @Inject
     public NavigationController(
             MainActivity mainActivity,
             BottomBarController bottomBarController,
+            CatalogueController catalogueController,
             @Type("player") MenuSwitchInterface playerMenuSwitch,
             @Type("writer") MenuSwitchInterface writerMenuSwitch,
             @Type("director") MenuSwitchInterface directorMenuSwitch) {
@@ -52,6 +55,7 @@ public class NavigationController {
         this.fragmentManager = mainActivity.getSupportFragmentManager();
 
         this.bottomBarController = bottomBarController;
+        this.catalogueController = catalogueController;
         this.playerMenuSwitch = playerMenuSwitch;
         this.writerMenuSwitch = writerMenuSwitch;
         this.directorMenuSwitch = directorMenuSwitch;
@@ -78,6 +82,7 @@ public class NavigationController {
                 .commitAllowingStateLoss();
         menuSwitch.switchToBrowse(navigationView);
         bottomBarController.unLoadBottomBar(coordinatorLayout);
+        catalogueController.unLoadStagePlayCatalogue(drawerLayout);
     }
 
     public void navigateToParticipate(long stagePlayId) {
@@ -88,6 +93,7 @@ public class NavigationController {
                 .commitAllowingStateLoss();
         menuSwitch.switchToParticipate(navigationView);
         bottomBarController.loadBottomBar(coordinatorLayout);
+        catalogueController.loadStagePlayCatalogue(drawerLayout);
     }
 
     public void navigateToCompose(long stagePlayId) {
@@ -98,6 +104,7 @@ public class NavigationController {
                 .commitAllowingStateLoss();
         menuSwitch.switchToCompose(navigationView);
         bottomBarController.loadBottomBar(coordinatorLayout);
+        catalogueController.loadStagePlayCatalogue(drawerLayout);
     }
 
     public long getCurrentStagePlayId() {
@@ -112,8 +119,11 @@ public class NavigationController {
         this.navigationView = navigationView;
     }
 
-    public void setCoordinatorLayout(@NonNull CoordinatorLayout coordinatorLayout) {
+    public void setCoordinatorLayout(@NonNull ViewGroup coordinatorLayout) {
         this.coordinatorLayout = coordinatorLayout;
     }
 
+    public void setDrawerLayout(@NonNull ViewGroup drawerLayout) {
+        this.drawerLayout = drawerLayout;
+    }
 }

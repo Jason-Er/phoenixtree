@@ -15,31 +15,32 @@ import javax.inject.Inject;
  * Created by ej on 12/21/2017.
  */
 @PerActivity
-public class BottomBarController {
+public class CatalogueController {
 
     final MainActivity mainActivity;
 
     @Inject
-    public BottomBarController(MainActivity mainActivity) {
+    public CatalogueController(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
-    public void loadBottomBar(@NonNull ViewGroup coordinatorLayout) {
+    public void loadStagePlayCatalogue(@NonNull ViewGroup drawerLayout) {
 
-        if( mainActivity.findViewById(R.id.bottom_bar) == null ) {
+        if( mainActivity.findViewById(R.id.stage_play_catalogue) == null ) {
             LayoutInflater inflater = mainActivity.getLayoutInflater();
-            View layout = inflater.inflate(R.layout.bottom_bar, coordinatorLayout, false);
-            coordinatorLayout.addView(layout);
+            View layout = inflater.inflate(R.layout.stage_play_catalogue, drawerLayout, false);
+            drawerLayout.addView(layout);
         }
 
     }
 
-    public void unLoadBottomBar(@NonNull ViewGroup coordinatorLayout) {
+    public void unLoadStagePlayCatalogue(@NonNull ViewGroup drawerLayout) {
 
-        View view = mainActivity.findViewById(R.id.bottom_bar);
+        View view = mainActivity.findViewById(R.id.stage_play_catalogue);
         if( view != null ) {
-            coordinatorLayout.removeView(view);
+            drawerLayout.removeView(view);
         }
 
     }
+
 }
