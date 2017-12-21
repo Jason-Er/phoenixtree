@@ -1,6 +1,7 @@
 package com.example.phoenixtree.view.drawerNavigation;
 
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,11 +35,15 @@ public class NavigationController {
 
     private Fragment currentFragment;
     private MenuSwitchInterface menuSwitch;
+    private BottomBarController bottomBarController;
+
     private NavigationView navigationView;
+    private CoordinatorLayout coordinatorLayout;
 
     @Inject
     public NavigationController(
             MainActivity mainActivity,
+            BottomBarController bottomBarController,
             @Type("player") MenuSwitchInterface playerMenuSwitch,
             @Type("writer") MenuSwitchInterface writerMenuSwitch,
             @Type("director") MenuSwitchInterface directorMenuSwitch) {
@@ -46,6 +51,7 @@ public class NavigationController {
         this.containerId = R.id.main_container;
         this.fragmentManager = mainActivity.getSupportFragmentManager();
 
+        this.bottomBarController = bottomBarController;
         this.playerMenuSwitch = playerMenuSwitch;
         this.writerMenuSwitch = writerMenuSwitch;
         this.directorMenuSwitch = directorMenuSwitch;
@@ -71,6 +77,7 @@ public class NavigationController {
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
         menuSwitch.switchToBrowse(navigationView);
+        bottomBarController.unLoadBottomBar(coordinatorLayout);
     }
 
     public void navigateToParticipate(long stagePlayId) {
@@ -79,8 +86,8 @@ public class NavigationController {
                 .replace(containerId, currentFragment, PARTICIPATE + stagePlayId)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
-
         menuSwitch.switchToParticipate(navigationView);
+        bottomBarController.loadBottomBar(coordinatorLayout);
     }
 
     public void navigateToCompose(long stagePlayId) {
@@ -89,8 +96,8 @@ public class NavigationController {
                 .replace(containerId, currentFragment, COMPOSE + stagePlayId)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
-
         menuSwitch.switchToCompose(navigationView);
+        bottomBarController.loadBottomBar(coordinatorLayout);
     }
 
     public long getCurrentStagePlayId() {
@@ -103,6 +110,10 @@ public class NavigationController {
 
     public void setNavigationView(@NonNull NavigationView navigationView) {
         this.navigationView = navigationView;
+    }
+
+    public void setCoordinatorLayout(@NonNull CoordinatorLayout coordinatorLayout) {
+        this.coordinatorLayout = coordinatorLayout;
     }
 
 }

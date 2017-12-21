@@ -9,12 +9,14 @@
     <string name="stage_play_info_poster">Poster</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="browse">Browse</string>
     <string name="compose">Compose</string>
     <string name="participate">Participate</string>
-    <string name="login">Login</string>
+    <string name="profile">Profile</string>
 
     <string name="bottom_bar_pre">bottom bar pre scene</string>
     <string name="bottom_bar_play">bottom bar play scene</string>
     <string name="bottom_bar_next">bottom bar next scene</string>
+
 
 </resources>

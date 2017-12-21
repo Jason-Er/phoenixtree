@@ -1,6 +1,7 @@
 package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,10 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
 
 import com.example.phoenixtree.R;
 
@@ -21,7 +20,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -36,6 +34,9 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    @BindView(R.id.app_centre_layout)
+    CoordinatorLayout coordinatorLayout;
 
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationController.setNavigationView(navigationView);
+        navigationController.setCoordinatorLayout(coordinatorLayout);
 
         if(savedInstanceState == null)
             navigateToBrowse();
@@ -108,12 +110,18 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_compose) {
-            navigateToCompose( navigationController.getCurrentStagePlayId() );
-        } else if (id == R.id.nav_participate) {
-            navigateToParticipate( navigationController.getCurrentStagePlayId() );
-        } else if (id == R.id.nav_login) {
-
+        switch (id) {
+            case R.id.nav_browse:
+                navigateToBrowse();
+                break;
+            case R.id.nav_compose:
+                navigateToCompose( navigationController.getCurrentStagePlayId() );
+                break;
+            case R.id.nav_participate:
+                navigateToParticipate( navigationController.getCurrentStagePlayId() );
+                break;
+            case R.id.nav_profile:
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -143,6 +151,7 @@ public class MainActivity extends AppCompatActivity
         return navigationView;
     }
 
+    /*
     @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next})
     public void responseButtonOnClick(ImageButton button) {
         switch (button.getId()) {
@@ -157,4 +166,5 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
     }
+    */
 }

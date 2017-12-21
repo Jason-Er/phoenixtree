@@ -81,7 +81,6 @@ public class BrowseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
         recyclerView =  (RecyclerView)inflater.inflate(R.layout.fragment_recycler, container, false);
-        // recyclerView = (RecyclerView)root.findViewById(R.id.fragment_browse_recycler);
         int spanCount = 2;
         layoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
