@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(MainActivity.this);
 
+        /*
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
+        */
 
         navigationView.setNavigationItemSelectedListener(this);
 

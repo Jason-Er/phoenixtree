@@ -94,7 +94,7 @@ public class NavigationController {
         bottomBarController.unLoadBottomBar(coordinatorLayout);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
         systemUIController.show();
-        toolBarController.show();
+        // toolBarController.show();
     }
 
     public void navigateToParticipate(long stagePlayId) {
@@ -107,7 +107,7 @@ public class NavigationController {
         bottomBarController.loadBottomBar(coordinatorLayout);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
         systemUIController.hide();
-        toolBarController.hide();
+        // toolBarController.hide();
 
     }
 
@@ -121,7 +121,7 @@ public class NavigationController {
         bottomBarController.loadBottomBar(coordinatorLayout);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
         systemUIController.hide();
-        toolBarController.hide();
+        // toolBarController.hide();
     }
 
     public void navigateToLogin() {
@@ -135,7 +135,7 @@ public class NavigationController {
         bottomBarController.unLoadBottomBar(coordinatorLayout);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
         systemUIController.show();
-        toolBarController.show();
+        // toolBarController.show();
     }
 
     public long getCurrentStagePlayId() {
