@@ -88,10 +88,8 @@ public class ComposeFragment extends Fragment implements StagePlayInfo {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "ComposeFragment onCreateView");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        UICommon.hideSystemUI(getActivity());
         // Inflate the layout for this fragment
-        recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_scene, container, false);
+        recyclerView = (RecyclerView)inflater.inflate(R.layout.fragment_recycler, container, false);
         recyclerView.setHasFixedSize(true);
         layoutManager = new ComposeLayoutManager();
         recyclerView.setLayoutManager(layoutManager);
@@ -104,12 +102,6 @@ public class ComposeFragment extends Fragment implements StagePlayInfo {
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        UICommon.showSystemUI(getActivity());
     }
 
     public static ComposeFragment create(long stagePlayId) {

@@ -22,11 +22,12 @@ import com.example.phoenixtree.util.processor.KeyframeProcessor;
 import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Created by ej on 8/21/2017.
  */
-
+@Singleton
 public class StagePlayViewModel extends ViewModel implements PanelInterface {
 
     private final MutableLiveData<Long> playId = new MutableLiveData<>();
@@ -84,24 +85,24 @@ public class StagePlayViewModel extends ViewModel implements PanelInterface {
             }
         });
         */
-                keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
-                    @Override
-                    public LiveData<Keyframe> apply(Long input) {
-                        Resource<StagePlay> resource = play.getValue();
-                        if (resource != null && resource.status == Status.SUCCESS) {
-                            StagePlay play = resource.data;
-                            for (StageScene scene : play.scenes) {
-                                if (scene.id == input) {
-                                    keyframeP.setStage(play.stage);
-                                    keyframeP.setScene(scene);
-                                    return keyframeP.firstFrame();
-                                }
-                            }
+        keyframe = Transformations.switchMap(sceneId, new Function<Long, LiveData<Keyframe>>() {
+            @Override
+            public LiveData<Keyframe> apply(Long input) {
+                Resource<StagePlay> resource = play.getValue();
+                if (resource != null && resource.status == Status.SUCCESS) {
+                    StagePlay play = resource.data;
+                    for (StageScene scene : play.scenes) {
+                        if (scene.id == input) {
+                            keyframeP.setStage(play.stage);
+                            keyframeP.setScene(scene);
+                            return keyframeP.firstFrame();
                         }
-                        keyframeMutableLiveData.setValue(null);
-                        return keyframeMutableLiveData;
                     }
-                });
+                }
+                keyframeMutableLiveData.setValue(null);
+                return keyframeMutableLiveData;
+            }
+        });
 
     }
 

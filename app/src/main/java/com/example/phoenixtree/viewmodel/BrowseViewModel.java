@@ -17,11 +17,12 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 /**
  * Created by ej on 10/16/2017.
  */
-
+@Singleton
 public class BrowseViewModel extends ViewModel {
 
     private final MutableLiveData<PageRequest> pageable = new MutableLiveData<>();

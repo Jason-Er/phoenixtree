@@ -1,12 +1,9 @@
 package com.example.phoenixtree.view.sceneNavigation;
 
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 
-import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.StageScene;
-import com.example.phoenixtree.view.main.MainActivity;
-import com.example.phoenixtree.view.participate.SceneFragment;
+import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import java.util.List;
 
@@ -17,14 +14,13 @@ import javax.inject.Inject;
  */
 
 public class SceneNavigation {
-    private final int containerId;
-    private final FragmentManager fragmentManager;
+
+    private final StagePlayViewModel viewModel;
     private List<StageScene> stageScenes;
     private int currentOrdinal;
     @Inject
-    public SceneNavigation(MainActivity mainActivity) {
-        this.containerId = R.id.fragment_participate_frame;
-        this.fragmentManager = mainActivity.getSupportFragmentManager();
+    public SceneNavigation(StagePlayViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 
     public void setStageScenes(@NonNull List<StageScene> stageScenes) {
@@ -57,10 +53,6 @@ public class SceneNavigation {
 
     public void navigateTo(int ordinal) {
         StageScene scene = stageScenes.get(ordinal);
-        SceneFragment fragment = SceneFragment.create(scene.id);
-        String tag = "sceneFragment" + scene.id;
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment, tag)
-                .commitAllowingStateLoss();
+        viewModel.setSceneId(scene.id);
     }
 }

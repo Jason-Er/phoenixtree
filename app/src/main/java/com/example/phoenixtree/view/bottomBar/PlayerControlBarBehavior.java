@@ -68,6 +68,6 @@ public class PlayerControlBarBehavior extends CoordinatorLayout.Behavior<PlayerC
                 }
                 break;
         }
-        return false;
+        return true;
     }
 }

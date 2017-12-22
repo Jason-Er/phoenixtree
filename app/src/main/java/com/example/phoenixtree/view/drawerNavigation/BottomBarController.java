@@ -1,0 +1,45 @@
+package com.example.phoenixtree.view.drawerNavigation;
+
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.example.phoenixtree.R;
+import com.example.phoenixtree.di.label.PerActivity;
+import com.example.phoenixtree.view.main.MainActivity;
+
+import javax.inject.Inject;
+
+/**
+ * Created by ej on 12/21/2017.
+ */
+@PerActivity
+public class BottomBarController {
+
+    final MainActivity mainActivity;
+
+    @Inject
+    public BottomBarController(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+    }
+
+    public void loadBottomBar(@NonNull ViewGroup coordinatorLayout) {
+
+        if( mainActivity.findViewById(R.id.bottom_bar) == null ) {
+            LayoutInflater inflater = mainActivity.getLayoutInflater();
+            View layout = inflater.inflate(R.layout.bottom_bar, coordinatorLayout, false);
+            coordinatorLayout.addView(layout);
+        }
+
+    }
+
+    public void unLoadBottomBar(@NonNull ViewGroup coordinatorLayout) {
+
+        View view = mainActivity.findViewById(R.id.bottom_bar);
+        if( view != null ) {
+            coordinatorLayout.removeView(view);
+        }
+
+    }
+}

@@ -6,10 +6,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,11 @@ import android.view.ViewGroup;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.StagePlay;
+import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.util.UICommon;
 import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
+import com.example.phoenixtree.util.sceneRecyclerView.SceneAdapter;
+import com.example.phoenixtree.util.sceneRecyclerView.SceneLayoutManager;
 import com.example.phoenixtree.view.sceneNavigation.SceneNavigation;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
@@ -35,10 +37,14 @@ import dagger.android.support.AndroidSupportInjection;
 public class ParticipateFragment extends Fragment implements StagePlayInfo {
 
     final private static String TAG = "ParticipateFragment";
-    private StagePlayViewModel viewModel;
+
     private static final String ID_KEY = "id";
 
+    private StagePlayViewModel viewModel;
     private StagePlay stagePlay;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -57,6 +63,16 @@ public class ParticipateFragment extends Fragment implements StagePlayInfo {
             // TODO: 11/14/2017 throw exception or show custom dialog
             throw new MissingResourceException("ParticipateFragment key: "+ ID_KEY + " should not be NULL","Bundle",ID_KEY);
         }
+
+        viewModel.keyframe.observe(this, new Observer<Keyframe>() {
+            @Override
+            public void onChanged(@Nullable Keyframe keyframe) {
+                Log.i(TAG, "keyframe observe onChanged");
+                if(keyframe != null) {
+                    ((SceneAdapter) adapter).setKeyframe(keyframe);
+                }
+            }
+        });
 
         viewModel.play.observe(this, new Observer<Resource<StagePlay>>() {
             @Override
@@ -79,26 +95,20 @@ public class ParticipateFragment extends Fragment implements StagePlayInfo {
             }
         });
 
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "ParticipateFragment onCreateView");
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-        UICommon.hideSystemUI(getActivity());
-        View root = inflater.inflate(R.layout.fragment_participate, container, false);
-
-        FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        return root;
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler, container, false);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new SceneLayoutManager();
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new SceneAdapter();
+        recyclerView.setAdapter(adapter);
+        return recyclerView;
     }
 
     @Override
@@ -114,14 +124,6 @@ public class ParticipateFragment extends Fragment implements StagePlayInfo {
         fragment.setArguments(args);
         return fragment;
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        UICommon.showSystemUI(getActivity());
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-    }
-
 
     @Override
     public long getStagePlayID() {
