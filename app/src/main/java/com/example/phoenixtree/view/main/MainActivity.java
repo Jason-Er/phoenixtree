@@ -6,8 +6,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import com.example.phoenixtree.R;
 
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -167,8 +170,8 @@ public class MainActivity extends AppCompatActivity
         return navigationView;
     }
 
-    /*
-    @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next})
+    @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next,
+            R.id.btn_user_login, R.id.btn_drawer_toggle})
     public void responseButtonOnClick(ImageButton button) {
         switch (button.getId()) {
             case R.id.btn_player_control_pre:
@@ -180,7 +183,12 @@ public class MainActivity extends AppCompatActivity
             case R.id.btn_player_control_next:
                 Log.i(TAG, "click on next");
                 break;
+            case R.id.btn_user_login:
+                navigateToLogin();
+                break;
+            case R.id.btn_drawer_toggle:
+                break;
         }
     }
-    */
+
 }

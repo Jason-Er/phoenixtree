@@ -22,4 +22,5 @@ public class CustomTopBar extends RelativeLayout {
     public CustomTopBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
 }

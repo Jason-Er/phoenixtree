@@ -3,7 +3,6 @@ package com.example.phoenixtree.view.main;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.phoenixtree.R;
@@ -31,54 +30,48 @@ public class DockPanel extends CoordinatorLayout implements NavigationInterface{
     @Override
     public void navigateToBrowse() {
         addMainContainerMargin();
-        unLoadBottomBar();
+        hideBottomBar();
     }
 
     @Override
     public void navigateToParticipate(long stagePlayId) {
         removeMainContainerMargin();
-        loadBottomBar();
+        showBottomBar();
     }
 
     @Override
     public void navigateToCompose(long stagePlayId) {
         removeMainContainerMargin();
-        loadBottomBar();
+        showBottomBar();
     }
 
     @Override
     public void navigateToLogin() {
         addMainContainerMargin();
-        unLoadBottomBar();
+        showTopBar();
+        hideBottomBar();
     }
 
     @Override
     public void navigateToProfile() {
         addMainContainerMargin();
-        unLoadBottomBar();
+        hideBottomBar();
     }
 
-    private void loadBottomBar() {
-        if( findViewById(R.id.bottom_bar) == null ) {
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View layout = inflater.inflate(R.layout.bottom_bar, this, false);
-            addView(layout);
-        }
+    private void showBottomBar() {
+        findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
     }
 
-    private void unLoadBottomBar() {
-        View view = findViewById(R.id.bottom_bar);
-        if( view != null ) {
-            removeView(view);
-        }
+    private void hideBottomBar() {
+        findViewById(R.id.bottom_bar).setVisibility(View.GONE);
     }
 
-    private void loadTopBar() {
-
+    private void showTopBar() {
+        findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
     }
 
-    private void unLoadTopBar() {
-
+    private void hideTopBar() {
+        findViewById(R.id.top_bar).setVisibility(View.GONE);
     }
 
     private void addMainContainerMargin() {
