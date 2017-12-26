@@ -4,13 +4,16 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.RelativeLayout;
+
+import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 
 /**
  * Created by ej on 12/22/2017.
  */
 @CoordinatorLayout.DefaultBehavior(CustomTopBarBehavior.class)
-public class CustomTopBar extends RelativeLayout {
+public class CustomTopBar extends RelativeLayout implements NavigationInterface {
     public CustomTopBar(Context context) {
         super(context);
     }
@@ -23,4 +26,28 @@ public class CustomTopBar extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
+    @Override
+    public void navigateToBrowse() {
+        setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void navigateToParticipate(long stagePlayId) {
+        setVisibility(View.GONE);
+    }
+
+    @Override
+    public void navigateToCompose(long stagePlayId) {
+        setVisibility(View.GONE);
+    }
+
+    @Override
+    public void navigateToLogin() {
+        setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void navigateToProfile() {
+        setVisibility(View.VISIBLE);
+    }
 }

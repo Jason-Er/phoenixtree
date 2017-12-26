@@ -3,10 +3,7 @@ package com.example.phoenixtree.view.main;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
-import android.view.View;
 
-import com.example.phoenixtree.R;
-import com.example.phoenixtree.util.UICommon;
 import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 
 /**
@@ -29,61 +26,37 @@ public class DockPanel extends CoordinatorLayout implements NavigationInterface{
 
     @Override
     public void navigateToBrowse() {
-        addMainContainerMargin();
-        hideBottomBar();
+        for (int i = 0; i < getChildCount(); i++) {
+            ((NavigationInterface)getChildAt(i)).navigateToBrowse();
+        }
     }
 
     @Override
     public void navigateToParticipate(long stagePlayId) {
-        removeMainContainerMargin();
-        showBottomBar();
+        for (int i = 0; i < getChildCount(); i++) {
+            ((NavigationInterface)getChildAt(i)).navigateToParticipate(stagePlayId);
+        }
     }
 
     @Override
     public void navigateToCompose(long stagePlayId) {
-        removeMainContainerMargin();
-        showBottomBar();
+        for (int i = 0; i < getChildCount(); i++) {
+            ((NavigationInterface)getChildAt(i)).navigateToCompose(stagePlayId);
+        }
     }
 
     @Override
     public void navigateToLogin() {
-        addMainContainerMargin();
-        showTopBar();
-        hideBottomBar();
+        for (int i = 0; i < getChildCount(); i++) {
+            ((NavigationInterface)getChildAt(i)).navigateToLogin();
+        }
     }
 
     @Override
     public void navigateToProfile() {
-        addMainContainerMargin();
-        hideBottomBar();
-    }
-
-    private void showBottomBar() {
-        findViewById(R.id.bottom_bar).setVisibility(View.VISIBLE);
-    }
-
-    private void hideBottomBar() {
-        findViewById(R.id.bottom_bar).setVisibility(View.GONE);
-    }
-
-    private void showTopBar() {
-        findViewById(R.id.top_bar).setVisibility(View.VISIBLE);
-    }
-
-    private void hideTopBar() {
-        findViewById(R.id.top_bar).setVisibility(View.GONE);
-    }
-
-    private void addMainContainerMargin() {
-        View view = findViewById(R.id.main_container);
-        UICommon.setViewMargin(view, true, 0, 0, 48, 0);
-        invalidate();
-    }
-
-    private void removeMainContainerMargin() {
-        View view = findViewById(R.id.main_container);
-        UICommon.setViewMargin(view, true, 0, 0, 0, 0);
-        invalidate();
+        for (int i = 0; i < getChildCount(); i++) {
+            ((NavigationInterface)getChildAt(i)).navigateToProfile();
+        }
     }
 
 }

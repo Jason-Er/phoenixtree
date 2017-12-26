@@ -5,14 +5,17 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
+
+import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 
 /**
  * Created by ej on 12/12/2017.
  */
 
 @CoordinatorLayout.DefaultBehavior(PlayerControlBarBehavior.class)
-public class PlayerControlBar extends LinearLayout {
+public class PlayerControlBar extends LinearLayout implements NavigationInterface{
 
     final String TAG = "PlayerControlBar";
 
@@ -29,18 +32,27 @@ public class PlayerControlBar extends LinearLayout {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.i(TAG, "onMeasure");
-        /*
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+    public void navigateToBrowse() {
+        setVisibility(View.GONE);
+    }
 
-        } else {
+    @Override
+    public void navigateToParticipate(long stagePlayId) {
+        setVisibility(View.VISIBLE);
+    }
 
-            LinearLayout.LayoutParams lParams = new LinearLayout.LayoutParams((int)getResources().getDimension(R.dimen.imageview_width), ViewGroup.LayoutParams.MATCH_PARENT);
-            lParams.gravity = Gravity.RIGHT;
-            this.setLayoutParams(lParams);
-        }
-        */
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    @Override
+    public void navigateToCompose(long stagePlayId) {
+        setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void navigateToLogin() {
+        setVisibility(View.GONE);
+    }
+
+    @Override
+    public void navigateToProfile() {
+        setVisibility(View.GONE);
     }
 }
