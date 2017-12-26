@@ -12,7 +12,8 @@ import android.view.MenuItem;
 import com.example.phoenixtree.R;
 
 import com.example.phoenixtree.util.commonInterface.NavigationInterface;
-import com.example.phoenixtree.view.drawerNavigation.NavigationController;
+import com.example.phoenixtree.view.drawerNavigation.DrawerNavController;
+import com.example.phoenixtree.view.drawerNavigation.SystemUIController;
 
 import javax.inject.Inject;
 
@@ -43,8 +44,10 @@ public class MainActivity extends AppCompatActivity
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    NavigationController navigationController;
+    DrawerNavController navigationController;
 
+    @Inject
+    SystemUIController systemUIController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         if(savedInstanceState == null)
             navigateToBrowse();
 
+        systemUIController.hide();
     }
 
     @Override
@@ -138,6 +142,7 @@ public class MainActivity extends AppCompatActivity
     public void navigateToParticipate(long stagePlayId) {
         dockPanel.navigateToParticipate(stagePlayId);
         navigationController.navigateToParticipate(stagePlayId);
+
     }
 
     @Override

@@ -24,9 +24,9 @@ import javax.inject.Inject;
  * Created by ej on 11/30/2017.
  */
 @PerActivity
-public class NavigationController implements NavigationInterface{
+public class DrawerNavController implements NavigationInterface{
 
-    private final String TAG = "NavigationController";
+    private final String TAG = "DrawerNavController";
     private final int containerId;
     private final FragmentManager fragmentManager;
     private final String BROWSE = "browse";
@@ -38,7 +38,7 @@ public class NavigationController implements NavigationInterface{
     private final MenuSwitchInterface writerMenuSwitch;
     private final MenuSwitchInterface directorMenuSwitch;
     private final CatalogueController catalogueController;
-    private final SystemUIController systemUIController;
+    // private final SystemUIController systemUIController;
 
     private Fragment currentFragment;
     private MenuSwitchInterface menuSwitch;
@@ -48,10 +48,10 @@ public class NavigationController implements NavigationInterface{
     private ViewGroup drawerLayout;
 
     @Inject
-    public NavigationController(
+    public DrawerNavController(
             MainActivity mainActivity,
             CatalogueController catalogueController,
-            SystemUIController systemUIController,
+            // SystemUIController systemUIController,
             @Type("player") MenuSwitchInterface playerMenuSwitch,
             @Type("writer") MenuSwitchInterface writerMenuSwitch,
             @Type("director") MenuSwitchInterface directorMenuSwitch) {
@@ -60,7 +60,7 @@ public class NavigationController implements NavigationInterface{
         this.fragmentManager = mainActivity.getSupportFragmentManager();
 
         this.catalogueController = catalogueController;
-        this.systemUIController = systemUIController;
+        // this.systemUIController = systemUIController;
         this.playerMenuSwitch = playerMenuSwitch;
         this.writerMenuSwitch = writerMenuSwitch;
         this.directorMenuSwitch = directorMenuSwitch;
@@ -88,7 +88,7 @@ public class NavigationController implements NavigationInterface{
                 .commitAllowingStateLoss();
         menuSwitch.switchToBrowse(navigationView);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
-        systemUIController.show();
+        // systemUIController.show();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class NavigationController implements NavigationInterface{
                 .commitAllowingStateLoss();
         menuSwitch.switchToParticipate(navigationView);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
-        systemUIController.hide();
+        // systemUIController.hide();
     }
 
     @Override
@@ -112,7 +112,7 @@ public class NavigationController implements NavigationInterface{
                 .commitAllowingStateLoss();
         menuSwitch.switchToCompose(navigationView);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
-        systemUIController.hide();
+        // systemUIController.hide();
     }
 
     @Override
@@ -125,7 +125,7 @@ public class NavigationController implements NavigationInterface{
                 .commitAllowingStateLoss();
         menuSwitch.switchToCompose(navigationView);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
-        systemUIController.show();
+        // systemUIController.show();
     }
 
     @Override
