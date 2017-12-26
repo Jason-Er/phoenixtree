@@ -28,10 +28,6 @@ public class PlayerControlBar extends LinearLayout {
         super(context, attrs, defStyleAttr);
     }
 
-    public PlayerControlBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         Log.i(TAG, "onMeasure");

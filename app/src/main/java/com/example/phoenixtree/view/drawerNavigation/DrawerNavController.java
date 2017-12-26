@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.di.label.PerActivity;
 import com.example.phoenixtree.di.label.Type;
+import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.view.browse.BrowseFragment;
 import com.example.phoenixtree.view.compose.ComposeFragment;
@@ -23,9 +24,9 @@ import javax.inject.Inject;
  * Created by ej on 11/30/2017.
  */
 @PerActivity
-public class NavigationController {
+public class DrawerNavController implements NavigationInterface{
 
-    private final String TAG = "NavigationController";
+    private final String TAG = "DrawerNavController";
     private final int containerId;
     private final FragmentManager fragmentManager;
     private final String BROWSE = "browse";
@@ -36,10 +37,8 @@ public class NavigationController {
     private final MenuSwitchInterface playerMenuSwitch;
     private final MenuSwitchInterface writerMenuSwitch;
     private final MenuSwitchInterface directorMenuSwitch;
-    private final BottomBarController bottomBarController;
     private final CatalogueController catalogueController;
-    private final SystemUIController systemUIController;
-    private final ToolBarController toolBarController;
+    // private final SystemUIController systemUIController;
 
     private Fragment currentFragment;
     private MenuSwitchInterface menuSwitch;
@@ -49,12 +48,10 @@ public class NavigationController {
     private ViewGroup drawerLayout;
 
     @Inject
-    public NavigationController(
+    public DrawerNavController(
             MainActivity mainActivity,
-            BottomBarController bottomBarController,
             CatalogueController catalogueController,
-            SystemUIController systemUIController,
-            ToolBarController toolBarController,
+            // SystemUIController systemUIController,
             @Type("player") MenuSwitchInterface playerMenuSwitch,
             @Type("writer") MenuSwitchInterface writerMenuSwitch,
             @Type("director") MenuSwitchInterface directorMenuSwitch) {
@@ -62,10 +59,8 @@ public class NavigationController {
         this.containerId = R.id.main_container;
         this.fragmentManager = mainActivity.getSupportFragmentManager();
 
-        this.bottomBarController = bottomBarController;
         this.catalogueController = catalogueController;
-        this.systemUIController = systemUIController;
-        this.toolBarController = toolBarController;
+        // this.systemUIController = systemUIController;
         this.playerMenuSwitch = playerMenuSwitch;
         this.writerMenuSwitch = writerMenuSwitch;
         this.directorMenuSwitch = directorMenuSwitch;
@@ -84,6 +79,7 @@ public class NavigationController {
         menuSwitch = directorMenuSwitch;
     }
 
+    @Override
     public void navigateToBrowse() {
         currentFragment = new BrowseFragment();
         fragmentManager.beginTransaction()
@@ -91,12 +87,11 @@ public class NavigationController {
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
         menuSwitch.switchToBrowse(navigationView);
-        bottomBarController.unLoadBottomBar(coordinatorLayout);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
-        systemUIController.show();
-        toolBarController.show();
+        // systemUIController.show();
     }
 
+    @Override
     public void navigateToParticipate(long stagePlayId) {
         currentFragment = ParticipateFragment.create(stagePlayId);
         fragmentManager.beginTransaction()
@@ -104,13 +99,11 @@ public class NavigationController {
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
         menuSwitch.switchToParticipate(navigationView);
-        bottomBarController.loadBottomBar(coordinatorLayout);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
-        systemUIController.hide();
-        toolBarController.hide();
-
+        // systemUIController.hide();
     }
 
+    @Override
     public void navigateToCompose(long stagePlayId) {
         currentFragment = ComposeFragment.create(stagePlayId);
         fragmentManager.beginTransaction()
@@ -118,12 +111,11 @@ public class NavigationController {
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
         menuSwitch.switchToCompose(navigationView);
-        bottomBarController.loadBottomBar(coordinatorLayout);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
-        systemUIController.hide();
-        toolBarController.hide();
+        // systemUIController.hide();
     }
 
+    @Override
     public void navigateToLogin() {
         Log.i(TAG, "navigateToLogin");
         currentFragment = new LoginFragment();
@@ -132,10 +124,13 @@ public class NavigationController {
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
         menuSwitch.switchToCompose(navigationView);
-        bottomBarController.unLoadBottomBar(coordinatorLayout);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
-        systemUIController.show();
-        toolBarController.show();
+        // systemUIController.show();
+    }
+
+    @Override
+    public void navigateToProfile() {
+
     }
 
     public long getCurrentStagePlayId() {

@@ -1,21 +1,19 @@
 package com.example.phoenixtree.view.main;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.phoenixtree.R;
 
-import com.example.phoenixtree.view.drawerNavigation.NavigationController;
+import com.example.phoenixtree.util.commonInterface.NavigationInterface;
+import com.example.phoenixtree.view.drawerNavigation.DrawerNavController;
+import com.example.phoenixtree.view.drawerNavigation.SystemUIController;
 
 import javax.inject.Inject;
 
@@ -28,7 +26,7 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
+        implements NavigationView.OnNavigationItemSelectedListener, NavigationInterface,
         HasSupportFragmentInjector {
 
     private final String TAG = "MainActivity";
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
 
     @BindView(R.id.app_centre_layout)
-    CoordinatorLayout coordinatorLayout;
+    DockPanel dockPanel;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -46,8 +44,10 @@ public class MainActivity extends AppCompatActivity
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    NavigationController navigationController;
+    DrawerNavController navigationController;
 
+    @Inject
+    SystemUIController systemUIController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,23 +56,16 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(MainActivity.this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
-
         navigationView.setNavigationItemSelectedListener(this);
 
         navigationController.setNavigationView(navigationView);
-        navigationController.setCoordinatorLayout(coordinatorLayout);
+        navigationController.setCoordinatorLayout(dockPanel);
         navigationController.setDrawerLayout(drawerLayout);
 
         if(savedInstanceState == null)
             navigateToBrowse();
 
+        systemUIController.hide();
     }
 
     @Override
@@ -139,20 +132,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     // navigation to other fragments
+    @Override
     public void navigateToBrowse() {
+        dockPanel.navigateToBrowse();
         navigationController.navigateToBrowse();
     }
 
+    @Override
     public void navigateToParticipate(long stagePlayId) {
+        dockPanel.navigateToParticipate(stagePlayId);
         navigationController.navigateToParticipate(stagePlayId);
+
     }
 
+    @Override
     public void navigateToCompose(long stagePlayId) {
+        dockPanel.navigateToCompose(stagePlayId);
         navigationController.navigateToCompose(stagePlayId);
     }
 
+    @Override
     public void navigateToLogin() {
+        dockPanel.navigateToLogin();
         navigationController.navigateToLogin();
+    }
+
+    @Override
+    public void navigateToProfile() {
+        dockPanel.navigateToProfile();
+        navigationController.navigateToProfile();
     }
 
     public NavigationView getNavigationView() {
