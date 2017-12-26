@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next,
-            R.id.btn_user_login, R.id.btn_drawer_toggle})
+            R.id.btn_user_login, R.id.btn_drawer_toggle, R.id.btn_nav_up})
     public void responseButtonOnClick(ImageButton button) {
         switch (button.getId()) {
             case R.id.btn_player_control_pre:
@@ -187,6 +187,9 @@ public class MainActivity extends AppCompatActivity
                 navigateToLogin();
                 break;
             case R.id.btn_drawer_toggle:
+                break;
+            case R.id.btn_nav_up:
+                Log.i(TAG, "click on navigation up");
                 break;
         }
     }
