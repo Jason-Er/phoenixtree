@@ -38,7 +38,6 @@ public class DrawerNavController implements NavigationInterface{
     private final MenuSwitchInterface writerMenuSwitch;
     private final MenuSwitchInterface directorMenuSwitch;
     private final CatalogueController catalogueController;
-    // private final SystemUIController systemUIController;
 
     private Fragment currentFragment;
     private MenuSwitchInterface menuSwitch;
@@ -51,7 +50,6 @@ public class DrawerNavController implements NavigationInterface{
     public DrawerNavController(
             MainActivity mainActivity,
             CatalogueController catalogueController,
-            // SystemUIController systemUIController,
             @Type("player") MenuSwitchInterface playerMenuSwitch,
             @Type("writer") MenuSwitchInterface writerMenuSwitch,
             @Type("director") MenuSwitchInterface directorMenuSwitch) {
@@ -60,7 +58,6 @@ public class DrawerNavController implements NavigationInterface{
         this.fragmentManager = mainActivity.getSupportFragmentManager();
 
         this.catalogueController = catalogueController;
-        // this.systemUIController = systemUIController;
         this.playerMenuSwitch = playerMenuSwitch;
         this.writerMenuSwitch = writerMenuSwitch;
         this.directorMenuSwitch = directorMenuSwitch;
@@ -88,7 +85,6 @@ public class DrawerNavController implements NavigationInterface{
                 .commitAllowingStateLoss();
         menuSwitch.switchToBrowse(navigationView);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
-        // systemUIController.show();
     }
 
     @Override
@@ -100,7 +96,6 @@ public class DrawerNavController implements NavigationInterface{
                 .commitAllowingStateLoss();
         menuSwitch.switchToParticipate(navigationView);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
-        // systemUIController.hide();
     }
 
     @Override
@@ -112,7 +107,6 @@ public class DrawerNavController implements NavigationInterface{
                 .commitAllowingStateLoss();
         menuSwitch.switchToCompose(navigationView);
         catalogueController.loadStagePlayCatalogue(drawerLayout);
-        // systemUIController.hide();
     }
 
     @Override
@@ -121,11 +115,9 @@ public class DrawerNavController implements NavigationInterface{
         currentFragment = new LoginFragment();
         fragmentManager.beginTransaction()
                 .replace(containerId, currentFragment, LOGIN)
-                .addToBackStack(null)
                 .commitAllowingStateLoss();
         menuSwitch.switchToCompose(navigationView);
         catalogueController.unLoadStagePlayCatalogue(drawerLayout);
-        // systemUIController.show();
     }
 
     @Override

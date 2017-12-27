@@ -13,13 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
+    <com.example.phoenixtree.view.drawerNavigation.NavigationDrawer
+        android:id="@+id/nav_drawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/blank_drawer" />
+
+    <com.example.phoenixtree.view.catalogue.CatalogueMenu
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="false"/>
 
 </android.support.v4.widget.DrawerLayout>

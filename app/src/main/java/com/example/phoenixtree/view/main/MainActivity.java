@@ -14,8 +14,13 @@ import android.widget.ImageButton;
 import com.example.phoenixtree.R;
 
 import com.example.phoenixtree.util.commonInterface.NavigationInterface;
+import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
+import com.example.phoenixtree.view.browse.BrowseFragment;
+import com.example.phoenixtree.view.compose.ComposeFragment;
 import com.example.phoenixtree.view.drawerNavigation.DrawerNavController;
 import com.example.phoenixtree.view.drawerNavigation.SystemUIController;
+import com.example.phoenixtree.view.login.LoginFragment;
+import com.example.phoenixtree.view.participate.ParticipateFragment;
 
 import javax.inject.Inject;
 
@@ -34,11 +39,8 @@ public class MainActivity extends AppCompatActivity
 
     private final String TAG = "MainActivity";
 
-    @BindView(R.id.nav_view)
+    @BindView(R.id.nav_drawer)
     NavigationView navigationView;
-
-    @BindView(R.id.app_centre_layout)
-    DockPanel dockPanel;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -47,10 +49,14 @@ public class MainActivity extends AppCompatActivity
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    DrawerNavController navigationController;
-
-    @Inject
     SystemUIController systemUIController;
+
+    final String BROWSE = "browse";
+    final String PARTICIPATE = "participate";
+    final String COMPOSE = "compose";
+    final String LOGIN = "login";
+    final int containerId = R.id.main_container;
+    Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +66,6 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(MainActivity.this);
 
         navigationView.setNavigationItemSelectedListener(this);
-
-        navigationController.setNavigationView(navigationView);
-        navigationController.setCoordinatorLayout(dockPanel);
-        navigationController.setDrawerLayout(drawerLayout);
 
         if(savedInstanceState == null)
             navigateToBrowse();
@@ -115,10 +117,10 @@ public class MainActivity extends AppCompatActivity
                 navigateToBrowse();
                 break;
             case R.id.nav_compose:
-                navigateToCompose( navigationController.getCurrentStagePlayId() );
+                navigateToCompose( getCurrentStagePlayId() );
                 break;
             case R.id.nav_participate:
-                navigateToParticipate( navigationController.getCurrentStagePlayId() );
+                navigateToParticipate( getCurrentStagePlayId() );
                 break;
             case R.id.nav_profile:
                 break;
@@ -137,37 +139,65 @@ public class MainActivity extends AppCompatActivity
     // navigation to other fragments
     @Override
     public void navigateToBrowse() {
-        dockPanel.navigateToBrowse();
-        navigationController.navigateToBrowse();
+        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
+            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToBrowse();
+        }
+        currentFragment = new BrowseFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, BROWSE)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToParticipate(long stagePlayId) {
-        dockPanel.navigateToParticipate(stagePlayId);
-        navigationController.navigateToParticipate(stagePlayId);
-
+        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
+            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToParticipate(stagePlayId);
+        }
+        currentFragment = ParticipateFragment.create(stagePlayId);
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, PARTICIPATE + stagePlayId)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToCompose(long stagePlayId) {
-        dockPanel.navigateToCompose(stagePlayId);
-        navigationController.navigateToCompose(stagePlayId);
+        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
+            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToCompose(stagePlayId);
+        }
+        currentFragment = ComposeFragment.create(stagePlayId);
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, COMPOSE + stagePlayId)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToLogin() {
-        dockPanel.navigateToLogin();
-        navigationController.navigateToLogin();
+        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
+            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToLogin();
+        }
+        currentFragment = new LoginFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, LOGIN)
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToProfile() {
-        dockPanel.navigateToProfile();
-        navigationController.navigateToProfile();
+        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
+            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToProfile();
+        }
+        // TODO: 12/27/2017 need add fragment profile
     }
 
-    public NavigationView getNavigationView() {
-        return navigationView;
+    long getCurrentStagePlayId() {
+        if(currentFragment instanceof StagePlayInfo) {
+            return ((StagePlayInfo) currentFragment).getStagePlayID();
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
     @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next,
