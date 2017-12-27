@@ -55,11 +55,9 @@ public class RecyclerContainer extends FrameLayout implements NavigationInterfac
 
     private void addMainContainerMargin() {
         UICommon.setViewMargin(this, true, 0, 0, 48, 0);
-        invalidate();
     }
 
     private void removeMainContainerMargin() {
         UICommon.setViewMargin(this, true, 0, 0, 0, 0);
-        invalidate();
     }
 }

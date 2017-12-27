@@ -32,7 +32,7 @@ public class CustomTopBar extends RelativeLayout implements NavigationInterface 
     public void navigateToBrowse() {
         setVisibility(View.VISIBLE);
         findViewById(R.id.btn_drawer_toggle).setVisibility(View.VISIBLE);
-        findViewById(R.id.btn_nav_up).setVisibility(View.GONE);
+        findViewById(R.id.btn_nav_back).setVisibility(View.GONE);
         findViewById(R.id.btn_user_login).setVisibility(View.VISIBLE);
     }
 
@@ -50,7 +50,7 @@ public class CustomTopBar extends RelativeLayout implements NavigationInterface 
     public void navigateToLogin() {
         setVisibility(View.VISIBLE);
         findViewById(R.id.btn_drawer_toggle).setVisibility(View.GONE);
-        findViewById(R.id.btn_nav_up).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_nav_back).setVisibility(View.VISIBLE);
         findViewById(R.id.btn_user_login).setVisibility(View.GONE);
     }
 
@@ -58,7 +58,7 @@ public class CustomTopBar extends RelativeLayout implements NavigationInterface 
     public void navigateToProfile() {
         setVisibility(View.VISIBLE);
         findViewById(R.id.btn_drawer_toggle).setVisibility(View.GONE);
-        findViewById(R.id.btn_nav_up).setVisibility(View.VISIBLE);
+        findViewById(R.id.btn_nav_back).setVisibility(View.VISIBLE);
         findViewById(R.id.btn_user_login).setVisibility(View.VISIBLE);
     }
 }

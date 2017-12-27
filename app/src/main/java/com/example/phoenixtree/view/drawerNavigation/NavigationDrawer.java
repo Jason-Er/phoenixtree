@@ -60,13 +60,13 @@ public class NavigationDrawer extends NavigationView implements NavigationInterf
     @Override
     public void navigateToLogin() {
         // drawer4Character.navigateToLogin();
-        throw new UnsupportedOperationException();
+
     }
 
     @Override
     public void navigateToProfile() {
         // drawer4Character.navigateToProfile();
-        throw new UnsupportedOperationException();
+
     }
 
     @Override

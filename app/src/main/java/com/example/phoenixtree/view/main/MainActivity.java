@@ -3,6 +3,7 @@ package com.example.phoenixtree.view.main;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,6 @@ import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.view.browse.BrowseFragment;
 import com.example.phoenixtree.view.compose.ComposeFragment;
-import com.example.phoenixtree.view.drawerNavigation.DrawerNavController;
 import com.example.phoenixtree.view.drawerNavigation.SystemUIController;
 import com.example.phoenixtree.view.login.LoginFragment;
 import com.example.phoenixtree.view.participate.ParticipateFragment;
@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < drawerLayout.getChildCount(); i++) {
             ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToBrowse();
         }
+        drawerLayout.invalidate();
         currentFragment = new BrowseFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(containerId, currentFragment, BROWSE)
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < drawerLayout.getChildCount(); i++) {
             ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToParticipate(stagePlayId);
         }
+        drawerLayout.invalidate();
         currentFragment = ParticipateFragment.create(stagePlayId);
         getSupportFragmentManager().beginTransaction()
                 .replace(containerId, currentFragment, PARTICIPATE + stagePlayId)
@@ -166,6 +168,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < drawerLayout.getChildCount(); i++) {
             ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToCompose(stagePlayId);
         }
+        drawerLayout.invalidate();
         currentFragment = ComposeFragment.create(stagePlayId);
         getSupportFragmentManager().beginTransaction()
                 .replace(containerId, currentFragment, COMPOSE + stagePlayId)
@@ -178,9 +181,11 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < drawerLayout.getChildCount(); i++) {
             ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToLogin();
         }
+        drawerLayout.invalidate();
         currentFragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction()
                 .replace(containerId, currentFragment, LOGIN)
+                .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
@@ -189,6 +194,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < drawerLayout.getChildCount(); i++) {
             ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToProfile();
         }
+        drawerLayout.invalidate();
         // TODO: 12/27/2017 need add fragment profile
     }
 
@@ -201,7 +207,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next,
-            R.id.btn_user_login, R.id.btn_drawer_toggle, R.id.btn_nav_up})
+            R.id.btn_user_login, R.id.btn_drawer_toggle, R.id.btn_nav_back})
     public void responseButtonOnClick(ImageButton button) {
         switch (button.getId()) {
             case R.id.btn_player_control_pre:
@@ -218,8 +224,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.btn_drawer_toggle:
                 break;
-            case R.id.btn_nav_up:
+            case R.id.btn_nav_back:
                 Log.i(TAG, "click on navigation up");
+                onBackPressed();
                 break;
         }
     }
