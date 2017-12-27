@@ -14,11 +14,12 @@ import android.widget.ImageButton;
 
 import com.example.phoenixtree.R;
 
+import com.example.phoenixtree.util.FragmentName;
+import com.example.phoenixtree.util.UICommon;
 import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.view.browse.BrowseFragment;
 import com.example.phoenixtree.view.compose.ComposeFragment;
-import com.example.phoenixtree.view.drawerNavigation.SystemUIController;
 import com.example.phoenixtree.view.login.LoginFragment;
 import com.example.phoenixtree.view.participate.ParticipateFragment;
 
@@ -51,10 +52,12 @@ public class MainActivity extends AppCompatActivity
     @Inject
     SystemUIController systemUIController;
 
+    /*
     final String BROWSE = "browse";
     final String PARTICIPATE = "participate";
     final String COMPOSE = "compose";
     final String LOGIN = "login";
+    */
     final int containerId = R.id.main_container;
     Fragment currentFragment;
 
@@ -79,6 +82,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+            Log.i(TAG, "fragmentTag: "+fragmentTag);
+            UICommon.notifyChildrenWhereToGo(drawerLayout, fragmentTag, 0);
             super.onBackPressed();
         }
     }
@@ -139,61 +146,51 @@ public class MainActivity extends AppCompatActivity
     // navigation to other fragments
     @Override
     public void navigateToBrowse() {
-        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
-            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToBrowse();
-        }
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.BROWSE, 0);
         drawerLayout.invalidate();
         currentFragment = new BrowseFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, BROWSE)
+                .replace(containerId, currentFragment, FragmentName.BROWSE.name)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToParticipate(long stagePlayId) {
-        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
-            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToParticipate(stagePlayId);
-        }
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.PARTICIPATE, stagePlayId);
         drawerLayout.invalidate();
         currentFragment = ParticipateFragment.create(stagePlayId);
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, PARTICIPATE + stagePlayId)
+                .replace(containerId, currentFragment, FragmentName.PARTICIPATE.name)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToCompose(long stagePlayId) {
-        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
-            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToCompose(stagePlayId);
-        }
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.COMPOSE, stagePlayId);
         drawerLayout.invalidate();
         currentFragment = ComposeFragment.create(stagePlayId);
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, COMPOSE + stagePlayId)
+                .replace(containerId, currentFragment, FragmentName.COMPOSE.name)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToLogin() {
-        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
-            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToLogin();
-        }
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.LOGIN, 0);
         drawerLayout.invalidate();
         currentFragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, LOGIN)
+                .replace(containerId, currentFragment, FragmentName.LOGIN.name)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToProfile() {
-        for (int i = 0; i < drawerLayout.getChildCount(); i++) {
-            ((NavigationInterface) drawerLayout.getChildAt(i)).navigateToProfile();
-        }
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.PROFILE, 0);
         drawerLayout.invalidate();
         // TODO: 12/27/2017 need add fragment profile
     }

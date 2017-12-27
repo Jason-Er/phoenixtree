@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 
+import com.example.phoenixtree.util.UICommon;
+import com.example.phoenixtree.util.FragmentName;
 import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 
 /**
@@ -26,37 +28,27 @@ public class DockPanel extends CoordinatorLayout implements NavigationInterface{
 
     @Override
     public void navigateToBrowse() {
-        for (int i = 0; i < getChildCount(); i++) {
-            ((NavigationInterface)getChildAt(i)).navigateToBrowse();
-        }
+        UICommon.notifyChildrenWhereToGo(this, FragmentName.BROWSE, 0);
     }
 
     @Override
     public void navigateToParticipate(long stagePlayId) {
-        for (int i = 0; i < getChildCount(); i++) {
-            ((NavigationInterface)getChildAt(i)).navigateToParticipate(stagePlayId);
-        }
+        UICommon.notifyChildrenWhereToGo(this, FragmentName.PARTICIPATE, stagePlayId);
     }
 
     @Override
     public void navigateToCompose(long stagePlayId) {
-        for (int i = 0; i < getChildCount(); i++) {
-            ((NavigationInterface)getChildAt(i)).navigateToCompose(stagePlayId);
-        }
+        UICommon.notifyChildrenWhereToGo(this, FragmentName.COMPOSE, stagePlayId);
     }
 
     @Override
     public void navigateToLogin() {
-        for (int i = 0; i < getChildCount(); i++) {
-            ((NavigationInterface)getChildAt(i)).navigateToLogin();
-        }
+        UICommon.notifyChildrenWhereToGo(this, FragmentName.LOGIN, 0);
     }
 
     @Override
     public void navigateToProfile() {
-        for (int i = 0; i < getChildCount(); i++) {
-            ((NavigationInterface)getChildAt(i)).navigateToProfile();
-        }
+        UICommon.notifyChildrenWhereToGo(this, FragmentName.PROFILE, 0);
     }
 
 }
