@@ -3,15 +3,19 @@ package com.example.phoenixtree.dataservice.remote;
 import android.arch.lifecycle.LiveData;
 
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
+import com.example.phoenixtree.model.LoginInfo;
 import com.example.phoenixtree.model.Play4PW;
 import com.example.phoenixtree.model.StagePlay;
+import com.example.phoenixtree.model.User;
 import com.example.phoenixtree.util.RetrievePageInfo;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -36,4 +40,6 @@ public interface WebService {
     LiveData<ApiResponse<RetrievePageInfo<List<StagePlayEntity>>>> loadStagePlayInfo(@Query("page") long page, @Query("size") long size);
     @GET("v1/web/stageplayinfo")
     Call<RetrievePageInfo<List<StagePlayEntity>>> loadStagePlayInfoCall(@Query("page") long page, @Query("size") long size);
+    @POST("v1/login")
+    LiveData<ApiResponse<User>> loadUser(@Body LoginInfo loginInfo);
 }

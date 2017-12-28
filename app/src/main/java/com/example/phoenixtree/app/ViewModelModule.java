@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import com.example.phoenixtree.di.label.ViewModelKey;
 import com.example.phoenixtree.viewmodel.BrowseViewModel;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
+import com.example.phoenixtree.viewmodel.UserProfileViewModel;
 import com.example.phoenixtree.viewmodel.ViewModelFactory;
 
 import dagger.Binds;
@@ -28,6 +29,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(BrowseViewModel.class)
     abstract ViewModel bindBrowseViewModel(BrowseViewModel browseViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(UserProfileViewModel.class)
+    abstract ViewModel bindUserProfileViewModel(UserProfileViewModel userProfileViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

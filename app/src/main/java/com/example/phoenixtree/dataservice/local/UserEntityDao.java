@@ -23,4 +23,6 @@ public interface UserEntityDao {
     LiveData<UserEntity> retrieveByIdLive(long userId);
     @Query("SELECT * FROM user WHERE id = :userId")
     UserEntity retrieveById(long userId);
+    @Query("SELECT * FROM user WHERE e_mail = :email and password = :password")
+    LiveData<UserEntity> retrieveByEmailAndPasswordLive(String email, String password);
 }
