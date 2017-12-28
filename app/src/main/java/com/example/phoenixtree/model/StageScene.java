@@ -14,5 +14,5 @@ import java.util.List;
 public class StageScene extends StageSceneEntity {
     public ActionScript actionScriptObject;
     public List<StageLine> stageLines;
-    public List<StageLineLocalEntity> stageLinesLocal;
+    public List<StageLineLocal> stageLinesLocal;
 }

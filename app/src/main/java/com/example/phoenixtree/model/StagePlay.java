@@ -12,8 +12,8 @@ import java.util.List;
  */
 
 public class StagePlay extends StagePlayEntity {
-    public UserEntity director;
-    public StageEntity stage;
+    public User director;
+    public Stage stage;
     public List<StageScene> scenes;
-    public List<StageRoleEntity> cast;
+    public List<StageRole> cast;
 }

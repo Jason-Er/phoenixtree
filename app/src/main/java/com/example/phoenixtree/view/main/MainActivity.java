@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity
             FragmentManager fragmentManager = getSupportFragmentManager();
             int index = fragmentManager.getBackStackEntryCount() - 2;
             if(index >= 0) {
-                String fragmentTag = fragmentManager.getBackStackEntryAt(index).getName();
-                Log.i(TAG, "fragmentTag: " + fragmentTag);
-                UICommon.notifyChildrenWhereToGo(drawerLayout, fragmentTag, 0);
+                String backStackEntryName = fragmentManager.getBackStackEntryAt(index).getName();
+                Log.i(TAG, "fragmentTag: " + backStackEntryName);
+                UICommon.notifyChildrenWhereToGo(drawerLayout, backStackEntryName, 0);
             }
             super.onBackPressed();
         }
