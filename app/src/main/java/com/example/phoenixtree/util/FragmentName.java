@@ -5,14 +5,5 @@ package com.example.phoenixtree.util;
  */
 
 public enum FragmentName {
-
-    BROWSE("browse", 1), PARTICIPATE("participate", 2), COMPOSE("compose", 3), LOGIN("login", 4), PROFILE("profile", 5);
-
-    public String name;
-    public int index;
-
-    FragmentName(String name, int index) {
-        this.name = name;
-        this.index = index;
-    }
+    BROWSE, PARTICIPATE, COMPOSE, LOGIN, PROFILE
 }

@@ -52,12 +52,6 @@ public class MainActivity extends AppCompatActivity
     @Inject
     SystemUIController systemUIController;
 
-    /*
-    final String BROWSE = "browse";
-    final String PARTICIPATE = "participate";
-    final String COMPOSE = "compose";
-    final String LOGIN = "login";
-    */
     final int containerId = R.id.main_container;
     Fragment currentFragment;
 
@@ -83,9 +77,12 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
-            Log.i(TAG, "fragmentTag: "+fragmentTag);
-            UICommon.notifyChildrenWhereToGo(drawerLayout, fragmentTag, 0);
+            int index = fragmentManager.getBackStackEntryCount() - 2;
+            if(index >= 0) {
+                String fragmentTag = fragmentManager.getBackStackEntryAt(index).getName();
+                Log.i(TAG, "fragmentTag: " + fragmentTag);
+                UICommon.notifyChildrenWhereToGo(drawerLayout, fragmentTag, 0);
+            }
             super.onBackPressed();
         }
     }
@@ -150,8 +147,8 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.invalidate();
         currentFragment = new BrowseFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, FragmentName.BROWSE.name)
-                .addToBackStack(null)
+                .replace(containerId, currentFragment, FragmentName.BROWSE.name())
+                .addToBackStack(FragmentName.BROWSE.name())
                 .commitAllowingStateLoss();
     }
 
@@ -161,8 +158,8 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.invalidate();
         currentFragment = ParticipateFragment.create(stagePlayId);
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, FragmentName.PARTICIPATE.name)
-                .addToBackStack(null)
+                .replace(containerId, currentFragment, FragmentName.PARTICIPATE.name())
+                .addToBackStack(FragmentName.PARTICIPATE.name())
                 .commitAllowingStateLoss();
     }
 
@@ -172,8 +169,8 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.invalidate();
         currentFragment = ComposeFragment.create(stagePlayId);
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, FragmentName.COMPOSE.name)
-                .addToBackStack(null)
+                .replace(containerId, currentFragment, FragmentName.COMPOSE.name())
+                .addToBackStack(FragmentName.COMPOSE.name())
                 .commitAllowingStateLoss();
     }
 
@@ -183,8 +180,8 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.invalidate();
         currentFragment = new LoginFragment();
         getSupportFragmentManager().beginTransaction()
-                .replace(containerId, currentFragment, FragmentName.LOGIN.name)
-                .addToBackStack(null)
+                .replace(containerId, currentFragment, FragmentName.LOGIN.name())
+                .addToBackStack(FragmentName.LOGIN.name())
                 .commitAllowingStateLoss();
     }
 
