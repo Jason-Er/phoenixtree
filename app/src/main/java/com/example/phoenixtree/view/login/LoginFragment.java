@@ -2,6 +2,7 @@ package com.example.phoenixtree.view.login;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.phoenixtree.R;
+import com.example.phoenixtree.model.LoginInfo;
+import com.example.phoenixtree.model.Resource;
+import com.example.phoenixtree.model.User;
 import com.example.phoenixtree.viewmodel.UserProfileViewModel;
 
 import javax.inject.Inject;
@@ -32,6 +37,8 @@ import dagger.android.support.AndroidSupportInjection;
  */
 
 public class LoginFragment extends Fragment {
+
+    final String TAG = "LoginFragment";
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -51,6 +58,25 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserProfileViewModel.class);
+        viewModel.userProfile.observe(this, new Observer<Resource<User>>() {
+            @Override
+            public void onChanged(@Nullable Resource<User> resource) {
+                switch (resource.status) {
+                    case SUCCESS:
+                        User user = resource.data;
+                        if(user!=null) {
+                            Log.i(TAG, "success login");
+                        }
+                        break;
+                    case ERROR:
+                        Log.i(TAG, "ERROR login");
+                        break;
+                    case LOADING:
+                        Log.i(TAG, "LOADING login");
+                        break;
+                }
+            }
+        });
     }
 
     @Nullable
@@ -66,6 +92,7 @@ public class LoginFragment extends Fragment {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
     }
+
     @OnClick({R.id.email_sign_in_button})
     void attemptLogin(Button button) {
 
@@ -105,9 +132,11 @@ public class LoginFragment extends Fragment {
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            // showProgress(true);
             //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
+
+            viewModel.setLoginInfo(new LoginInfo(email, password));
         }
     }
 
