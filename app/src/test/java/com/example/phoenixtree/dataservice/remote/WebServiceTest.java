@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
 import com.example.phoenixtree.model.Play4PW;
-import com.example.phoenixtree.model.StagePlay;
+import com.example.phoenixtree.model.script.StagePlay;
 import com.example.phoenixtree.util.LiveDataCallAdapterFactory;
 import com.example.phoenixtree.util.RetrievePageInfo;
 import com.google.gson.Gson;

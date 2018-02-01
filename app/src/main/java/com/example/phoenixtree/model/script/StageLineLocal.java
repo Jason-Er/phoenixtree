@@ -1,4 +1,4 @@
-package com.example.phoenixtree.model;
+package com.example.phoenixtree.model.script;
 
 import com.example.phoenixtree.dataservice.entity.StageLineLocalEntity;
 

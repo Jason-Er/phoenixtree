@@ -6,7 +6,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
-import com.example.phoenixtree.model.LoginInfo;
+import com.example.phoenixtree.model.dto.AccountCredentials;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.User;
 import com.example.phoenixtree.repository.UserRepository;
@@ -22,13 +22,13 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class UserProfileViewModel extends ViewModel {
-    private final MutableLiveData<LoginInfo> loginInfo = new MutableLiveData<>();
+    private final MutableLiveData<AccountCredentials> loginInfo = new MutableLiveData<>();
     public final LiveData<Resource<User>> userProfile;
     @Inject
     public UserProfileViewModel(final UserRepository repository) {
-        userProfile = Transformations.switchMap(loginInfo, new Function<LoginInfo, LiveData<Resource<User>>>() {
+        userProfile = Transformations.switchMap(loginInfo, new Function<AccountCredentials, LiveData<Resource<User>>>() {
             @Override
-            public LiveData<Resource<User>> apply(LoginInfo input) {
+            public LiveData<Resource<User>> apply(AccountCredentials input) {
                 if(loginInfo == null) {
                     return AbsentLiveData.create();
                 } else {
@@ -37,7 +37,7 @@ public class UserProfileViewModel extends ViewModel {
             }
         });
     }
-    public void setLoginInfo(LoginInfo loginInfo) {
+    public void setLoginInfo(AccountCredentials loginInfo) {
         if (Objects.equals(this.loginInfo.getValue(), loginInfo)) {
             return;
         }

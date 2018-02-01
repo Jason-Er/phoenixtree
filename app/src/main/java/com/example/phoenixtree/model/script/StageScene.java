@@ -1,4 +1,4 @@
-package com.example.phoenixtree.model;
+package com.example.phoenixtree.model.script;
 
 import com.example.phoenixtree.dataservice.entity.StageSceneEntity;
 import com.example.phoenixtree.model.actionscript.ActionScript;

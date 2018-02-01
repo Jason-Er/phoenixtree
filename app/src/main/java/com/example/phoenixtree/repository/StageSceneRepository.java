@@ -6,12 +6,11 @@ import android.arch.lifecycle.Observer;
 import android.util.Log;
 
 import com.example.phoenixtree.app.AppExecutors;
-import com.example.phoenixtree.dataservice.entity.StageLineEntity;
 import com.example.phoenixtree.dataservice.entity.StageSceneEntity;
 import com.example.phoenixtree.dataservice.local.StageLineEntityDao;
 import com.example.phoenixtree.dataservice.local.StageSceneEntityDao;
-import com.example.phoenixtree.model.StageLine;
-import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.script.StageLine;
+import com.example.phoenixtree.model.script.StageScene;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 import com.example.phoenixtree.util.JsonUtil;
 

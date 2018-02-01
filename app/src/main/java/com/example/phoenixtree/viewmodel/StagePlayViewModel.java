@@ -8,8 +8,8 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.StagePlay;
-import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.script.StagePlay;
+import com.example.phoenixtree.model.script.StageScene;
 import com.example.phoenixtree.model.Status;
 import com.example.phoenixtree.model.keyframe.Keyframe;
 import com.example.phoenixtree.repository.StagePlayRepository;

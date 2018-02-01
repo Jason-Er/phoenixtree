@@ -2,7 +2,7 @@ package com.example.phoenixtree.view.sceneNavigation;
 
 import android.support.annotation.NonNull;
 
-import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.script.StageScene;
 import com.example.phoenixtree.viewmodel.StagePlayViewModel;
 
 import java.util.List;

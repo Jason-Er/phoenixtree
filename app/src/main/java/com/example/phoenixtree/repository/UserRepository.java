@@ -10,7 +10,7 @@ import com.example.phoenixtree.dataservice.entity.UserEntity;
 import com.example.phoenixtree.dataservice.local.UserEntityDao;
 import com.example.phoenixtree.dataservice.remote.ApiResponse;
 import com.example.phoenixtree.dataservice.remote.WebService;
-import com.example.phoenixtree.model.LoginInfo;
+import com.example.phoenixtree.model.dto.AccountCredentials;
 import com.example.phoenixtree.model.Resource;
 import com.example.phoenixtree.model.User;
 
@@ -37,7 +37,7 @@ public class UserRepository {
         this.appExecutors = appExecutors;
     }
 
-    public LiveData<Resource<User>> loadUser(final LoginInfo loginInfo) {
+    public LiveData<Resource<User>> loadUser(final AccountCredentials loginInfo) {
         return new NetworkBoundResource<User, User>(appExecutors) {
 
             @Override
@@ -56,7 +56,7 @@ public class UserRepository {
                 if(userLiveData == null) {
                     userLiveData = new MediatorLiveData<>();
                 }
-                final LiveData<UserEntity> userEntityLiveData = userEntityDao.retrieveByEmailAndPasswordLive(loginInfo.email, loginInfo.password);
+                final LiveData<UserEntity> userEntityLiveData = userEntityDao.retrieveByEmailAndPasswordLive(loginInfo.username, loginInfo.password);
                 userLiveData.addSource(userEntityLiveData, new Observer<UserEntity>() {
                     @Override
                     public void onChanged(@android.support.annotation.Nullable UserEntity userEntity) {
@@ -80,7 +80,7 @@ public class UserRepository {
             @NonNull
             @Override
             protected LiveData<ApiResponse<User>> createCall() {
-                return webservice.loadUser(loginInfo);
+                return webservice.loadToken(loginInfo);
             }
         }.asLiveData();
     }

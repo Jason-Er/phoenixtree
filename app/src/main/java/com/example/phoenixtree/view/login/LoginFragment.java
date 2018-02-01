@@ -20,10 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.model.LoginInfo;
+import com.example.phoenixtree.model.dto.AccountCredentials;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.User;
-import com.example.phoenixtree.viewmodel.UserProfileViewModel;
+import com.example.phoenixtree.viewmodel.LoginViewModel;
 
 import javax.inject.Inject;
 
@@ -52,21 +51,23 @@ public class LoginFragment extends Fragment {
     @BindView(R.id.login_form)
     View loginFormView;
 
-    private UserProfileViewModel viewModel;
+    private LoginViewModel viewModel;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(UserProfileViewModel.class);
-        viewModel.userProfile.observe(this, new Observer<Resource<User>>() {
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(LoginViewModel.class);
+        viewModel.loginStatus.observe(this, new Observer<Resource<Boolean>>() {
             @Override
-            public void onChanged(@Nullable Resource<User> resource) {
+            public void onChanged(@Nullable Resource<Boolean> resource) {
                 switch (resource.status) {
                     case SUCCESS:
+                        /*
                         User user = resource.data;
                         if(user!=null) {
                             Log.i(TAG, "success login");
                         }
+                        */
                         break;
                     case ERROR:
                         Log.i(TAG, "ERROR login");
@@ -114,7 +115,7 @@ public class LoginFragment extends Fragment {
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Check for a valid username address.
         if (TextUtils.isEmpty(email)) {
             emailView.setError(getString(R.string.error_field_required));
             focusView = emailView;
@@ -133,10 +134,10 @@ public class LoginFragment extends Fragment {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             // showProgress(true);
-            //mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask = new UserLoginTask(username, password);
             //mAuthTask.execute((Void) null);
 
-            viewModel.setLoginInfo(new LoginInfo(email, password));
+            viewModel.setCredentialsLiveData(new AccountCredentials(email, password));
         }
     }
 

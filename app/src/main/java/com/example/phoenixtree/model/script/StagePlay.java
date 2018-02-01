@@ -1,6 +1,7 @@
-package com.example.phoenixtree.model;
+package com.example.phoenixtree.model.script;
 
 import com.example.phoenixtree.dataservice.entity.StagePlayEntity;
+import com.example.phoenixtree.model.User;
 
 import java.util.List;
 
