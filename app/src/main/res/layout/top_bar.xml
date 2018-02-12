@@ -15,8 +15,15 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:id="@+id/btn_player_control_pre"
-        android:src="@drawable/ic_skip_previous_white_24px"/>
+        android:id="@+id/btn_drawer_toggle"
+        android:src="@drawable/ic_menu_white_24px"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/btn_nav_back"
+        android:src="@drawable/ic_arrow_back_white_24px"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -29,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:id="@+id/btn_player_control_next"
-        android:src="@drawable/ic_skip_next_white_24px"/>
+        android:id="@+id/btn_user_login"
+        android:src="@drawable/ic_account_circle_white_24px"/>
 
 </com.example.phoenixtree.view.topBar.CustomTopBar>

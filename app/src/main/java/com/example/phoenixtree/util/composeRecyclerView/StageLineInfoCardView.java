@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 
-import com.example.phoenixtree.model.StageLine;
+import com.example.phoenixtree.model.script.StageLine;
 
 /**
  * Created by ej on 12/1/2017.

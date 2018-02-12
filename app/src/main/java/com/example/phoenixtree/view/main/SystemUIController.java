@@ -1,4 +1,4 @@
-package com.example.phoenixtree.view.drawerNavigation;
+package com.example.phoenixtree.view.main;
 
 import android.view.View;
 import android.view.WindowManager;

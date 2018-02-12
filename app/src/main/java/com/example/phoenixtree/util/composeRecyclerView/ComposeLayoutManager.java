@@ -7,7 +7,7 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 
-import com.example.phoenixtree.model.StageLine;
+import com.example.phoenixtree.model.script.StageLine;
 import com.example.phoenixtree.util.SetOpt;
 
 import java.util.ArrayList;

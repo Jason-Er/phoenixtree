@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.phoenixtree.R;
-import com.example.phoenixtree.model.StageLine;
+import com.example.phoenixtree.model.script.StageLine;
 
 import java.util.List;
 

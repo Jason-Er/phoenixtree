@@ -3,22 +3,31 @@ package com.example.phoenixtree.view.main;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageButton;
 
 import com.example.phoenixtree.R;
 
+import com.example.phoenixtree.util.FragmentName;
+import com.example.phoenixtree.util.UICommon;
 import com.example.phoenixtree.util.commonInterface.NavigationInterface;
-import com.example.phoenixtree.view.drawerNavigation.DrawerNavController;
-import com.example.phoenixtree.view.drawerNavigation.SystemUIController;
+import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
+import com.example.phoenixtree.view.browse.BrowseFragment;
+import com.example.phoenixtree.view.compose.ComposeFragment;
+import com.example.phoenixtree.view.login.LoginFragment;
+import com.example.phoenixtree.view.participate.ParticipateFragment;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -31,11 +40,8 @@ public class MainActivity extends AppCompatActivity
 
     private final String TAG = "MainActivity";
 
-    @BindView(R.id.nav_view)
+    @BindView(R.id.nav_drawer)
     NavigationView navigationView;
-
-    @BindView(R.id.app_centre_layout)
-    DockPanel dockPanel;
 
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
@@ -44,10 +50,10 @@ public class MainActivity extends AppCompatActivity
     DispatchingAndroidInjector<Fragment> fragmentDispatchingAndroidInjector;
 
     @Inject
-    DrawerNavController navigationController;
-
-    @Inject
     SystemUIController systemUIController;
+
+    final int containerId = R.id.main_container;
+    Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +63,6 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(MainActivity.this);
 
         navigationView.setNavigationItemSelectedListener(this);
-
-        navigationController.setNavigationView(navigationView);
-        navigationController.setCoordinatorLayout(dockPanel);
-        navigationController.setDrawerLayout(drawerLayout);
 
         if(savedInstanceState == null)
             navigateToBrowse();
@@ -74,6 +76,13 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            int index = fragmentManager.getBackStackEntryCount() - 2;
+            if(index >= 0) {
+                String backStackEntryName = fragmentManager.getBackStackEntryAt(index).getName();
+                Log.i(TAG, "fragmentTag: " + backStackEntryName);
+                UICommon.notifyChildrenWhereToGo(drawerLayout, backStackEntryName, 0);
+            }
             super.onBackPressed();
         }
     }
@@ -112,10 +121,10 @@ public class MainActivity extends AppCompatActivity
                 navigateToBrowse();
                 break;
             case R.id.nav_compose:
-                navigateToCompose( navigationController.getCurrentStagePlayId() );
+                navigateToCompose( getCurrentStagePlayId() );
                 break;
             case R.id.nav_participate:
-                navigateToParticipate( navigationController.getCurrentStagePlayId() );
+                navigateToParticipate( getCurrentStagePlayId() );
                 break;
             case R.id.nav_profile:
                 break;
@@ -134,41 +143,65 @@ public class MainActivity extends AppCompatActivity
     // navigation to other fragments
     @Override
     public void navigateToBrowse() {
-        dockPanel.navigateToBrowse();
-        navigationController.navigateToBrowse();
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.BROWSE, 0);
+        drawerLayout.invalidate();
+        currentFragment = new BrowseFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, FragmentName.BROWSE.name())
+                .addToBackStack(FragmentName.BROWSE.name())
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToParticipate(long stagePlayId) {
-        dockPanel.navigateToParticipate(stagePlayId);
-        navigationController.navigateToParticipate(stagePlayId);
-
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.PARTICIPATE, stagePlayId);
+        drawerLayout.invalidate();
+        currentFragment = ParticipateFragment.create(stagePlayId);
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, FragmentName.PARTICIPATE.name())
+                .addToBackStack(FragmentName.PARTICIPATE.name())
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToCompose(long stagePlayId) {
-        dockPanel.navigateToCompose(stagePlayId);
-        navigationController.navigateToCompose(stagePlayId);
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.COMPOSE, stagePlayId);
+        drawerLayout.invalidate();
+        currentFragment = ComposeFragment.create(stagePlayId);
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, FragmentName.COMPOSE.name())
+                .addToBackStack(FragmentName.COMPOSE.name())
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToLogin() {
-        dockPanel.navigateToLogin();
-        navigationController.navigateToLogin();
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.LOGIN, 0);
+        drawerLayout.invalidate();
+        currentFragment = new LoginFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(containerId, currentFragment, FragmentName.LOGIN.name())
+                .addToBackStack(FragmentName.LOGIN.name())
+                .commitAllowingStateLoss();
     }
 
     @Override
     public void navigateToProfile() {
-        dockPanel.navigateToProfile();
-        navigationController.navigateToProfile();
+        UICommon.notifyChildrenWhereToGo(drawerLayout, FragmentName.PROFILE, 0);
+        drawerLayout.invalidate();
+        // TODO: 12/27/2017 need add fragment profile
     }
 
-    public NavigationView getNavigationView() {
-        return navigationView;
+    long getCurrentStagePlayId() {
+        if(currentFragment instanceof StagePlayInfo) {
+            return ((StagePlayInfo) currentFragment).getStagePlayID();
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
-    /*
-    @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next})
+    @OnClick({R.id.btn_player_control_pre, R.id.btn_player_control_play, R.id.btn_player_control_next,
+            R.id.btn_user_login, R.id.btn_drawer_toggle, R.id.btn_nav_back})
     public void responseButtonOnClick(ImageButton button) {
         switch (button.getId()) {
             case R.id.btn_player_control_pre:
@@ -180,7 +213,16 @@ public class MainActivity extends AppCompatActivity
             case R.id.btn_player_control_next:
                 Log.i(TAG, "click on next");
                 break;
+            case R.id.btn_user_login:
+                navigateToLogin();
+                break;
+            case R.id.btn_drawer_toggle:
+                break;
+            case R.id.btn_nav_back:
+                Log.i(TAG, "click on navigation up");
+                onBackPressed();
+                break;
         }
     }
-    */
+
 }

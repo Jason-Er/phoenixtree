@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.phoenixtree.util.commonInterface.NavigationInterface;
+
 /**
  * Created by ej on 12/4/2017.
  */
@@ -54,5 +56,39 @@ public class UICommon {
 
     public static float pxFromDp(final Context context, final float dp) {
         return dp * context.getResources().getDisplayMetrics().density;
+    }
+
+    public static void notifyChildrenWhereToGo(ViewGroup viewGroup, String goWhere, long stagePlayId) {
+        notifyChildrenWhereToGo(viewGroup, FragmentName.valueOf(goWhere), stagePlayId);
+    }
+
+    public static void notifyChildrenWhereToGo(ViewGroup viewGroup, FragmentName goWhere, long stagePlayId) {
+        switch (goWhere) {
+            case BROWSE:
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    ((NavigationInterface)viewGroup.getChildAt(i)).navigateToBrowse();
+                }
+                break;
+            case PARTICIPATE:
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    ((NavigationInterface)viewGroup.getChildAt(i)).navigateToParticipate(stagePlayId);
+                }
+                break;
+            case COMPOSE:
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    ((NavigationInterface)viewGroup.getChildAt(i)).navigateToCompose(stagePlayId);
+                }
+                break;
+            case LOGIN:
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    ((NavigationInterface)viewGroup.getChildAt(i)).navigateToLogin();
+                }
+                break;
+            case PROFILE:
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    ((NavigationInterface)viewGroup.getChildAt(i)).navigateToProfile();
+                }
+                break;
+        }
     }
 }

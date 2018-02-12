@@ -7,7 +7,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import com.example.phoenixtree.dataservice.entity.StageLineEntity;
-import com.example.phoenixtree.model.StageLine;
+import com.example.phoenixtree.model.script.StageLine;
 
 import java.util.List;
 

@@ -22,9 +22,12 @@ import com.example.phoenixtree.dataservice.local.UserEntityDao;
 import com.example.phoenixtree.dataservice.remote.ApiResponse;
 import com.example.phoenixtree.dataservice.remote.WebService;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.StageLine;
-import com.example.phoenixtree.model.StagePlay;
-import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.script.Stage;
+import com.example.phoenixtree.model.script.StageLine;
+import com.example.phoenixtree.model.script.StagePlay;
+import com.example.phoenixtree.model.script.StageRole;
+import com.example.phoenixtree.model.script.StageScene;
+import com.example.phoenixtree.model.User;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 import com.example.phoenixtree.util.JsonUtil;
 import com.example.phoenixtree.util.commonInterface.PlainCallBack;
@@ -146,21 +149,40 @@ public class StagePlayRepository {
                                 public void onChanged(@android.support.annotation.Nullable UserEntity userEntity) {
                                     stagePlayLiveData.removeSource(userEntityLiveData);
                                     if(userEntity != null) {
-                                        stagePlay.director = userEntity;
+                                        stagePlay.director = new User();
+                                        stagePlay.director.email = userEntity.email;
+                                        stagePlay.director.firstName = userEntity.firstName;
+                                        stagePlay.director.lastName = userEntity.lastName;
+                                        stagePlay.director.id = userEntity.id;
+                                        stagePlay.director.password = userEntity.password;
                                         final LiveData<StageEntity> stageEntityLiveData = stageEntityDao.retrieveByIdLive(stagePlay.stageId);
                                         stagePlayLiveData.addSource(stageEntityLiveData, new Observer<StageEntity>() {
                                             @Override
                                             public void onChanged(@android.support.annotation.Nullable StageEntity stageEntity) {
                                                 stagePlayLiveData.removeSource(stageEntityLiveData);
                                                 if(stageEntity != null) {
-                                                    stagePlay.stage = stageEntity;
+                                                    stagePlay.stage = new Stage();
+                                                    stagePlay.stage.id =  stageEntity.id;
+                                                    stagePlay.stage.length = stageEntity.length;
+                                                    stagePlay.stage.width = stageEntity.width;
+                                                    stagePlay.stage.settingHeight = stageEntity.settingHeight;
                                                     final LiveData<List<StageRoleEntity>> roleListLiveData = roleEntityDao.retrieveAllByStagePlayIdLive(playId);
                                                     stagePlayLiveData.addSource(roleListLiveData, new Observer<List<StageRoleEntity>>() {
                                                         @Override
                                                         public void onChanged(@android.support.annotation.Nullable List<StageRoleEntity> roleEntities) {
                                                             stagePlayLiveData.removeSource(roleListLiveData);
                                                             if(roleEntities != null) {
-                                                                stagePlay.cast = roleEntities;
+                                                                stagePlay.cast = new ArrayList<>();
+                                                                for(StageRoleEntity roleEntity: roleEntities) {
+                                                                    StageRole role = new StageRole();
+                                                                    role.id = roleEntity.id;
+                                                                    role.firstName = roleEntity.firstName;
+                                                                    role.lastName = roleEntity.lastName;
+                                                                    role.description = roleEntity.description;
+                                                                    role.userId = roleEntity.userId;
+                                                                    role.stagePlayId = roleEntity.stagePlayId;
+                                                                    stagePlay.cast.add(role);
+                                                                }
                                                                 final LiveData<List<StageSceneEntity>> scenelistLiveData = sceneEntityDao.retrieveAllByStagePlayIdLive(playId);
                                                                 stagePlayLiveData.addSource(scenelistLiveData, new Observer<List<StageSceneEntity>>() {
                                                                     @Override

@@ -1,34 +1,29 @@
-package com.example.phoenixtree.view.bottomBar;
+package com.example.phoenixtree.view.catalogue;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.example.phoenixtree.util.commonInterface.NavigationInterface;
 
 /**
- * Created by ej on 12/12/2017.
+ * Created by ej on 12/27/2017.
  */
 
-@CoordinatorLayout.DefaultBehavior(PlayerControlBarBehavior.class)
-public class PlayerControlBar extends LinearLayout implements NavigationInterface{
+public class CatalogueMenu extends RecyclerView implements NavigationInterface{
 
-    final String TAG = "PlayerControlBar";
-
-    public PlayerControlBar(Context context) {
+    public CatalogueMenu(Context context) {
         super(context);
     }
 
-    public PlayerControlBar(Context context, @Nullable AttributeSet attrs) {
+    public CatalogueMenu(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PlayerControlBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public CatalogueMenu(Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
     @Override
@@ -55,4 +50,5 @@ public class PlayerControlBar extends LinearLayout implements NavigationInterfac
     public void navigateToProfile() {
         setVisibility(View.GONE);
     }
+
 }

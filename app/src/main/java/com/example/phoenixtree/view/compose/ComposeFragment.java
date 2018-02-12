@@ -7,7 +7,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +15,7 @@ import android.view.ViewGroup;
 
 import com.example.phoenixtree.R;
 import com.example.phoenixtree.model.Resource;
-import com.example.phoenixtree.model.StagePlay;
-import com.example.phoenixtree.util.UICommon;
+import com.example.phoenixtree.model.script.StagePlay;
 import com.example.phoenixtree.util.commonInterface.StagePlayInfo;
 import com.example.phoenixtree.util.composeRecyclerView.ComposeAdapter;
 import com.example.phoenixtree.util.composeRecyclerView.ComposeLayoutManager;

@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.phoenixtree.dataservice.entity.StageEntity;
-import com.example.phoenixtree.model.StageScene;
+import com.example.phoenixtree.model.script.StageScene;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 import com.example.phoenixtree.model.actionscript.Animate;
 import com.example.phoenixtree.model.actionscript.Role;

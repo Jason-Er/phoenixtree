@@ -1,7 +1,5 @@
-package com.example.phoenixtree.model;
+package com.example.phoenixtree.model.script;
 
-import com.example.phoenixtree.dataservice.entity.StageLineEntity;
-import com.example.phoenixtree.dataservice.entity.StageLineLocalEntity;
 import com.example.phoenixtree.dataservice.entity.StageSceneEntity;
 import com.example.phoenixtree.model.actionscript.ActionScript;
 
@@ -14,5 +12,5 @@ import java.util.List;
 public class StageScene extends StageSceneEntity {
     public ActionScript actionScriptObject;
     public List<StageLine> stageLines;
-    public List<StageLineLocalEntity> stageLinesLocal;
+    public List<StageLineLocal> stageLinesLocal;
 }
